@@ -25,10 +25,32 @@ which module to associate the app with. In app.js we create the "dinnerPlanner" 
     
     <!-- The application JavaScript code -->
     <script src="js/app.js"></script>
-    <script src="js/dinnerService.js"></script>
-    <script src="js/searchCtrl.js"></script>
-    <script src="js/dinnerCtrl.js"></script>
-    <script src="js/dishCtrl.js"></script>
+
+    <script>
+      var map;
+      function testGeolocation() {
+        geocoder = new google.maps.Geocoder();
+        request = [];
+        address = "Vallentuna";
+        latlng = {lat: 59.537101, lng: 18.089940};59.537101, 18.089940
+        //geocoder.geocode({'location': latlng}, function(results, status) {
+        geocoder.geocode({'address': address}, function(results, status) {
+            if (status === 'OK') {
+              if (results[0]) {
+                window.alert('Results found');
+                console.log(results);
+              } else {
+                window.alert('No results found');
+              }
+            } else {
+              window.alert('Geocoder failed due to: ' + status);
+            }
+          });
+
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcUvqy7aGnv_1De3e6A_UOWaHWRkQVX3M&callback=testGeolocation"
+    async defer></script>
 
   </head>
   <body>
