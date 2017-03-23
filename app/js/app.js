@@ -42,7 +42,7 @@ phisancaApp.config(['$routeProvider',
       }).
       when('/stats', {
         templateUrl: 'partials/statisticsContainer.html',
-        controller: 'dummy'
+        //controller: 'dummy'
       }).
       // TODO in Lab 5: add more conditions for the last two screens (overview and preparation)
       otherwise({
