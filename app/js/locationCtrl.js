@@ -4,5 +4,10 @@ phisancaApp.controller('LocationCtrl', function ($scope,Weather) {
 		Weather.testGeolocation();
 	}
 
+	$scope.favourite = function($event){
+		//alert("favorited");
+		//console.log($event.currentTarget);
+	}
+
 
 });

@@ -21,3 +21,10 @@
 .currentTemperature{
 	font-size: 600%
 }
+
+.favouritesTable .heart{
+	fill: pink;
+}
+.heart{
+	fill: grey;
+}
