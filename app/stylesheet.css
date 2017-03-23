@@ -9,3 +9,15 @@
 .locationTableLocation{
 	width:100%;
 }
+
+.locationTitleTable>tbody>tr>td{
+	vertical-align: middle;
+}
+
+.locationTitleLocation{
+	width:100%;
+}
+
+.currentTemperature{
+	font-size: 600%
+}
