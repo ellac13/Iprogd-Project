@@ -2,6 +2,10 @@
 	/*background: green;*/
 }
 
+.locationTable>tbody>tr>td{
+	vertical-align: middle;
+}
+
 .locationTableLocation{
 	width:100%;
 }
