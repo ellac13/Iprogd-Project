@@ -38,10 +38,10 @@ phisancaApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/', {
-        templateUrl: 'partials/homeView.html'
+        templateUrl: 'partials/homeViewContainer.html'
       }).
       when('/stats', {
-        templateUrl: 'partials/statistics.html',
+        templateUrl: 'partials/statisticsContainer.html',
         controller: 'dummy'
       }).
       // TODO in Lab 5: add more conditions for the last two screens (overview and preparation)
