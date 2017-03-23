@@ -8,10 +8,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
     var model = this;
 
     this.testGeolocation = function() {
+        console.log('testing geolocation, mvh weatherService.js')
         geocoder = new google.maps.Geocoder();
         request = [];
         address = "Vallentuna";
-        latlng = {lat: 59.537101, lng: 18.089940};59.537101, 18.089940
+        latlng = {lat: 59.537101, lng: 18.089940};
         //geocoder.geocode({'location': latlng}, function(results, status) {
         geocoder.geocode({'address': address}, function(results, status) {
             if (status === 'OK') {
@@ -26,8 +27,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
             }
       });
     }
-
-    this.testGeolocation();
+    //this.testGeolocation();
 
     // Angular service needs to return an object that has all the
     // methods created in it. You can consider that this is instead

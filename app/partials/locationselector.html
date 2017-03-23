@@ -1,4 +1,67 @@
-<p>Search bar</p>
-<p>Favourites</p>
-<p>Popular</p>
-<p>Recent searches</p>
+<div id="locationSelector">
+	<div class="input-group">
+		<input type="text" class="form-control" placeholder="Location...">
+		<span class="input-group-btn">
+			<button class="btn btn-default" type="button">Search!</button>
+		</span>
+    </div>
+	<h4>Favourites</h4>
+	<table class="table table-hover locationTable">
+		<tr>
+			<td>
+				<button type="button" class="btn btn-default btn-lg">
+					<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+				</button>
+			</td>
+			<td class="locationTableLocation">Vallentuna</td>
+		</tr>
+		<tr>
+			<td>
+				<button type="button" class="btn btn-default btn-lg">
+					<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+				</button>
+			</td>
+			<td class="locationTableLocation">Stockholm</td>
+		</tr>
+	</table>
+	<h4>Popular</h4>
+	<table class="table table-hover locationTable">
+		<tr>
+			<td>
+				<button type="button" class="btn btn-default btn-lg">
+					<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+				</button>
+			</td>
+			<td class="locationTableLocation">Göteborg</td>
+		</tr>
+		<tr>
+			<td>
+				<button type="button" class="btn btn-default btn-lg">
+					<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+				</button>
+			</td>
+			<td class="locationTableLocation">Malmö</td>
+		</tr>
+	</table>
+	<h4>Recent searches</h4>
+
+	<table class="table table-hover locationTable">
+		<tr>
+			<td>
+				<button type="button" class="btn btn-default btn-lg">
+					<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+				</button>
+			</td>
+			<td class="locationTableLocation">Boda</td>
+		</tr>
+		<tr>
+			<td>
+				<button type="button" class="btn btn-default btn-lg">
+					<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+				</button>
+			</td>
+			<td class="locationTableLocation">Jönköping</td>
+		</tr>
+	</table>
+</div>
+glyphicon glyphicon-heart-empty
