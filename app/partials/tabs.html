@@ -1,1 +1,18 @@
-tabs
+<div ng-controller="TabsCtrl as tab">
+	<ul id="tabs" class="nav nav-tabs">
+		<li ng-class="{active:tab.isSet(1)}"><a href ng-click="tab.setTab(1)">Map</a></li> 
+		<li ng-class="{active:tab.isSet(2)}"><a href ng-click="tab.setTab(2)">Hourly</a></li>
+		<li ng-class="{active:tab.isSet(3)}"><a href ng-click="tab.setTab(3)">Daily</a></li>
+	</ul>
+	
+	<div ng-show="tab.isSet(1)">
+		The map
+	</div>
+	<div ng-show="tab.isSet(2)">
+		<ng-include src="'partials/hourly.html'" class="noneSoFar"></ng-include>
+	</div>
+	<div ng-show="tab.isSet(3)">
+		<ng-include src="'partials/daily.html'" class="noneSoFar"></ng-include>
+	</div>
+	
+</div>
