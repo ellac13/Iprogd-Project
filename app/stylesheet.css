@@ -34,4 +34,13 @@
 	display: flex;
 	flex-direction: row;
 	align-items: flex-end;
+	padding-bottom: 0.5%;
+}
+
+.red {
+	color: red;
+}
+
+.black {
+	color: black;
 }
