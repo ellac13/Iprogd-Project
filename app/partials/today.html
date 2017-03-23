@@ -1,11 +1,9 @@
-today
-
 <div id="today">
   <table class="table locationTitleTable">
 		<tr>
 			<td>
         <button type="button" class="btn btn-default btn-lg">
-          <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+          <ng-include src="'partials/svg/heart.html'"></ng-include>
         </button>
 			</td>
 			<td class="locationTitleLocation">
@@ -17,4 +15,11 @@ today
   <div id="currentWeather" class="currentTemperature col-md-offset-2">
     3&deg;C &#9728;
   </div>
+
+  <div id="currentTime">
+    <rzslider
+         rz-slider-model="slider.value"
+         rz-slider-options="slider.options"></rzslider>
+  </div>
+
 </div>
