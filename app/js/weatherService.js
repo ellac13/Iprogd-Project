@@ -187,18 +187,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
         map.fitBounds(bounds);
     }
 
-    /*this.myMap = function() {
-        var mapCanvas = document.getElementById("map");
-        var myCenter = new google.maps.LatLng(51.508742,-0.120850);
-        var mapOptions = {center: myCenter, zoom: 4};
-        map = new google.maps.Map(mapCanvas,mapOptions);
-
-        for(var i = 0; i < weatherData.length; i++){
-            var markerData = [weatherData[i][0], weatherData[i][1], weatherData[i][2], weatherData[i][3]]
-            addMarker(markerData);
-        }
-    }*/
-
     // Angular service needs to return an object that has all the
     // methods created in it. You can consider that this is instead
     // of calling var model = new DinnerModel() we did in the previous labs
