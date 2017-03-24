@@ -9,9 +9,9 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
 
     //User data
     var activeUser = "";
-    var userFavourites =  ["Stockholm", "Kalmar"];;
-    var popularLocations =  ["Göteborg", "Malmö"];;
-    var recentSearches =  ["Kiruna", "Ystad"];;
+    var userFavourites =  ["Stockholm", "Kalmar"];
+    var popularLocations =  ["Göteborg", "Malmö"];
+    var recentSearches =  ["Kiruna", "Ystad"]; //This should be a queue of length 5{history length}
 
     //Getters for user data
     this.getUsername = function() {
@@ -28,6 +28,53 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
 
     this.getRecentSearches = function() {
         return recentSearches;
+    }
+
+    this.addFavouriteLocation = function(address){
+        if(!userFavourites.includes(address)){
+            //Remove address from other lists
+            var i = popularLocations.indexOf(address);
+            if(i != -1){
+                popularLocations.splice(i, 1);
+            }
+            i = recentSearches.indexOf(address);
+            if(i != -1){
+                recentSearches.splice(i, 1);
+            }
+
+            userFavourites.push(address);
+        }
+    }
+
+    this.removeFavouriteLocation = function(address){
+        //Remove address from user favourites
+        var i = userFavourites.indexOf(address);
+        if(i != -1){
+            userFavourites.splice(i, 1);
+        }
+
+        //TODO: Re-fetch the popular locations from database
+    }
+
+
+    //Search functionality here?
+    this.searchWeatherWithAddress = function(address){
+        //If the search was already in the recent search list, move it to the top
+        var i = recentSearches.indexOf(address);
+        if(i != -1){
+            recentSearches.splice(i, 1);
+            recentSearches.unshift(address); //Add first in queue
+        }//Add address to recent searches
+        else if(!userFavourites.includes(address)){
+            recentSearches.unshift(address); //Add first in queue
+            if(recentSearches.length > 5){
+                recentSearches.pop();   //Remove last from queue
+            }
+        }
+
+        
+
+        //Do actual searching...
     }
 
     this.testGeolocation = function() {

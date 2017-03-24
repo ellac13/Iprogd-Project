@@ -11,35 +11,38 @@
 	<table class="table table-hover locationTable favouritesTable">
 		<tr ng-repeat="location in favouriteLocations">
 			<td>
+				<div ng-click="unfavourite($event)">
+					<ng-include src="'partials/svg/heart.html'"></ng-include>
+				</div>
+			</td>
+			<td class="locationTableLocation">{{location}}</td>
+		</tr>
+		<p ng-hide="favouriteLocations.length">No favourites added</p>
+	</table>
+	<h4>Popular</h4>
+	<table class="table table-hover locationTable">
+		<tr ng-repeat="location in popularLocations">
+			<td>
 				<div ng-click="favourite($event)">
 					<ng-include src="'partials/svg/heart.html'"></ng-include>
 				</div>
 			</td>
 			<td class="locationTableLocation">{{location}}</td>
 		</tr>
-	</table>
-	<h4>Popular</h4>
-	<table class="table table-hover locationTable">
-		<tr ng-repeat="location in popularLocations">
-			<td>
-				<div ng-click="unfavourite($event)">
-					<ng-include src="'partials/svg/heart.html'"></ng-include>
-				</div>
-			</td>
-			<td class="locationTableLocation">{{location}}</td>
-		</tr>
+		<p ng-hide="popularLocations.length">No popular locations to show</p>
 	</table>
 	<h4>Recent searches</h4>
 
 	<table class="table table-hover locationTable">
 		<tr ng-repeat="location in recentLocations">
 			<td>
-				<div ng-click="unfavourite($event)">
+				<div ng-click="favourite($event)">
 					<ng-include src="'partials/svg/heart.html'"></ng-include>
 				</div>
 			</td>
 			<td class="locationTableLocation">{{location}}</td>
 		</tr>
+		<p ng-hide="recentLocations.length">No recent searches</p>
 	</table>
 	
 </div>
