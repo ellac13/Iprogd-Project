@@ -1,10 +1,12 @@
 <div id="locationSelector">
-	<div class="input-group">
-		<input type="text" class="form-control" placeholder="Location...">
-		<span class="input-group-btn">
-			<button class="btn btn-default" type="button">Search!</button>
-		</span>
-    </div>
+	<form ng-submit="search(searchQuery)">
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Location..." ng-model="searchQuery">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="submit">Search!</button>
+			</span>
+	    </div>
+    </form>
 	<h4>Favourites</h4>
 	<table class="table table-hover locationTable favouritesTable">
 		<tr ng-repeat="location in favouriteLocations">
