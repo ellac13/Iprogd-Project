@@ -6,7 +6,7 @@
 	</ul>
 	
 	<div ng-show="tab.isSet(1)">
-		The map
+		<ng-include src="'partials/map.html'" class="noneSoFar"></ng-include>
 	</div>
 	<div ng-show="tab.isSet(2)">
 		<ng-include src="'partials/hourly.html'" class="noneSoFar"></ng-include>
