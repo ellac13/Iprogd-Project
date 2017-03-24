@@ -8,6 +8,7 @@
 
 .locationTableLocation{
 	width:100%;
+	word-break: break-word;
 }
 
 .locationTitleTable>tbody>tr>td{
@@ -34,13 +35,58 @@
 	display: flex;
 	flex-direction: row;
 	align-items: flex-end;
-	padding-bottom: 0.5%;
 }
 
-.red {
+.welcome {
+	flex-grow: 1;
+}
+
+.login {
+  display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	margin-bottom: 0.5%;
+}
+
+.logininput {
+	flex-grow: 1;
+}
+
+.loginbutton {
+	flex-basis: 0;
+	flex-grow: 0;
+	margin-right: 3%;
+	height:5%;
+}
+
+.headerbutton {
+     text-decoration: none;
+		 color:black;
+  }
+.headerbutton:hover
+  {
+		background-color: green;
+    color:white;
+    text-decoration:none;
+    cursor:pointer;
+   }
+
+.historybutton {
+	text-decoration: none;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.redtext::-webkit-input-placeholder {
 	color: red;
 }
 
-.black {
-	color: black;
+.greytext::-webkit-input-placeholder {
+	color: #cccccc;
+}
+
+.green{
+	background-color: green;
 }

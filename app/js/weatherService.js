@@ -7,6 +7,111 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
 
     var model = this;
 
+    //Current location data
+    var activeAddress = "";
+    var activeLat = 0.0;
+    var activeLng = 0.0;
+
+    //User data
+    var activeUser = "";
+    var userFavourites =  ["Stockholm", "Kalmar"];
+    var popularLocations =  ["Göteborg", "Malmö"];
+    var recentSearches =  ["Kiruna", "Ystad"]; //This should be a queue of length 5{history length}
+
+    //Getters for user data
+    this.getUsername = function() {
+        return activeUser;
+    }
+
+    this.getUserFavouriteLocations = function() {
+        return userFavourites;
+    }
+
+    this.getPopularLocations = function() {
+        return popularLocations;
+    }
+
+    this.getRecentSearches = function() {
+        return recentSearches;
+    }
+
+    this.addFavouriteLocation = function(address){
+        if(!userFavourites.includes(address)){
+            //Remove address from other lists
+            var i = popularLocations.indexOf(address);
+            if(i != -1){
+                popularLocations.splice(i, 1);
+            }
+            i = recentSearches.indexOf(address);
+            if(i != -1){
+                recentSearches.splice(i, 1);
+            }
+
+            userFavourites.push(address);
+        }
+    }
+
+    this.removeFavouriteLocation = function(address){
+        //Remove address from user favourites
+        var i = userFavourites.indexOf(address);
+        if(i != -1){
+            userFavourites.splice(i, 1);
+        }
+
+        //TODO: Re-fetch the popular locations from database
+    }
+
+
+    //Search functionality here?
+    this.searchWeatherWithAddress = function(address){
+        //If the search was already in the recent search list, move it to the top
+        var i = recentSearches.indexOf(address);
+        if(i != -1){
+            recentSearches.splice(i, 1);
+            recentSearches.unshift(address); //Add first in queue
+        }//Add address to recent searches
+        else if(!userFavourites.includes(address)){
+            recentSearches.unshift(address); //Add first in queue
+            if(recentSearches.length > 5){
+                recentSearches.pop();   //Remove last from queue
+            }
+        }
+
+        //Conver the address to coordinates and search for weather with those coordinates
+        console.log('Trying to convert address "' + address + '" to coordinates');
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': address}, function(results, status) {
+            if (status === 'OK') {
+              if (results[0]) {
+                //Please note that if the input is garbage, ie. randomly typed characters
+                //the returned location will be exactly the same amount of garbage, ie randomly approximated location
+                var lat = results[0].geometry.location.lat();
+                var lng = results[0].geometry.location.lng();
+                var formattedAddr = results[0].formatted_address;
+                console.log('LatLng found: ' + lat + ', ' + lng);
+                console.log('Address of LatLng: ' + formattedAddr);
+                //console.log(results);
+
+                //Update active address
+                activeAddress = address;
+                //activeAddress = formattedAddr;
+
+                //Search for weather
+                searchWeatherWithCoordinates(lat, lng);
+              } else {
+                console.log('No results found');
+              }
+            } else {
+              console.log('Geocoder failed due to: ' + status);
+            }
+        });
+
+    }
+
+    this.searchWeatherWithCoordinates = function(latidute, longitude){
+        //Do searching with dark sky...
+    }
+
     this.testGeolocation = function() {
         console.log('testing geolocation, mvh weatherService.js')
         geocoder = new google.maps.Geocoder();
