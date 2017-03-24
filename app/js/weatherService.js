@@ -77,9 +77,39 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
             }
         }
 
-        
+        //Conver the address to coordinates and search for weather with those coordinates
+        console.log('Trying to convert address "' + address + '" to coordinates');
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': address}, function(results, status) {
+            if (status === 'OK') {
+              if (results[0]) {
+                //Please note that if the input is garbage, ie. randomly typed characters
+                //the returned location will be exactly the same amount of garbage, ie randomly approximated location
+                var lat = results[0].geometry.location.lat();
+                var lng = results[0].geometry.location.lng();
+                var formattedAddr = results[0].formatted_address;
+                console.log('LatLng found: ' + lat + ', ' + lng);
+                console.log('Address of LatLng: ' + formattedAddr);
+                //console.log(results);
 
-        //Do actual searching...
+                //Update active address
+                activeAddress = address;
+                //activeAddress = formattedAddr;
+
+                //Search for weather
+                searchWeatherWithCoordinates(lat, lng);
+              } else {
+                console.log('No results found');
+              }
+            } else {
+              console.log('Geocoder failed due to: ' + status);
+            }
+        });
+
+    }
+
+    this.searchWeatherWithCoordinates = function(latidute, longitude){
+        //Do searching with dark sky...
     }
 
     this.testGeolocation = function() {
