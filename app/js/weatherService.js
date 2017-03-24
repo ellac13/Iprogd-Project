@@ -3,7 +3,9 @@
 // dependency on any service you need. Angular will insure that the
 // service is created first time it is needed and then just reuse it
 // the next time.
-phisancaApp.factory('Weather',function ($resource,$cookies) {
+phisancaApp.factory('Weather',function ($resource,$cookies,$q, darkSky) {
+
+    this.$inject = ['$q', 'darkSky'];
 
     var model = this;
 
@@ -111,6 +113,36 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
     this.searchWeatherWithCoordinates = function(latidute, longitude){
         //Do searching with dark sky...
     }
+
+    // Get current location coordinates if supported by browser
+    this.getCurrentCoords = function(){
+        var deferred = $q.defer();
+
+        // check for browser support
+        if ("geolocation" in navigator) {
+        // get position / prompt for access
+            navigator.geolocation.getCurrentPosition(function(position) {
+                deferred.resolve(position.coords);
+            });
+        } else {
+            deferred.reject('geolocation not supported');
+        }
+        return deferred.promise;
+    }
+
+    // log current weather data
+    this.activate = function() {
+        this.getCurrentCoords()
+            .then(function(position) {
+                darkSky.getCurrent(position.latitude, position.longitude)
+                    .then(function(value) {
+                                console.log("Success " + value); // Success!
+                            }).catch(console.warn);
+            })
+            .catch(console.warn);
+    }
+    //this.activate();
+
 
     this.testGeolocation = function() {
         console.log('testing geolocation, mvh weatherService.js')

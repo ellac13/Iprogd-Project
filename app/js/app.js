@@ -8,7 +8,7 @@
 // also see that we included separate JavaScript files for these modules. Angular
 // has other core modules that you might want to use and explore when you go deeper
 // into developing Angular applications. For this lab, these two will suffice.
-var phisancaApp = angular.module('phisanca', ['ngRoute','ngResource','ngCookies','rzModule']);
+var phisancaApp = angular.module('phisanca', ['ngRoute','ngResource','ngCookies','rzModule','dark-sky']);
 
 
 // Here we configure our application module and more specifically our $routeProvider.
@@ -49,3 +49,18 @@ phisancaApp.config(['$routeProvider',
         redirectTo: '/'
       });
   }]);
+
+phisancaApp.config(['darkSkyProvider', function(darkSkyProvider) {
+    darkSkyProvider.setApiKey('c0cd4449c3fe183f21e8e3d91a623211');
+    darkSkyProvider.setUnits('si')
+ }]);
+
+phisancaApp.config(function($sceDelegateProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist([
+    // Allow same origin resource loads.
+    'self',
+    // Allow loading from our assets domain.  Notice the difference between * and **.
+    'http://srv*.assets.example.com/**',
+    'https://api.darksky.net/**'
+  ]);
+});
