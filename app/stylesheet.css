@@ -34,7 +34,34 @@
 	display: flex;
 	flex-direction: row;
 	align-items: flex-end;
-	padding-bottom: 0.5%;
+}
+
+.login {
+	margin-bottom: 0.5%;
+}
+
+.loginbutton {
+	margin-right: 3%;
+}
+
+.headerbutton {
+     text-decoration: none;
+		 color:black;
+  }
+.headerbutton:hover
+  {
+		background-color: green;
+    color:white;
+    text-decoration:none;
+    cursor:pointer;
+   }
+
+.historybutton {
+	text-decoration: none;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 .redtext::-webkit-input-placeholder {
@@ -43,4 +70,8 @@
 
 .greytext::-webkit-input-placeholder {
 	color: #cccccc;
+}
+
+.green{
+	background-color: green;
 }

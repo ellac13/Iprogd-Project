@@ -1,18 +1,18 @@
 <div class="header container-fluid">
-  <div class="col-md-6">
+  <div class="col-md-5">
     <h1>Phisanca</h1>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-2 login">
     <input id="username" ng-change="usernameChanged()" type="text" ng-class='{redtext : noUsername, greytext: !noUsername}' class="form-control" placeholder="{{usernamePlaceholder}}" ng-model="username">
   </div>
-  <div class="col-md-2">
+  <div class="col-md-2 login">
     <input id="password" ng-change="pwdChanged()" type="password" ng-class='{redtext : noPwd, greytext: !noPwd}' class="form-control" placeholder="{{pwdPlaceholder}}" ng-model="pwd">
   </div>
-  <button class="btn btn-default" type="button" ng-click="login(username, pwd)">Log in</button>
-  <div class="col-md-1">
+  <button class="btn btn-default login loginbutton" type="button" ng-click="login(username, pwd)">Log in</button>
+  <div class="col-md-1 headerbutton" ng-click="registerButton()">
     <h4>Register</h4>
   </div>
-  <div class="col-md-1">
+  <a class="col-md-1 pointer headerbutton" ng-show="!today" ng-href="#!/stats">
     <h4>History</h4>
-  </div>
+  </a>
 </div>

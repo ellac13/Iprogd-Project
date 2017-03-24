@@ -30,4 +30,8 @@ phisancaApp.controller('LoginCtrl', function ($scope) {
     $scope.noPwd = false;
   }
 
+  $scope.registerButton = function() {
+    alert("Register...");
+  }
+
 });
