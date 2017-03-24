@@ -7,48 +7,36 @@
     </div>
 	<h4>Favourites</h4>
 	<table class="table table-hover locationTable favouritesTable">
-		<tr>
+		<tr ng-repeat="location in favouriteLocations">
 			<td>
-				<ng-include src="'partials/svg/heart.html'"></ng-include>
+				<div ng-click="favourite($event)">
+					<ng-include src="'partials/svg/heart.html'"></ng-include>
+				</div>
 			</td>
-			<td class="locationTableLocation">Vallentuna</td>
-		</tr>
-		<tr>
-			<td>
-				<ng-include src="'partials/svg/heart.html'"></ng-include>
-			</td>
-			<td class="locationTableLocation">Stockholm</td>
+			<td class="locationTableLocation">{{location}}</td>
 		</tr>
 	</table>
 	<h4>Popular</h4>
 	<table class="table table-hover locationTable">
-		<tr>
+		<tr ng-repeat="location in popularLocations">
 			<td>
-				<ng-include src="'partials/svg/heart.html'"></ng-include>
+				<div ng-click="unfavourite($event)">
+					<ng-include src="'partials/svg/heart.html'"></ng-include>
+				</div>
 			</td>
-			<td class="locationTableLocation">Göteborg</td>
-		</tr>
-		<tr>
-			<td>
-				<ng-include src="'partials/svg/heart.html'"></ng-include>
-			</td>
-			<td class="locationTableLocation">Malmö</td>
+			<td class="locationTableLocation">{{location}}</td>
 		</tr>
 	</table>
 	<h4>Recent searches</h4>
 
 	<table class="table table-hover locationTable">
-		<tr>
+		<tr ng-repeat="location in recentLocations">
 			<td>
-				<ng-include src="'partials/svg/heart.html'"></ng-include>
+				<div ng-click="unfavourite($event)">
+					<ng-include src="'partials/svg/heart.html'"></ng-include>
+				</div>
 			</td>
-			<td class="locationTableLocation">Boda</td>
-		</tr>
-		<tr>
-			<td>
-				<ng-include src="'partials/svg/heart.html'"></ng-include>
-			</td>
-			<td class="locationTableLocation">Jönköping</td>
+			<td class="locationTableLocation">{{location}}</td>
 		</tr>
 	</table>
 	
