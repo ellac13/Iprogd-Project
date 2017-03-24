@@ -37,12 +37,26 @@
 	align-items: flex-end;
 }
 
+.welcome {
+	flex-grow: 1;
+}
+
 .login {
+  display: flex;
+	flex-direction: row;
+	align-items: flex-end;
 	margin-bottom: 0.5%;
 }
 
+.logininput {
+	flex-grow: 1;
+}
+
 .loginbutton {
+	flex-basis: 0;
+	flex-grow: 0;
 	margin-right: 3%;
+	height:5%;
 }
 
 .headerbutton {
