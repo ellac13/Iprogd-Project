@@ -8,8 +8,18 @@
 // also see that we included separate JavaScript files for these modules. Angular
 // has other core modules that you might want to use and explore when you go deeper
 // into developing Angular applications. For this lab, these two will suffice.
-var phisancaApp = angular.module('phisanca', ['ngRoute','ngResource','ngCookies','rzModule']);
 
+var phisancaApp = angular.module('phisanca', 
+  ['ngRoute','ngResource','ngCookies','uiGmapgoogle-maps','rzModule']);
+
+
+phisancaApp.config(function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyDcUvqy7aGnv_1De3e6A_UOWaHWRkQVX3M',
+        v: '3.26', //defaults to latest 3.X anyhow
+        libraries: 'weather,geometry,visualization'
+    });
+});
 
 // Here we configure our application module and more specifically our $routeProvider.
 // Route provider is used to tell angular to load a specific partial (view) for an individual
@@ -44,7 +54,6 @@ phisancaApp.config(['$routeProvider',
         templateUrl: 'partials/statisticsContainer.html',
         //controller: 'dummy'
       }).
-      // TODO in Lab 5: add more conditions for the last two screens (overview and preparation)
       otherwise({
         redirectTo: '/'
       });

@@ -27,21 +27,38 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
             }
       });
     }
+    //this.testGeolocation();
 
     //////////////////////////Map stuff below//////////////////////////
-    var weatherData = [[50.22, -2.244, "1", "star.png"],
-                 [56.3443, 7.99, "2", "arrow.png"], 
-                 [49.33, 7.9826, "3", "star.png"],
-                 [60.9808, 12.3343, "4", "arrow.png"]];
+    var weatherData = [[50.22, -2.244, "1", "images/star.png"],
+                 [56.3443, 7.99, "2", "images/arrow.png"], 
+                 [49.33, 7.9826, "3", "images/star.png"],
+                 [60.9808, 12.3343, "4", "images/arrow.png"]];
 
     var map;
     var markers = [];
 
+    this.getWeatherData = function(){
+        return weatherData;
+    }
+
+    this.getMap = function(){
+        return map;
+    }
+
+    this.setMap = function(newMap){
+        map = newMap;
+    }
+
+    this.getMarkers = function(){
+        return markers;
+    }
+
     // Marker data should be an array with the following structure:
     // [latidute, longitude, temperature, url to image]
-    var addMarker = function(markerData){
+    this.addMarker = function(markerData){
         console.log("adding marker. Pos: " + markerData[0] + " " + markerData[1] + 
-            ", temp: " + markerData[2]);
+            " temp: " + markerData[2]);
         
         //Create icon
         var image = {
@@ -65,7 +82,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
         map.fitBounds(bounds);
     }
 
-    this.myMap = function() {
+    /*this.myMap = function() {
         var mapCanvas = document.getElementById("map");
         var myCenter = new google.maps.LatLng(51.508742,-0.120850);
         var mapOptions = {center: myCenter, zoom: 4};
@@ -75,8 +92,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
             var markerData = [weatherData[i][0], weatherData[i][1], weatherData[i][2], weatherData[i][3]]
             addMarker(markerData);
         }
-    }
-    //this.testGeolocation();
+    }*/
 
     // Angular service needs to return an object that has all the
     // methods created in it. You can consider that this is instead
