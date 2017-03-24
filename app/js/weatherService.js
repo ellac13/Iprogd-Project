@@ -7,6 +7,29 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
 
     var model = this;
 
+    //User data
+    var activeUser = "";
+    var userFavourites =  ["Stockholm", "Kalmar"];;
+    var popularLocations =  ["Göteborg", "Malmö"];;
+    var recentSearches =  ["Kiruna", "Ystad"];;
+
+    //Getters for user data
+    this.getUsername = function() {
+        return activeUser;
+    }
+
+    this.getUserFavouriteLocations = function() {
+        return userFavourites;
+    }
+
+    this.getPopularLocations = function() {
+        return popularLocations;
+    }
+
+    this.getRecentSearches = function() {
+        return recentSearches;
+    }
+
     this.testGeolocation = function() {
         console.log('testing geolocation, mvh weatherService.js')
         geocoder = new google.maps.Geocoder();

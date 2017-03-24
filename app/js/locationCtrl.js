@@ -1,10 +1,12 @@
 phisancaApp.controller('LocationCtrl', function ($scope,Weather) {
 
+	//Current query
 	$scope.searchQuery = "";
 
-	$scope.favouriteLocations = ["Stockholm", "Nyköping"];
-	$scope.popularLocations = ["Göteborg", "Malmö"];
-	$scope.recentLocations = ["Boden", "Jönköping"];
+	//Currently displayed locations
+	$scope.favouriteLocations = Weather.getUserFavouriteLocations();
+	$scope.popularLocations = Weather.getPopularLocations();
+	$scope.recentLocations = Weather.getRecentSearches();
 
 
 	$scope.testGeo = function() {
