@@ -8,6 +8,7 @@
 
 .locationTableLocation{
 	width:100%;
+	word-break: break-word;
 }
 
 .locationTitleTable>tbody>tr>td{

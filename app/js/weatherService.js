@@ -7,6 +7,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
 
     var model = this;
 
+    //Current location data
+    var activeAddress = "";
+    var activeLat = 0.0;
+    var activeLng = 0.0;
+
     //User data
     var activeUser = "";
     var userFavourites =  ["Stockholm", "Kalmar"];

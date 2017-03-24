@@ -9,7 +9,7 @@
     </form>
 	<h4>Favourites</h4>
 	<table class="table table-hover locationTable favouritesTable">
-		<tr ng-repeat="location in favouriteLocations">
+		<tr ng-repeat="location in favouriteLocations" ng-click="search(location)">
 			<td>
 				<div ng-click="unfavourite($event)">
 					<ng-include src="'partials/svg/heart.html'"></ng-include>
@@ -21,7 +21,7 @@
 	</table>
 	<h4>Popular</h4>
 	<table class="table table-hover locationTable">
-		<tr ng-repeat="location in popularLocations">
+		<tr ng-repeat="location in popularLocations" ng-click="search(location)">
 			<td>
 				<div ng-click="favourite($event)">
 					<ng-include src="'partials/svg/heart.html'"></ng-include>
@@ -34,7 +34,7 @@
 	<h4>Recent searches</h4>
 
 	<table class="table table-hover locationTable">
-		<tr ng-repeat="location in recentLocations">
+		<tr ng-repeat="location in recentLocations" ng-click="search(location)">
 			<td>
 				<div ng-click="favourite($event)">
 					<ng-include src="'partials/svg/heart.html'"></ng-include>
