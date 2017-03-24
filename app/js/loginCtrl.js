@@ -1,16 +1,33 @@
 
 phisancaApp.controller('LoginCtrl', function ($scope) {
 
-  $scope.noUsername = false;
-  $scope.noPwd = false;
+  $scope.usernamePlaceholder = "username";
+  $scope.pwdPlaceholder = "password";
+
+  $scope.username = "";
+  $scope.pwd = "";
+
+  $scope.noUsername = false;        //An empty username was sent
+  $scope.noPwd = false;             //An empty pwd was sent
 
   $scope.login = function (u, pwd) {
-		if (u === undefined) {
-      alert("Enter username");
+		if (u === "") {
+      $scope.usernamePlaceholder = "Enter a username";
       $scope.noUsername = true;
-    } else if (pwd === undefined) {
-      alert("Enter password");
+    } else if (pwd === "") {
+      $scope.pwdPlaceholder = "Enter a password";
+      $scope.noPwd = true;
+    } else {
+      //Log in
     }
 	};
+
+  $scope.usernameChanged = function() {
+    $scope.noUsername = false;
+  }
+
+  $scope.pwdChanged = function() {
+    $scope.noPwd = false;
+  }
 
 });

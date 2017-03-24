@@ -3,12 +3,12 @@
     <h1>Phisanca</h1>
   </div>
   <div class="col-md-2">
-    <input type="text" class="form-control" placeholder="username" ng-model="username">
+    <input id="username" ng-change="usernameChanged()" type="text" ng-class='{redtext : noUsername, greytext: !noUsername}' class="form-control" placeholder="{{usernamePlaceholder}}" ng-model="username">
   </div>
   <div class="col-md-2">
-    <input type="password" class="form-control" placeholder="password" ng-model="password">
+    <input id="password" ng-change="pwdChanged()" type="password" ng-class='{redtext : noPwd, greytext: !noPwd}' class="form-control" placeholder="{{pwdPlaceholder}}" ng-model="pwd">
   </div>
-  <button class="btn btn-default" type="button" ng-click="login(username, password)">Log in</button>
+  <button class="btn btn-default" type="button" ng-click="login(username, pwd)">Log in</button>
   <div class="col-md-1">
     <h4>Register</h4>
   </div>

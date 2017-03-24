@@ -37,10 +37,10 @@
 	padding-bottom: 0.5%;
 }
 
-.red {
+.redtext::-webkit-input-placeholder {
 	color: red;
 }
 
-.black {
-	color: black;
+.greytext::-webkit-input-placeholder {
+	color: #cccccc;
 }
