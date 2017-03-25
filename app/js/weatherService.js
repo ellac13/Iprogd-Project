@@ -135,10 +135,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
     //this.testGeolocation();
 
     //////////////////////////Map stuff below//////////////////////////
-    var weatherData = [[50.22, -2.244, "1", "images/star.png"],
-                 [56.3443, 7.99, "2", "images/arrow.png"], 
-                 [49.33, 7.9826, "3", "images/star.png"],
-                 [60.9808, 12.3343, "4", "images/arrow.png"]];
+    var weatherData = [[50.22, -2.244, "1", "images/weatherIcons/Cloud.png"],
+                 [56.3443, 7.99, "2", "images/weatherIcons/Sun.png"], 
+                 [49.33, 7.9826, "3", "images/weatherIcons/Heavy Rain.png"],
+                 [60.9808, 12.3343, "4", "images/weatherIcons/Partly Cloudy Rain.png"]];
 
     var map;
     var markers = [];
