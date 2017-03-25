@@ -1,5 +1,4 @@
 phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi, Weather) {
-    $scope.map;
     $scope.markers = Weather.getMarkers();
     $scope.weatherData = Weather.getWeatherData();
 
@@ -14,8 +13,6 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi, W
     // uiGmapGoogleMapApi is a promise.
     // The "then" callback function provides the google.maps object.
     uiGmapGoogleMapApi.then(function(maps) {
-        console.log("callback is being run! mvh mapCtrl");
-
         var mapCanvas = document.getElementById("map");
         var myCenter = new google.maps.LatLng(51.508742,-0.120850);
         var mapOptions = {center: myCenter, zoom: 4};
