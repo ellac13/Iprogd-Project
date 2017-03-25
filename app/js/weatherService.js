@@ -1,9 +1,9 @@
-// Here we create an Angular service that we will use for our 
+// Here we create an Angular service that we will use for our
 // model. In your controllers (or other services) you can include the
 // dependency on any service you need. Angular will insure that the
 // service is created first time it is needed and then just reuse it
 // the next time.
-phisancaApp.factory('Weather',function ($resource,$cookies) {
+phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     var model = this;
 
@@ -136,7 +136,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
 
     //////////////////////////Map stuff below//////////////////////////
     var weatherData = [[50.22, -2.244, "1", "images/star.png"],
-                 [56.3443, 7.99, "2", "images/arrow.png"], 
+                 [56.3443, 7.99, "2", "images/arrow.png"],
                  [49.33, 7.9826, "3", "images/star.png"],
                  [60.9808, 12.3343, "4", "images/arrow.png"]];
 
@@ -162,9 +162,9 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
     // Marker data should be an array with the following structure:
     // [latidute, longitude, temperature, url to image]
     this.addMarker = function(markerData){
-        console.log("adding marker. Pos: " + markerData[0] + " " + markerData[1] + 
+        console.log("adding marker. Pos: " + markerData[0] + " " + markerData[1] +
             " temp: " + markerData[2]);
-        
+
         //Create icon
         var image = {
                 url: markerData[3],
@@ -185,6 +185,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
             bounds.extend(markers[i].getPosition());
         }
         map.fitBounds(bounds);
+    }
+
+
+
+    /////////////////////// Firebase ///////////////////////////
+
+    var auth = $firebaseAuth();
+
+    this.getAuth = function() {
+      return auth;
     }
 
     // Angular service needs to return an object that has all the
