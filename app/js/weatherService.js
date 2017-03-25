@@ -162,9 +162,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     // Marker data should be an array with the following structure:
     // [latidute, longitude, temperature, url to image]
     this.addMarker = function(markerData){
-        console.log("adding marker. Pos: " + markerData[0] + " " + markerData[1] +
-            " temp: " + markerData[2]);
-
         //Create icon
         var image = {
                 url: markerData[3],
