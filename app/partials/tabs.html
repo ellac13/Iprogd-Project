@@ -1,4 +1,4 @@
-<div ng-controller="TabsCtrl">
+<div ng-controller="TabsCtrl" class="tabs">
 	<ul id="tabs" class="nav nav-tabs">
 		<li ng-repeat="tab in tabs" ng-class="{'active':isSet($index)}"><a href ng-click="setTab($index)">{{tab.title}}</a></li>
 	</ul>
@@ -7,10 +7,10 @@
 		<ng-include src="'partials/map.html'" ng-controller="someController" class="noneSoFar"></ng-include>
 	</div>
 	<div ng-show="isSet(1)">
-		<ng-include src="'partials/hourly.html'" class="noneSoFar"></ng-include>
+		<ng-include src="'partials/hourly.html'" class="tabsTableData"></ng-include>
 	</div>
 	<div ng-show="isSet(2)">
-		<ng-include src="'partials/daily.html'" class="noneSoFar"></ng-include>
+		<ng-include src="'partials/daily.html'" class="tabsTableData"></ng-include>
 	</div>
 	
 </div>

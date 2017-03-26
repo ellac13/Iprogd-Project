@@ -1,7 +1,7 @@
 
 phisancaApp.controller('TabsCtrl', function ($scope) {
 	
-	$scope.tabs = [{title: 'maps'}, {title: 'hourly'}, {title: 'daily'}];
+	$scope.tabs = [{title: 'Maps'}, {title: 'Hourly forecast'}, {title: 'Daily forecast'}];
 	
 	$scope.tab = 0;
 
