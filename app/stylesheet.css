@@ -104,3 +104,15 @@
 .visible {
 	visibility: visible
 }
+
+.tabs{
+	margin-top:5%;
+	margin-left:5%;
+	margin-right:5%;
+  
+}
+
+.tabsTableData{
+	padding:2%;
+	margin:2%;
+}
