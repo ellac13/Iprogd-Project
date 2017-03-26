@@ -1,5 +1,10 @@
 <!--
 	TODO: remove button
+
+<button ng-click="addMarker([1.22, 45.232, '12', 'images/weatherIcons/Cloud Lightning.png'])">Test to add location</button>
 -->
-<button ng-click="addMarker([1.22, 45.232, '12', 'images/weatherIcons/Cloud Lightning.png'])">Test to add marker</button>
-<div id="map" style="margin:auto;width:100%;height:300px"></div>
+{{status}}
+<ui-gmap-google-map id="map" center='map.center' zoom='map.zoom'>
+	<ui-gmap-markers models="markers" coords="'self'" idkey="'id'" icon="'icon'" options="'options'" fit="true"></ui-gmap-markers>
+</ui-gmap-google-map>
+

@@ -90,3 +90,7 @@
 .green{
 	background-color: green;
 }
+
+.angular-google-map-container {
+	height: 400px;
+}

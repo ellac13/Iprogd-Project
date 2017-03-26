@@ -140,20 +140,23 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                  [49.33, 7.9826, "3", "images/weatherIcons/Heavy Rain.png"],
                  [60.9808, 12.3343, "4", "images/weatherIcons/Partly Cloudy Rain.png"]];
 
-
-    var map;
+    var map = {
+        center: { 
+            latitude: 59.332469, 
+            longitude: 18.065134 }, 
+            zoom: 3 };
     var markers = [];
 
     this.getWeatherData = function(){
         return weatherData;
     }
 
-    this.getMap = function(){
-        return map;
+    this.setMap = function(m){
+        map = m;
     }
 
-    this.setMap = function(newMap){
-        map = newMap;
+    this.getMap = function(){
+        return map;
     }
 
     this.getMarkers = function(){
@@ -162,27 +165,28 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     // Marker data should be an array with the following structure:
     // [latidute, longitude, temperature, url to image]
+    var lastID = 0;
     this.addMarker = function(markerData){
-        //Create icon
-        var image = {
+        var latitude = markerData[0];
+        var longitude = markerData[1];
+        
+        var ret = {
+            latitude: latitude,
+            longitude: longitude,
+            title: 'm' + lastID++,
+            show: true,
+            id: lastID,
+            icon: {
                 url: markerData[3],
-                labelOrigin: new google.maps.Point(2,8)
+
+            },
+            options: {
+                labelClass:'marker_labels',
+                labelAnchor:'-30 40',
+                labelContent: markerData[2] + "°"
             }
-
-        // Create marker and add it to array markers
-        markers.push(new google.maps.Marker({
-                position: new google.maps.LatLng(markerData[0], markerData[1]),
-                icon: image,
-                label: markerData[2],
-                map: map
-            }));
-
-        //Make sure that all markers are visible
-        var bounds = new google.maps.LatLngBounds();
-        for(var i = 0; i < markers.length; i++){
-            bounds.extend(markers[i].getPosition());
-        }
-        map.fitBounds(bounds);
+        };
+      markers.push(ret);        
     }
 
 
