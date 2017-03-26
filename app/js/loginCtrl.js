@@ -1,5 +1,5 @@
 
-phisancaApp.controller('LoginCtrl', function ($scope) {
+phisancaApp.controller('LoginCtrl', function ($scope,Weather) {
 
   $scope.usernamePlaceholder = "username";
   $scope.pwdPlaceholder = "password";
@@ -10,14 +10,7 @@ phisancaApp.controller('LoginCtrl', function ($scope) {
   $scope.noUsername = false;        //An empty username was sent
   $scope.noPwd = false;             //An empty pwd was sent
 
-  $scope.loggedIn = false;
-  $scope.currentUser = "";
-  $scope.users = {
-    isak:"isak",
-    calle:"calle",
-    philip:"philip",
-    andreas:"andreas"
-  };
+  $scope.auth = Weather.getAuth();
 
   $scope.login = function (u, pwd) {
 		if (u === "") {
@@ -27,17 +20,19 @@ phisancaApp.controller('LoginCtrl', function ($scope) {
       $scope.pwdPlaceholder = "Enter a password";
       $scope.noPwd = true;
     } else {
-      if ($scope.users[u] == pwd) {
-        $scope.loggedIn = true;
-        $scope.currentUser = u;
-      } else {
-        $scope.noUsername = true;
-        $scope.username = "";
-        $scope.pwd = "";
-        $scope.usernamePlaceholder = "Incorrect details";
-      }
+      $scope.auth.$signInWithEmailAndPassword(u, pwd).then(function(firebaseUser) {
+        alert("Signed in as:" + firebaseUser.uid);
+        console.log("Signed in as: ", firebaseUser.uid);
+      }).catch(function(error) {
+        alert("Authentication failed: " + error);
+        console.error("Authentication failed:", error);
+      });
     }
 	};
+
+  $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+      $scope.firebaseUser = firebaseUser;
+  });
 
   $scope.usernameChanged = function() {
     $scope.noUsername = false;
@@ -54,8 +49,7 @@ phisancaApp.controller('LoginCtrl', function ($scope) {
   }
 
   $scope.logout = function() {
-    $scope.loggedIn = false;
-    $scope.currentUser = "";
+    $scope.auth.$signOut();
     $scope.username = "";
     $scope.pwd = "";
   }

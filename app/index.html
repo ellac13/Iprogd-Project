@@ -27,7 +27,7 @@ which module to associate the app with. In app.js we create the "dinnerPlanner" 
 
     <!-- Library for slider functionality -->
     <link rel="stylesheet" type="text/css" href="bower_components/angularjs-slider/dist/rzslider.css"/>
-    
+
     <script src="bower_components/angularjs-slider/dist/rzslider.min.js"></script>
 
     <!-- The application JavaScript code -->
@@ -41,6 +41,23 @@ which module to associate the app with. In app.js we create the "dinnerPlanner" 
     <script src="js/StatsCtrl.js"></script>
 
 
+    <!-- Firebase for authentication and cloud storage -->
+    <!-- Requires tools via npm? See https://firebase.google.com/docs/web/setup -->
+    <script src="https://www.gstatic.com/firebasejs/3.7.3/firebase.js"></script>
+    <!-- AngularFire, see https://github.com/firebase/angularfire or
+    https://www.firebase.com/docs/web/libraries/angular/api.html -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyC312c01R3uCdknRJDE9wgYWFhI-xNhkh0",
+        authDomain: "phisanca.firebaseapp.com",
+        databaseURL: "https://phisanca.firebaseio.com",
+        storageBucket: "phisanca.appspot.com",
+        messagingSenderId: "630686275719"
+      };
+      firebase.initializeApp(config);
+    </script>
 
     <!--<script ng-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcUvqy7aGnv_1De3e6A_UOWaHWRkQVX3M" async defer></script>
 -->

@@ -1,9 +1,9 @@
-// Here we create an Angular service that we will use for our 
+// Here we create an Angular service that we will use for our
 // model. In your controllers (or other services) you can include the
 // dependency on any service you need. Angular will insure that the
 // service is created first time it is needed and then just reuse it
 // the next time.
-phisancaApp.factory('Weather',function ($resource,$cookies) {
+phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     var model = this;
 
@@ -140,6 +140,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
                  [49.33, 7.9826, "3", "images/weatherIcons/Heavy Rain.png"],
                  [60.9808, 12.3343, "4", "images/weatherIcons/Partly Cloudy Rain.png"]];
 
+
     var map;
     var markers = [];
 
@@ -182,6 +183,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies) {
             bounds.extend(markers[i].getPosition());
         }
         map.fitBounds(bounds);
+    }
+
+
+
+    /////////////////////// Firebase ///////////////////////////
+
+    var auth = $firebaseAuth();
+
+    this.getAuth = function() {
+      return auth;
     }
 
     // Angular service needs to return an object that has all the
