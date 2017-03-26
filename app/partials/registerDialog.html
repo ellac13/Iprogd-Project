@@ -1,0 +1,36 @@
+<md-dialog flex="20">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Register an account</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h2>Register</h2>
+        <div style="margin-bottom:10%; margin-top:5%">
+          Email:
+          <input id="e-mail" ng-change="emailChanged()" type="text" ng-class='{redplaceholder : noEmail, greyplaceholder: !noEmail}' class="form-control" placeholder="{{emailPlaceholder}}" ng-model="email">
+        </div>
+        <div>
+          Password:
+          <input id="password" ng-change="passChanged()" type="password" ng-class='{redplaceholder : noPass, greyplaceholder: !noPass}' class="form-control" placeholder="{{passPlaceholder}}" ng-model="pass">
+        </div>
+        <div ng-class="{invisible:!error, visible:error}" class="errortext">
+          {{status}}
+        </div>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="register(email, pass)">
+       Register
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        Cancel
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -79,14 +79,28 @@
     cursor: pointer;
 }
 
-.redtext::-webkit-input-placeholder {
+.errortext {
+	color:red;
+	text-align: center;
+	margin-top: 3%;
+}
+
+.redplaceholder::-webkit-input-placeholder {
 	color: red;
 }
 
-.greytext::-webkit-input-placeholder {
+.greyplaceholder::-webkit-input-placeholder {
 	color: #cccccc;
 }
 
 .green{
 	background-color: green;
+}
+
+.invisible {
+	visibility: hidden;
+}
+
+.visible {
+	visibility: visible
 }

@@ -10,7 +10,7 @@
 // into developing Angular applications. For this lab, these two will suffice.
 
 var phisancaApp = angular.module('phisanca',
-  ['ngRoute','ngResource','ngCookies','uiGmapgoogle-maps','rzModule','firebase']);
+  ['ngRoute','ngResource','ngCookies','uiGmapgoogle-maps','rzModule','firebase','ngMaterial']);
 
 
 phisancaApp.config(function(uiGmapGoogleMapApiProvider) {
