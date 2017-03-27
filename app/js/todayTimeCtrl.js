@@ -1,5 +1,11 @@
 
-phisancaApp.controller('TodayTimeCtrl', function ($scope) {
+phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
+
+  $scope.locationName = Weather.getActiveAddress();
+
+  $scope.getLocationName = function() {
+    return Weather.getActiveAddress();
+  }
 
   //Used for button to stats, might be moved to other ctrl
   $scope.link = "stats";

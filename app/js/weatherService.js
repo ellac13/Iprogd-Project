@@ -8,9 +8,21 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var model = this;
 
     //Current location data
-    var activeAddress = "";
+    var activeAddress = "dummystan";
     var activeLat = 0.0;
     var activeLng = 0.0;
+
+    this.getActiveAddress = function(){
+        return activeAddress;
+    }
+
+    this.getActiveLat = function(){
+        return activeLat;
+    }
+
+    this.getActiveLng = function(){
+        return activeLng;
+    }
 
     //User data
 
@@ -64,7 +76,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 
     //Search functionality here?
-    this.searchWeatherWithAddress = function(address){
+    this.searchWeatherWithAddress = function(address, $rootScope){
         //If the search was already in the recent search list, move it to the top
         var i = recentSearches.indexOf(address);
         if(i != -1){
@@ -94,11 +106,13 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                 //console.log(results);
 
                 //Update active address
-                activeAddress = address;
-                //activeAddress = formattedAddr;
+                //activeAddress = address;
+                activeAddress = formattedAddr;
+                //$rootScope.$apply(function(){$scope.activeAddress});
+                $rootScope.$apply();
 
                 //Search for weather
-                searchWeatherWithCoordinates(lat, lng);
+                model.searchWeatherWithCoordinates(lat, lng);
               } else {
                 console.log('No results found');
               }
