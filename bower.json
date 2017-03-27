@@ -19,6 +19,8 @@
     "angular-messages": "^1.4.8",
 	"angular-material": "1.1.3",
 	"chart.js": "x.x.x",
-	"angular-chart.js" : "x.x.x"
+	"angular-chart.js" : "x.x.x",
+	"angular-google-maps": "2.4.1",
+    "angular-simple-logger": "0.1.7"
   }
 }
