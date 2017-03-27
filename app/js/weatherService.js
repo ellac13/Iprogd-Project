@@ -13,14 +13,15 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var activeLng = 0.0;
 
     //User data
-    var activeUser = "";
+
+    var currentUser;
     var userFavourites =  ["Stockholm", "Kalmar"];
     var popularLocations =  ["Göteborg", "Malmö"];
     var recentSearches =  ["Kiruna", "Ystad"]; //This should be a queue of length 5{history length}
 
     //Getters for user data
-    this.getUsername = function() {
-        return activeUser;
+    this.getUser = function() {
+      return currentUser;
     }
 
     this.getUserFavouriteLocations = function() {
@@ -136,14 +137,14 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     //////////////////////////Map stuff below//////////////////////////
     var weatherData = [[50.22, -2.244, "1", "images/weatherIcons/Cloud.png"],
-                 [56.3443, 7.99, "2", "images/weatherIcons/Sun.png"], 
+                 [56.3443, 7.99, "2", "images/weatherIcons/Sun.png"],
                  [49.33, 7.9826, "3", "images/weatherIcons/Heavy Rain.png"],
                  [60.9808, 12.3343, "4", "images/weatherIcons/Partly Cloudy Rain.png"]];
 
     var map = {
-        center: { 
-            latitude: 59.332469, 
-            longitude: 18.065134 }, 
+        center: {
+            latitude: 59.332469,
+            longitude: 18.065134 },
             zoom: 3 };
     var markers = [];
 
@@ -169,7 +170,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     this.addMarker = function(markerData){
         var latitude = markerData[0];
         var longitude = markerData[1];
-        
+
         var ret = {
             latitude: latitude,
             longitude: longitude,
@@ -186,7 +187,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                 labelContent: markerData[2] + "°"
             }
         };
-      markers.push(ret);        
+      markers.push(ret);
     }
 
 
@@ -198,6 +199,33 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     this.getAuth = function() {
       return auth;
     }
+
+    this.login = function(email, pwd, errorfunc) {
+      auth.$signInWithEmailAndPassword(email, pwd).then(function(firebaseUser) {
+        console.log("Signed in as: ", firebaseUser.uid);
+      }).catch(function(error) {
+        errorfunc(error);
+        console.error("Authentication failed:", error);
+      });
+    }
+
+    this.register = function(email, pwd, scope, errorfunc) {
+      auth.$createUserWithEmailAndPassword(email, pwd)
+        .then(function(firebaseUser) {
+          console.log("User " + firebaseUser.uid + " created successfully!");
+          scope.answer();
+        }).catch(function(error) {
+          errorfunc(error, scope);
+        });
+    }
+
+    this.logout = function() {
+      auth.$signOut();
+    }
+
+    auth.$onAuthStateChanged(function(firebaseUser) {
+      currentUser = firebaseUser;
+    });
 
     // Angular service needs to return an object that has all the
     // methods created in it. You can consider that this is instead
