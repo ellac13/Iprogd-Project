@@ -345,6 +345,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         });
     }
 
+    this.updatePwd = function(pwd, scope, errorfunc) {
+      //TODO
+    }
+
     this.logout = function() {
       auth.$signOut();
     }

@@ -13,7 +13,6 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
 
   //Used for button to stats, might be moved to other ctrl
   $scope.link = "stats";
-  $scope.linkName = "Settings";
 
   $scope.slider = {
     value: Weather.getCurrentTimeIndex(),

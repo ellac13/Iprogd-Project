@@ -1,0 +1,42 @@
+<md-dialog flex="20">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Change account settings</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h3>Change Password</h3>
+        <div class="settingsInput">
+          Old password:
+          <input id="oldPwd" type="password" class="form-control" placeholder="password" ng-model="oldPwd">
+        </div>
+        <div class="settingsInput">
+          New password:
+          <input id="newPwd" type="password" class="form-control" placeholder="password" ng-model="newPwd">
+        </div>
+        <div class="settingsInput">
+          Repeat new password:
+          <input id="newPwd2" type="password" class="form-control" placeholder="password" ng-model="newPwd2">
+        </div>
+        <div ng-class="{invisible:!error, visible:error}" class="errortext">
+          {{status}}
+        </div>
+        <button class="btn btn-default" style="margin-top:2%" type="button" ng-click="updatePassword(oldPwd, newPwd, newPwd2)">Update Password</button>
+        <hr>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="register(email, pass)">
+       Register
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        Cancel
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

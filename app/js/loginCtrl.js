@@ -54,6 +54,19 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
     });
   };
 
+  $scope.settingsButton = function(ev) {
+    $mdDialog.show({
+      controller: SettingsController,
+      templateUrl: 'partials/settingsDialog.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+    .then(function() {
+    });
+  };
+
   $scope.logout = function() {
     Weather.logout();
     $scope.username = "";
@@ -61,12 +74,6 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   };
 
   function DialogController($scope, $mdDialog) {
-    $scope.emailPlaceholder = "username";
-    $scope.passPlaceholder = "password";
-    $scope.email = "";
-    $scope.pass = "";
-    $scope.noEmail = false;        //An empty username was sent
-    $scope.noPass = false;             //An empty pwd was sent
     $scope.status = "";
     $scope.error = false;
 
@@ -83,22 +90,13 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
     };
 
     $scope.register = function(email, pwd) {
-      $scope.error = false;
-      if (email === "") {
-        $scope.emailPlaceholder = "Enter a username";
-        $scope.noEmail = true;
-      } else if (pwd === "") {
-        $scope.passPlaceholder = "Enter a password";
-        $scope.noPass = true;
-      } else {
-        Weather.register(email, pwd, $scope, function(error, scope) {
-            scope.email = "";
-            scope.pass = "";
-            scope.error = true;
-            scope.status = error;
-            console.error("Error: ", error);
-        });
-      }
+      Weather.register(email, pwd, $scope, function(error, scope) {
+          scope.email = "";
+          scope.pass = "";
+          scope.error = true;
+          scope.status = error;
+          console.error("Error: ", error);
+      });
     };
 
     $scope.emailChanged = function() {
@@ -109,6 +107,33 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
     $scope.passChanged = function() {
       $scope.noPass = false;
       $scope.passPlaceholder = "password";
+    };
+  }
+
+  function SettingsController($scope, $mdDialog) {
+    $scope.status = "Error placeholder";
+    $scope.error = true;    //Should be false
+
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+
+    $scope.answer = function(answer) {
+      $mdDialog.hide(answer);
+    };
+
+    $scope.updatePwd = function(oldPwd, newPwd, newPwd2) {
+      //TODO: Check newPwd === newPwd2, check oldPwd
+      $scope.error = false;
+      Weather.updatePwd(newPwd, $scope, function(error, scope) {
+          scope.error = true;
+          scope.status = error;
+          console.error("Error: ", error);
+      });
     };
   }
 
