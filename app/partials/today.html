@@ -1,8 +1,8 @@
 <div id="today">
   <table class="table locationTitleTable">
 		<tr>
-			<td >
-          <ng-include src="'partials/svg/heart.html'" ng-click="toggleFavourite(getLocationName())"></ng-include>
+			<td>
+          <ng-include src="'partials/svg/heart.html'" ng-click="toggleFavourite(getLocationName())" ng-class="isFavourite()"></ng-include>
 			</td>
 			<td class="locationTitleLocation">
         <h1>{{getLocationName()}}</h1>

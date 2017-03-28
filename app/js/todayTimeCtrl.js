@@ -2,6 +2,7 @@
 phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
 
   $scope.locationName = Weather.getActiveAddress();
+  $scope.favourites = Weather.getUserFavouriteLocations();
 
   $scope.getLocationName = function() {
     return Weather.getActiveAddress();
@@ -9,6 +10,15 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
 
   $scope.toggleFavourite = function(address){
     Weather.toggleFavouriteLocation(address);
+  }
+
+  $scope.isFavourite = function(){
+
+    if(!$scope.favourites.includes($scope.getLocationName())){
+      return "";
+    }else{
+      return "favouritesTable";
+    }
   }
 
   //Used for button to stats, might be moved to other ctrl
