@@ -111,7 +111,8 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   }
 
   function SettingsController($scope, $mdDialog) {
-    $scope.status = "Error placeholder";
+    $scope.pwdStatus = "Error placeholder";
+    $scope.usernameStatus = "Error placeholder";
     $scope.error = true;    //Should be false
 
     $scope.hide = function() {
@@ -129,12 +130,19 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
     $scope.updatePwd = function(oldPwd, newPwd, newPwd2) {
       //TODO: Check newPwd === newPwd2, check oldPwd
       $scope.error = false;
+      $scope.oldPwd = "";
+      $scope.newPwd = "";
+      $scope.newPwd2 = "";
       Weather.updatePwd(newPwd, $scope, function(error, scope) {
           scope.error = true;
-          scope.status = error;
+          scope.pwdStatus = error;
           console.error("Error: ", error);
       });
     };
+
+    $scope.updateUsername = function(newUsername) {
+      //TODO
+    }
   }
 
 });
