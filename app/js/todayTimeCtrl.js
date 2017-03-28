@@ -29,7 +29,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
 
   $scope.setBar = function(value) {
     $scope.temps[1] = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
-    $scope.temps[1][$scope.getHourIndex(value)] = 500;
+    $scope.temps[1][$scope.getHourIndex(value)] = $scope.temps[0][value];
   }
 
   $scope.getHourIndex = function(hour) {
@@ -79,8 +79,8 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
             display: true
           },
           ticks: {
-            min: Math.min(0, Math.min.apply(Math, $scope.temps[0])),
-            max: Math.max.apply(Math, $scope.temps[0]) + 2
+            suggestedMin: Math.min(0, Math.min.apply(Math, $scope.temps[0])),
+            suggestedMax: Math.max.apply(Math, $scope.temps[0])
           }
         }
       ]
