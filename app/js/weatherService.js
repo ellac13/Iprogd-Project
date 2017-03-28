@@ -25,9 +25,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     }
 
     //Current weather data
+    var currentTimeIndex = 10;
+
     var hourlyTimes =  ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00",
       "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
-    var hourlyTemps = [3, -12, 3, 3, 4, 4, 6, 6, 7, 9, 11, 13, 13, 14, 13, 14, 14, 14, 13, 13, 9, 8, 6, 4];
+    var hourlyTemps = [13, 12, 13, 13, 14, 14, 16, 16, 17, 19, 11, 13, 13, 14, 13, 14, 14, 14, 13, 13, 19, 18, 16, 14];
 
     this.getHourlyTimes = function() {
       return hourlyTimes;
@@ -35,6 +37,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     this.getHourlyTemps = function() {
       return hourlyTemps;
+    }
+
+    this.getCurrentTimeIndex = function() {
+      return currentTimeIndex;
     }
 
     //User data

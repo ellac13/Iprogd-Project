@@ -16,7 +16,7 @@
     {{temps[0][getHourIndex(slider.value)]}}&deg;C &#9728;
   </div>
 
-  <canvas id="line" class="chart chart-line" chart-data="temps" chart-labels="labels" chart-options="options" chart-click="onClick"></canvas>
+  <canvas id="line" class="chart chart-bar" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>
 
   <div id="currentTime">
     <rzslider

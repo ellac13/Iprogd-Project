@@ -12,33 +12,61 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
   $scope.linkName = "History";
 
   $scope.slider = {
-    value: 15,
+    value: Weather.getCurrentTimeIndex(),
     options: {
       floor: 0,
       ceil: 23,
       translate: function (value) {
                 return value + ":00";
-            }
+      },
+      onChange: function(sliderId, modelValue, highValue, pointerType) {
+        $scope.setBar(modelValue);
+      },
+      hideLimitLabels: true
+
     }
   };
+
+  $scope.setBar = function(value) {
+    $scope.temps[1] = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
+    $scope.temps[1][$scope.getHourIndex(value)] = 500;
+  }
 
   $scope.getHourIndex = function(hour) {
     if (hour < 10) {
       hour = "0" + hour;
     }
     hour = hour + ":00";
-    // alert(hour);
-    for (var i = 0; i < $scope.labels.length; i++) {
-      if (hour === $scope.labels[i]) {
+    for (var i = 0; i < $scope.times.length; i++) {
+      if (hour === $scope.times[i]) {
         return i;
       }
     }
     return 0;
   }
 
-  $scope.labels = Weather.getHourlyTimes();
-  $scope.temps = [Weather.getHourlyTemps()];
-  $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
+  $scope.times = Weather.getHourlyTimes();
+
+  $scope.labels = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
+  for (var i = 0; i < $scope.labels.length; i+=6) {
+    $scope.labels[i] = $scope.times[i];
+  }
+  $scope.labels[$scope.labels.length-1] = $scope.times[$scope.labels.length-1];
+
+  $scope.bar = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
+  $scope.temps = [Weather.getHourlyTemps(), $scope.bar];
+  $scope.datasetOverride = [
+    {
+      yAxisID: 'y-axis-1',
+      type: 'line'
+    },
+    {
+      label: "Bar chart",
+      borderWidth: 1,
+      type: 'bar',
+      backgroundColor: 'rgba(0, 0, 0, 0.1)',
+      barThickness: 50
+    }];
   $scope.options = {
     scales: {
       yAxes: [
@@ -48,7 +76,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
           display: true,
           position: 'left',
           gridLines: {
-            display: false
+            display: true
           },
           ticks: {
             min: Math.min(0, Math.min.apply(Math, $scope.temps[0])),
@@ -56,7 +84,10 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
           }
         }
       ]
-    }
+    },
+    animation: false
   };
+
+  $scope.setBar($scope.slider.value);
 
 });
