@@ -225,6 +225,13 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     var weatherSearchWithCurrentLocation = function(){
         //Do searching with dark sky...
+        var lat = model.getActiveLat();
+        var lon = model.getActiveLng();
+        model.findWeather.get({lat:lat,lon:lon}, function(data){
+                model.setActiveWeatherData(data);
+            }, function(data){
+                console.log("Failed to get weather for position: latitude:" + lat + ", longitude: " + lon + "mvh weatherSearchWithCurrentLocation");
+            });
     }
 
     this.testGeolocation = function() {
