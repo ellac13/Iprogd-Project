@@ -31,10 +31,25 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         return activeWeatherData;
     }
 
-    this.setActiveWeatherData = function(weatherData){
-        console.log(weatherData);
-        activeWeatherData = weatherData;
-        updateMap();
+    /////////////////////// Weather API ///////////////////////////    
+    // Fetches weather from dark sky and sets it to the activeWeatherData variable
+    this.setWeather = function(lat, lon){
+        var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/6acbd836627174487a78deec700c2145/" + lat + "," + lon, {}, {
+            get: {
+                headers:{
+                    'Content-type': 'application/json'
+                }
+            }
+        });
+
+        findWeather.get({}, function(data){
+            activeWeatherData = data;
+            updateMap();
+            console.log(data);
+            console.log("Successfully set weather data for lat: " + lat + ", lon: " + lon);
+        }, function(data){
+            throw "Error while fetching weather data!!!";
+        });
     }
 
     var currentTimeIndex = 10;
@@ -154,7 +169,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                 $rootScope.$apply();
 
                 //Search for weather of active position
-                weatherSearchWithCurrentLocation();
+                model.weatherSearchWithCurrentLocation();
               } else {
                 console.log('No results found');
               }
@@ -205,7 +220,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                 $rootScope.$apply();
 
                 //Search for weather of active position
-                weatherSearchWithCurrentLocation();
+                model.weatherSearchWithCurrentLocation();
               } else {
                 console.log('No results found');
               }
@@ -225,15 +240,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         });
     }
 
-    var weatherSearchWithCurrentLocation = function(){
+    this.weatherSearchWithCurrentLocation = function(){
         //Do searching with dark sky...
         var lat = model.getActiveLat();
         var lon = model.getActiveLng();
-        model.findWeather.get({lat:lat,lon:lon}, function(data){
-                model.setActiveWeatherData(data);
-            }, function(data){
-                console.log("Failed to get weather for position: latitude:" + lat + ", longitude: " + lon + "mvh weatherSearchWithCurrentLocation");
-            });
+        this.setWeather(lat, lon);
     }
 
     this.testGeolocation = function() {
@@ -315,6 +326,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     var updateMap = function(){
         markers = [];
+        //TODO: get the correct weather icon.
+
+        // FORSÖK FÅ TILL ANNAN PROXY!!!!!!!!!!!!!
+
         model.addMarker([model.getActiveLat(), model.getActiveLng(), model.getActiveWeatherData().currently.temperature, "images/weatherIcons/Cloud.png"]);
         createRandomMarkers();
     }
@@ -323,26 +338,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     }
 
-
-
-    /////////////////////// Weather API ///////////////////////////
-
-    this.findWeather = $resource("http://83.251.29.83:60000/myproxy/myproxy.php?", {}, {});
-    /*
-        Sample use of this resource e.g. inside a controller:
-
-        $scope.getWeatherForPosition = function(lat, lon){
-            Weather.findWeather.get({lat:lat,lon:lon}, function(data){
-                console.log("success");
-                console.log(data);
-            }, function(data){
-                console.log("Failed to get weather for position: latitude:" + lat + ", longitude: " + lon);
-            });
-        }
-        //Then call the above function
-        $scope.getWeatherForPosition(22.5566, 23.4556);
-
-    */
 
     /////////////////////// Firebase ///////////////////////////
 
