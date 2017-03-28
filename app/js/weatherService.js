@@ -213,10 +213,30 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       return auth;
     }
 
+
+    /////////////////////// Weather API ///////////////////////////
+
+    this.findWeather = $resource("http://83.251.29.83:60000/myproxy/myproxy.php?", {}, {});
+    /*
+        Sample use of this resource e.g. inside a controller:
+
+        $scope.getWeatherForPosition = function(lat, lon){
+            Weather.findWeather.get({lat:lat,lon:lon}, function(data){
+                console.log("success");
+                console.log(data);
+            }, function(data){
+                console.log("Failed to get weather for position: latitude:" + lat + ", longitude: " + lon);
+            });
+        }
+        //Then call the above function
+        $scope.getWeatherForPosition(22.5566, 23.4556);
+        */
+
+    
+
     // Angular service needs to return an object that has all the
     // methods created in it. You can consider that this is instead
     // of calling var model = new DinnerModel() we did in the previous labs
     // This is because Angular takes care of creating it when needed.
     return this;
-
 });
