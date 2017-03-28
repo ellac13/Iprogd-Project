@@ -35,4 +35,14 @@ phisancaApp.controller('pageOpenCtrl', function ($scope,$routeParams,Weather,uiG
 
     });
 
+	$scope.setActiveWeather = function(lat, lon){
+	    Weather.findWeather.get({lat:lat,lon:lon}, function(data){
+	        Weather.setActiveWeatherData(data);
+	    }, function(data){
+	        console.log("Failed to set weather data for position: latitude:" + lat + ", longitude: " + lon + "mvh pageOpenCtrl");
+	    });
+    }
+    
+    $scope.setActiveWeather(Weather.getActiveLat(), Weather.getActiveLng());
+
 });

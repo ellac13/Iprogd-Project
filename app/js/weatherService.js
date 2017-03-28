@@ -25,6 +25,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     }
 
     //Current weather data
+    var activeWeatherData = [];
+
+    this.getActiveWeatherData = function(){
+        return activeWeatherData;
+    }
+
+    this.setActiveWeatherData = function(weatherData){
+        activeWeatherData = weatherData;
+    }
+
     var currentTimeIndex = 10;
 
     var hourlyTimes =  ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00",
