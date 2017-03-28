@@ -32,7 +32,9 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     }
 
     this.setActiveWeatherData = function(weatherData){
+        console.log(weatherData);
         activeWeatherData = weatherData;
+        updateMap();
     }
 
     var currentTimeIndex = 10;
@@ -310,6 +312,18 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         };
       markers.push(ret);
     }
+
+    var updateMap = function(){
+        markers = [];
+        model.addMarker([model.getActiveLat(), model.getActiveLng(), model.getActiveWeatherData().currently.temperature, "images/weatherIcons/Cloud.png"]);
+        createRandomMarkers();
+    }
+
+    var createRandomMarkers = function(){
+
+    }
+
+
 
     /////////////////////// Weather API ///////////////////////////
 
