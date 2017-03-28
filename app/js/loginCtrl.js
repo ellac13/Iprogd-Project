@@ -10,7 +10,12 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   $scope.noUsername = false;        //An empty username was sent
   $scope.noPwd = false;             //An empty pwd was sent
 
-  $scope.auth = Weather.getAuth();
+  $scope.user = Weather.getUser();
+  var auth = Weather.getAuth();
+
+  auth.$onAuthStateChanged(function(firebaseUser) {
+    $scope.user = Weather.getUser();
+  });
 
   $scope.login = function (u, pwd) {
 		if (u === "") {
@@ -20,19 +25,11 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
       $scope.pwdPlaceholder = "Enter a password";
       $scope.noPwd = true;
     } else {
-      $scope.auth.$signInWithEmailAndPassword(u, pwd).then(function(firebaseUser) {
-        alert("Signed in as:" + firebaseUser.uid);
-        console.log("Signed in as: ", firebaseUser.uid);
-      }).catch(function(error) {
+      Weather.login(u, pwd, function(error) {
         alert("Authentication failed: " + error);
-        console.error("Authentication failed:", error);
       });
     }
 	};
-
-  $scope.auth.$onAuthStateChanged(function(firebaseUser) {
-      $scope.firebaseUser = firebaseUser;
-  });
 
   $scope.usernameChanged = function() {
     $scope.noUsername = false;
@@ -45,7 +42,6 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   };
 
   $scope.registerButton = function(ev) {
-    // alert("Register...");
     $mdDialog.show({
       controller: DialogController,
       templateUrl: 'partials/registerDialog.html',
@@ -59,7 +55,7 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   };
 
   $scope.logout = function() {
-    $scope.auth.$signOut();
+    Weather.logout();
     $scope.username = "";
     $scope.pwd = "";
   };
@@ -71,9 +67,8 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
     $scope.pass = "";
     $scope.noEmail = false;        //An empty username was sent
     $scope.noPass = false;             //An empty pwd was sent
-    $scope.status = "lol";
+    $scope.status = "";
     $scope.error = false;
-    $scope.auth = Weather.getAuth();
 
     $scope.hide = function() {
       $mdDialog.hide();
@@ -96,19 +91,13 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
         $scope.passPlaceholder = "Enter a password";
         $scope.noPass = true;
       } else {
-        $scope.auth.$createUserWithEmailAndPassword(email, pwd)
-          .then(function(firebaseUser) {
-            alert("User " + firebaseUser.uid + " created successfully!");
-            console.log("User " + firebaseUser.uid + " created successfully!");
-            $scope.answer();
-          }).catch(function(error) {
-            $scope.email = "";
-            $scope.pass = "";
-            $scope.error = true;
-            $scope.status = error;
-            alert(error);
+        Weather.register(email, pwd, $scope, function(error, scope) {
+            scope.email = "";
+            scope.pass = "";
+            scope.error = true;
+            scope.status = error;
             console.error("Error: ", error);
-          });
+        });
       }
     };
 

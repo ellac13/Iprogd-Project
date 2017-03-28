@@ -8,7 +8,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var model = this;
 
     //Current location data
-    var activeAddress = "dummystan";
+    var activeAddress = "No such location";
     var activeLat = 0.0;
     var activeLng = 0.0;
 
@@ -24,15 +24,35 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         return activeLng;
     }
 
+    //Current weather data
+    var currentTimeIndex = 10;
+
+    var hourlyTimes =  ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00",
+      "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
+    var hourlyTemps = [13, 12, 13, 13, 14, 14, 16, 16, 17, 19, 11, 13, 13, 14, 13, 14, 14, 14, 13, 13, 19, 18, 16, 14];
+
+    this.getHourlyTimes = function() {
+      return hourlyTimes;
+    }
+
+    this.getHourlyTemps = function() {
+      return hourlyTemps;
+    }
+
+    this.getCurrentTimeIndex = function() {
+      return currentTimeIndex;
+    }
+
     //User data
-    var activeUser = "";
+
+    var currentUser;
     var userFavourites =  ["Stockholm", "Kalmar"];
     var popularLocations =  ["Göteborg", "Malmö"];
     var recentSearches =  ["Kiruna", "Ystad"]; //This should be a queue of length 5{history length}
 
     //Getters for user data
-    this.getUsername = function() {
-        return activeUser;
+    this.getUser = function() {
+      return currentUser;
     }
 
     this.getUserFavouriteLocations = function() {
@@ -47,23 +67,29 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         return recentSearches;
     }
 
-    this.addFavouriteLocation = function(address){
+    this.toggleFavouriteLocation = function(address){
         if(!userFavourites.includes(address)){
-            //Remove address from other lists
-            var i = popularLocations.indexOf(address);
-            if(i != -1){
-                popularLocations.splice(i, 1);
-            }
-            i = recentSearches.indexOf(address);
-            if(i != -1){
-                recentSearches.splice(i, 1);
-            }
-
-            userFavourites.push(address);
+            addFavouriteLocation(address);
+        }else{
+            removeFavouriteLocation(address);
         }
     }
 
-    this.removeFavouriteLocation = function(address){
+    var addFavouriteLocation = function(address){
+        //Remove address from other lists
+        var i = popularLocations.indexOf(address);
+        if(i != -1){
+            popularLocations.splice(i, 1);
+        }
+        i = recentSearches.indexOf(address);
+        if(i != -1){
+            recentSearches.splice(i, 1);
+        }
+
+        userFavourites.push(address);
+    }
+
+    var removeFavouriteLocation = function(address){
         //Remove address from user favourites
         var i = userFavourites.indexOf(address);
         if(i != -1){
@@ -75,7 +101,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 
     //Search functionality here?
-    this.searchWeatherWithAddress = function(address, $rootScope){
+    this.updateLocationWithAddress = function(address, $rootScope){
         //If the search was already in the recent search list, move it to the top
         var i = recentSearches.indexOf(address);
         if(i != -1){
@@ -89,7 +115,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             }
         }
 
-        //Conver the address to coordinates and search for weather with those coordinates
+        //Convert the address to coordinates and search for weather with those coordinates
         console.log('Trying to convert address "' + address + '" to coordinates');
         geocoder = new google.maps.Geocoder();
         geocoder.geocode({'address': address}, function(results, status) {
@@ -107,22 +133,87 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                 //Update active address
                 //activeAddress = address;
                 activeAddress = formattedAddr;
-                //$rootScope.$apply(function(){$scope.activeAddress});
+
+                //Update active coordinates
+                activeLat = lat;
+                activeLng = lng;
+
+                //Inform view that an async change happend to the model
                 $rootScope.$apply();
 
-                //Search for weather
-                model.searchWeatherWithCoordinates(lat, lng);
+                //Search for weather of active position
+                weatherSearchWithCurrentLocation();
               } else {
                 console.log('No results found');
               }
             } else {
               console.log('Geocoder failed due to: ' + status);
+              //Update active address
+              //activeAddress = address;
+              activeAddress = "Nolocation";
+
+              //Update active coordinates
+              activeLat = 0.0;
+              activeLng = 0.0;
+
+              //Inform view that an async change happend to the model
+              $rootScope.$apply();
             }
         });
 
     }
 
-    this.searchWeatherWithCoordinates = function(latidute, longitude){
+    this.updateLocationWithCoordinates = function(latidute, longitude, $rootScope){
+
+        //Get address of the coordinates and search for weather with  coordinates
+        console.log('Trying to convert coordinates "' + latidute + ', ' + longitude +'" to address');
+        geocoder = new google.maps.Geocoder();
+        latlng = {lat: latidute, lng: longitude};
+        geocoder.geocode({'location': latlng}, function(results, status) {
+            if (status === 'OK') {
+              if (results[0]) {
+                //Please note that if the input is garbage, ie. randomly typed characters
+                //the returned location will be exactly the same amount of garbage, ie randomly approximated location
+                var lat = results[0].geometry.location.lat();
+                var lng = results[0].geometry.location.lng();
+                var formattedAddr = results[0].formatted_address;
+                console.log('LatLng found: ' + lat + ', ' + lng);
+                console.log('Address of LatLng: ' + formattedAddr);
+                //console.log(results);
+
+                //Update active address
+                //activeAddress = address;
+                activeAddress = formattedAddr;
+
+                //Update active coordinates
+                activeLat = lat;
+                activeLng = lng;
+
+                //Inform view that an async change happend to the model
+                $rootScope.$apply();
+
+                //Search for weather of active position
+                weatherSearchWithCurrentLocation();
+              } else {
+                console.log('No results found');
+              }
+            } else {
+              console.log('Geocoder failed due to: ' + status);
+              //Update active address
+              //activeAddress = address;
+              activeAddress = "Nolocation";
+
+              //Update active coordinates
+              activeLat = 0.0;
+              activeLng = 0.0;
+
+              //Inform view that an async change happend to the model
+              $rootScope.$apply();
+            }
+        });
+    }
+
+    var weatherSearchWithCurrentLocation = function(){
         //Do searching with dark sky...
     }
 
@@ -150,14 +241,14 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     //////////////////////////Map stuff below//////////////////////////
     var weatherData = [[50.22, -2.244, "1", "images/weatherIcons/Cloud.png"],
-                 [56.3443, 7.99, "2", "images/weatherIcons/Sun.png"], 
+                 [56.3443, 7.99, "2", "images/weatherIcons/Sun.png"],
                  [49.33, 7.9826, "3", "images/weatherIcons/Heavy Rain.png"],
                  [60.9808, 12.3343, "4", "images/weatherIcons/Partly Cloudy Rain.png"]];
 
     var map = {
-        center: { 
-            latitude: 59.332469, 
-            longitude: 18.065134 }, 
+        center: {
+            latitude: 59.332469,
+            longitude: 18.065134 },
             zoom: 3 };
     var markers = [];
 
@@ -183,7 +274,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     this.addMarker = function(markerData){
         var latitude = markerData[0];
         var longitude = markerData[1];
-        
+
         var ret = {
             latitude: latitude,
             longitude: longitude,
@@ -200,7 +291,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                 labelContent: markerData[2] + "°"
             }
         };
-      markers.push(ret);        
+      markers.push(ret);
     }
 
 
@@ -230,9 +321,38 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         }
         //Then call the above function
         $scope.getWeatherForPosition(22.5566, 23.4556);
-        */
+        
+    */
 
     
+
+    this.login = function(email, pwd, errorfunc) {
+      auth.$signInWithEmailAndPassword(email, pwd).then(function(firebaseUser) {
+        console.log("Signed in as: ", firebaseUser.uid);
+      }).catch(function(error) {
+        errorfunc(error);
+        console.error("Authentication failed:", error);
+      });
+    }
+
+    this.register = function(email, pwd, scope, errorfunc) {
+      auth.$createUserWithEmailAndPassword(email, pwd)
+        .then(function(firebaseUser) {
+          console.log("User " + firebaseUser.uid + " created successfully!");
+          scope.answer();
+        }).catch(function(error) {
+          errorfunc(error, scope);
+        });
+    }
+
+    this.logout = function() {
+      auth.$signOut();
+    }
+
+    auth.$onAuthStateChanged(function(firebaseUser) {
+      currentUser = firebaseUser;
+    });
+
 
     // Angular service needs to return an object that has all the
     // methods created in it. You can consider that this is instead

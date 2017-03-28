@@ -7,48 +7,105 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     return Weather.getActiveAddress();
   }
 
+  $scope.toggleFavourite = function(address){
+    Weather.toggleFavouriteLocation(address);
+  }
+
   //Used for button to stats, might be moved to other ctrl
   $scope.link = "stats";
-  $scope.linkName = "History";
+  $scope.linkName = "Settings";
 
   $scope.slider = {
-    value: 15,
+    value: Weather.getCurrentTimeIndex(),
     options: {
       floor: 0,
       ceil: 23,
       translate: function (value) {
                 return value + ":00";
-            }
+      },
+      onChange: function(sliderId, modelValue, highValue, pointerType) {
+        $scope.setBar(modelValue);
+      },
+      hideLimitLabels: true
     }
   };
 
-  $scope.labels = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00",
-    "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
-  $scope.series = ['Series A'];
-  $scope.data = [
-    [3, 2, 3, 3, 4, 4, 6, 6, 7, 9, 11, 13, 13, 14, 13, 14, 14, 14, 13, 13, 9, 8, 6, 4]
-  ];
-  $scope.onClick = function (points, evt) {
-    console.log(points, evt);
-  };
-  $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+  $scope.setBar = function(value) {
+    $scope.temps[1] = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
+    $scope.temps[1][$scope.getHourIndex(value)] = $scope.temps[0][value];
+  }
+
+  $scope.formatHour = function(hour) {
+    var formattedHour = hour;
+    if (formattedHour < 10) {
+      formattedHour = "0" + hour;
+    }
+    formattedHour = formattedHour + ":00";
+    return formattedHour;
+  }
+
+  $scope.getHourIndex = function(hour) {
+    hour = $scope.formatHour(hour);
+    for (var i = 0; i < $scope.times.length; i++) {
+      if (hour === $scope.times[i]) {
+        return i;
+      }
+    }
+    return 0;
+  }
+
+  $scope.times = Weather.getHourlyTimes();
+
+  $scope.labels = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
+  for (var i = 0; i < $scope.labels.length; i+=6) {
+    $scope.labels[i] = $scope.times[i];
+  }
+  $scope.labels[$scope.labels.length-1] = $scope.times[$scope.labels.length-1];
+
+  $scope.bar = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
+  $scope.temps = [Weather.getHourlyTemps(), $scope.bar];
+  $scope.datasetOverride = [
+    {
+      yAxisID: 'y-axis-1',
+      type: 'line'
+    },
+    {
+      label: "Bar chart",
+      borderWidth: 1,
+      type: 'bar',
+      backgroundColor: 'rgba(0, 0, 0, 0.1)',
+      barThickness: 50
+    }];
   $scope.options = {
+    tooltips: {
+      enabled: false
+    },
+    elements: {
+      point: {
+        radius: 0,
+        hoverRadius:0
+      }
+    },
     scales: {
       yAxes: [
         {
           id: 'y-axis-1',
           type: 'linear',
           display: true,
-          position: 'left'
-        },
-        {
-          id: 'y-axis-2',
-          type: 'linear',
-          display: true,
-          position: 'right'
+          position: 'left',
+          gridLines: {
+            display: false
+          },
+          ticks: {
+            suggestedMin: Math.min(0, Math.min.apply(Math, $scope.temps[0])),
+            suggestedMax: Math.max.apply(Math, $scope.temps[0])
+          }
         }
       ]
-    }
+    },
+    animation: false
   };
+
+  $scope.setBar($scope.slider.value);
 
 });
