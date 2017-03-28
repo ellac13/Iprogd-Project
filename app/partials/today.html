@@ -12,8 +12,24 @@
 		</tr>
   </table>
 
-  <div id="currentWeather" class="currentTemperature col-md-offset-2">
-    {{temps[0][getHourIndex(slider.value)]}}&deg;C &#9728;
+  <!-- <div class="currentTime col-md-offset-2">
+    {{formatHour(slider.value)}}
+  </div> -->
+
+  <div id="currentWeather" class="currentWeather">
+    <div class="currentWeatherElement">
+      {{temps[0][getHourIndex(slider.value)]}}&deg;C
+    </div>
+    <div class="currentWeatherElement" style="text-align:center">
+      &#9728;
+    </div>
+    <div class="currentWeatherElement" style="text-align:right">
+      {{formatHour(slider.value)}}
+    </div>
+  </div>
+
+  <div class="col-md-offset-2 feelsLike">
+    Feels like 15&deg;C
   </div>
 
   <canvas id="line" class="chart chart-bar" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>

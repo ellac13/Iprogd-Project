@@ -23,7 +23,6 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
         $scope.setBar(modelValue);
       },
       hideLimitLabels: true
-
     }
   };
 
@@ -32,11 +31,17 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     $scope.temps[1][$scope.getHourIndex(value)] = $scope.temps[0][value];
   }
 
-  $scope.getHourIndex = function(hour) {
-    if (hour < 10) {
-      hour = "0" + hour;
+  $scope.formatHour = function(hour) {
+    var formattedHour = hour;
+    if (formattedHour < 10) {
+      formattedHour = "0" + hour;
     }
-    hour = hour + ":00";
+    formattedHour = formattedHour + ":00";
+    return formattedHour;
+  }
+
+  $scope.getHourIndex = function(hour) {
+    hour = $scope.formatHour(hour);
     for (var i = 0; i < $scope.times.length; i++) {
       if (hour === $scope.times[i]) {
         return i;
