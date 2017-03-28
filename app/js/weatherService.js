@@ -294,17 +294,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       markers.push(ret);
     }
 
-
-
-    /////////////////////// Firebase ///////////////////////////
-
-    var auth = $firebaseAuth();
-
-    this.getAuth = function() {
-      return auth;
-    }
-
-
     /////////////////////// Weather API ///////////////////////////
 
     this.findWeather = $resource("http://83.251.29.83:60000/myproxy/myproxy.php?", {}, {});
@@ -321,10 +310,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         }
         //Then call the above function
         $scope.getWeatherForPosition(22.5566, 23.4556);
-        
+
     */
 
-    
+    /////////////////////// Firebase ///////////////////////////
+
+    var auth = $firebaseAuth();
+
+    this.getAuth = function() {
+      return auth;
+    }
 
     this.login = function(email, pwd, errorfunc) {
       auth.$signInWithEmailAndPassword(email, pwd).then(function(firebaseUser) {
