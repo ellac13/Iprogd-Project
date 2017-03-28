@@ -67,23 +67,29 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         return recentSearches;
     }
 
-    this.addFavouriteLocation = function(address){
+    this.toggleFavouriteLocation = function(address){
         if(!userFavourites.includes(address)){
-            //Remove address from other lists
-            var i = popularLocations.indexOf(address);
-            if(i != -1){
-                popularLocations.splice(i, 1);
-            }
-            i = recentSearches.indexOf(address);
-            if(i != -1){
-                recentSearches.splice(i, 1);
-            }
-
-            userFavourites.push(address);
+            addFavouriteLocation(address);
+        }else{
+            removeFavouriteLocation(address);
         }
     }
 
-    this.removeFavouriteLocation = function(address){
+    var addFavouriteLocation = function(address){
+        //Remove address from other lists
+        var i = popularLocations.indexOf(address);
+        if(i != -1){
+            popularLocations.splice(i, 1);
+        }
+        i = recentSearches.indexOf(address);
+        if(i != -1){
+            recentSearches.splice(i, 1);
+        }
+
+        userFavourites.push(address);
+    }
+
+    var removeFavouriteLocation = function(address){
         //Remove address from user favourites
         var i = userFavourites.indexOf(address);
         if(i != -1){

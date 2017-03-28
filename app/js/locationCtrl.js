@@ -13,20 +13,12 @@ phisancaApp.controller('LocationCtrl', function ($scope,$location,Weather) {
 		Weather.testGeolocation();
 	}
 
-	$scope.favourite = function($event){
+	$scope.toggleFavourite = function(address){
 		//alert("favourited");
 		//console.log($event.currentTarget);
-		var address = $event.currentTarget.parentElement.parentElement.children[1].textContent
+		//var address = $event.currentTarget.parentElement.parentElement.children[1].textContent
 		//console.log(address);
-		Weather.addFavouriteLocation(address);
-	}
-
-	$scope.unfavourite = function($event){
-		//alert("unfavourited");
-		//console.log($event.currentTarget);
-		var address = $event.currentTarget.parentElement.parentElement.children[1].textContent
-		//console.log(address);
-		Weather.removeFavouriteLocation(address);
+		Weather.toggleFavouriteLocation(address);
 	}
 
 
@@ -36,6 +28,5 @@ phisancaApp.controller('LocationCtrl', function ($scope,$location,Weather) {
 		$location.url('/?search=' + query);
 		//Weather.updateLocationWithAddress(query, $scope);
 	}
-
 
 });
