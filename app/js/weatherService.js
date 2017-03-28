@@ -24,6 +24,19 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         return activeLng;
     }
 
+    //Current weather data
+    var hourlyTimes =  ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00",
+      "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
+    var hourlyTemps = [3, -12, 3, 3, 4, 4, 6, 6, 7, 9, 11, 13, 13, 14, 13, 14, 14, 14, 13, 13, 9, 8, 6, 4];
+
+    this.getHourlyTimes = function() {
+      return hourlyTimes;
+    }
+
+    this.getHourlyTemps = function() {
+      return hourlyTemps;
+    }
+
     //User data
 
     var currentUser;
@@ -240,6 +253,12 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     auth.$onAuthStateChanged(function(firebaseUser) {
       currentUser = firebaseUser;
     });
+
+    /////////////////// Chart settings /////////////////////
+
+    Chart.defaults.global.tooltips.enabled = false;
+    Chart.defaults.global.elements.point.radius = 0;
+    Chart.defaults.global.elements.point.hoverRadius = 0;
 
     // Angular service needs to return an object that has all the
     // methods created in it. You can consider that this is instead

@@ -22,16 +22,23 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     }
   };
 
-  $scope.labels = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00",
-    "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
-  $scope.series = ['Series A'];
-  $scope.data = [
-    [3, 2, 3, 3, 4, 4, 6, 6, 7, 9, 11, 13, 13, 14, 13, 14, 14, 14, 13, 13, 9, 8, 6, 4]
-  ];
-  $scope.onClick = function (points, evt) {
-    console.log(points, evt);
-  };
-  $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+  $scope.getHourIndex = function(hour) {
+    if (hour < 10) {
+      hour = "0" + hour;
+    }
+    hour = hour + ":00";
+    // alert(hour);
+    for (var i = 0; i < $scope.labels.length; i++) {
+      if (hour === $scope.labels[i]) {
+        return i;
+      }
+    }
+    return 0;
+  }
+
+  $scope.labels = Weather.getHourlyTimes();
+  $scope.temps = [Weather.getHourlyTemps()];
+  $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
   $scope.options = {
     scales: {
       yAxes: [
@@ -39,13 +46,14 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
           id: 'y-axis-1',
           type: 'linear',
           display: true,
-          position: 'left'
-        },
-        {
-          id: 'y-axis-2',
-          type: 'linear',
-          display: true,
-          position: 'right'
+          position: 'left',
+          gridLines: {
+            display: false
+          },
+          ticks: {
+            min: Math.min(0, Math.min.apply(Math, $scope.temps[0])),
+            max: Math.max.apply(Math, $scope.temps[0]) + 2
+          }
         }
       ]
     }
