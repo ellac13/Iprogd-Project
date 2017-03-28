@@ -95,7 +95,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 
     //Search functionality here?
-    this.searchWeatherWithAddress = function(address, $rootScope){
+    this.updateLocationWithAddress = function(address, $rootScope){
         //If the search was already in the recent search list, move it to the top
         var i = recentSearches.indexOf(address);
         if(i != -1){
@@ -147,7 +147,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     }
 
-    this.searchWeatherWithCoordinates = function(latidute, longitude, $rootScope){
+    this.updateLocationWithCoordinates = function(latidute, longitude, $rootScope){
 
         //Get address of the coordinates and search for weather with  coordinates
         console.log('Trying to convert coordinates "' + latidute + ', ' + longitude +'" to address');

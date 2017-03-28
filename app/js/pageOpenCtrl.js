@@ -1,5 +1,4 @@
 phisancaApp.controller('pageOpenCtrl', function ($scope,$routeParams,Weather,uiGmapGoogleMapApi) {
-	console.log($routeParams);
 
 	var validCoordinates = function(lat, lng){
 		if (isNaN(lat) || isNaN(lng)) {
@@ -16,19 +15,22 @@ phisancaApp.controller('pageOpenCtrl', function ($scope,$routeParams,Weather,uiG
 
 		if ($routeParams.lat && $routeParams.lng && validCoordinates($routeParams.lat, $routeParams.lng)) {
 			//Specific coordinates were specified
-			Weather.searchWeatherWithCoordinates(parseFloat($routeParams.lat), parseFloat($routeParams.lng), $scope);
+			Weather.updateLocationWithCoordinates(parseFloat($routeParams.lat), parseFloat($routeParams.lng), $scope);
 		}else if($routeParams.search){
 			//Specific search term was specified
-			Weather.searchWeatherWithAddress($routeParams.search, $scope);
+			Weather.updateLocationWithAddress($routeParams.search, $scope);
 		}else if ("geolocation" in navigator) {
 			// Get current location coordinates if supported by browser
+			// otherwise default to kth borggården
 	    	// Get gurrent position / prompt for access
 	        navigator.geolocation.getCurrentPosition(function(position) {
-	            Weather.searchWeatherWithCoordinates(position.coords.latitude, position.coords.longitude, $scope);
+	            Weather.updateLocationWithCoordinates(position.coords.latitude, position.coords.longitude, $scope);
+	        }, function(error){
+	        	Weather.updateLocationWithCoordinates(59.347361, 18.073711, $scope);	
 	        });
 	    } else {
 	    	//Default to kth borggården
-	        Weather.searchWeatherWithCoordinates(59.347361, 18.073711, $scope);
+	        Weather.updateLocationWithCoordinates(59.347361, 18.073711, $scope);
 	    }
 
     });

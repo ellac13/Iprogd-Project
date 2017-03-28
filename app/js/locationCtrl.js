@@ -1,4 +1,4 @@
-phisancaApp.controller('LocationCtrl', function ($scope,Weather) {
+phisancaApp.controller('LocationCtrl', function ($scope,$location,Weather) {
 
 	//Current query
 	$scope.searchQuery = "";
@@ -33,7 +33,8 @@ phisancaApp.controller('LocationCtrl', function ($scope,Weather) {
 	$scope.search = function(query){
 		//alert("Search with query: " + query);
 		//console.log($event.currentTarget);
-		Weather.searchWeatherWithAddress(query, $scope);
+		$location.url('/?search=' + query);
+		//Weather.updateLocationWithAddress(query, $scope);
 	}
 
 
