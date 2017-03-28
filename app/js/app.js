@@ -12,7 +12,6 @@
 var phisancaApp = angular.module('phisanca',
   ['ngRoute','ngResource','ngCookies','uiGmapgoogle-maps','rzModule','firebase','ngMaterial','chart.js']);
 
-
 phisancaApp.config(function(uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyDcUvqy7aGnv_1De3e6A_UOWaHWRkQVX3M',
@@ -48,7 +47,8 @@ phisancaApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/', {
-        templateUrl: 'partials/homeViewContainer.html'
+        templateUrl: 'partials/homeViewContainer.html',
+        controller: 'pageOpenCtrl'
       }).
       when('/stats', {
         templateUrl: 'partials/statisticsContainer.html',
