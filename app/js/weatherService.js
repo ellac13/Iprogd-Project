@@ -8,7 +8,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var model = this;
 
     //Current location data
-    var activeAddress = "dummystan";
+    var activeAddress = "No such location";
     var activeLat = 0.0;
     var activeLng = 0.0;
 
@@ -103,7 +103,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             }
         }
 
-        //Conver the address to coordinates and search for weather with those coordinates
+        //Convert the address to coordinates and search for weather with those coordinates
         console.log('Trying to convert address "' + address + '" to coordinates');
         geocoder = new google.maps.Geocoder();
         geocoder.geocode({'address': address}, function(results, status) {
@@ -121,11 +121,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                 //Update active address
                 //activeAddress = address;
                 activeAddress = formattedAddr;
-                //$rootScope.$apply(function(){$scope.activeAddress});
+
+                //Update active coordinates
+                activeLat = lat;
+                activeLng = lng;
+
+                //Inform view that an async change happend to the model
                 $rootScope.$apply();
 
-                //Search for weather
-                model.searchWeatherWithCoordinates(lat, lng);
+                //Search for weather of active position
+                weatherSearchWithCurrentLocation();
               } else {
                 console.log('No results found');
               }
@@ -136,7 +141,47 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     }
 
-    this.searchWeatherWithCoordinates = function(latidute, longitude){
+    this.searchWeatherWithCoordinates = function(latidute, longitude, $rootScope){
+
+        //Get address of the coordinates and search for weather with  coordinates
+        console.log('Trying to convert coordinates "' + latidute + ', ' + longitude +'" to address');
+        geocoder = new google.maps.Geocoder();
+        latlng = {lat: latidute, lng: longitude};
+        geocoder.geocode({'location': latlng}, function(results, status) {
+            if (status === 'OK') {
+              if (results[0]) {
+                //Please note that if the input is garbage, ie. randomly typed characters
+                //the returned location will be exactly the same amount of garbage, ie randomly approximated location
+                var lat = results[0].geometry.location.lat();
+                var lng = results[0].geometry.location.lng();
+                var formattedAddr = results[0].formatted_address;
+                console.log('LatLng found: ' + lat + ', ' + lng);
+                console.log('Address of LatLng: ' + formattedAddr);
+                //console.log(results);
+
+                //Update active address
+                //activeAddress = address;
+                activeAddress = formattedAddr;
+
+                //Update active coordinates
+                activeLat = lat;
+                activeLng = lng;
+
+                //Inform view that an async change happend to the model
+                $rootScope.$apply();
+
+                //Search for weather of active position
+                weatherSearchWithCurrentLocation();
+              } else {
+                console.log('No results found');
+              }
+            } else {
+              console.log('Geocoder failed due to: ' + status);
+            }
+        });
+    }
+
+    var weatherSearchWithCurrentLocation = function(){
         //Do searching with dark sky...
     }
 
