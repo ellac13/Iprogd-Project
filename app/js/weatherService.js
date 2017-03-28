@@ -142,6 +142,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
               }
             } else {
               console.log('Geocoder failed due to: ' + status);
+              //Update active address
+              //activeAddress = address;
+              activeAddress = "Nolocation";
+
+              //Update active coordinates
+              activeLat = 0.0;
+              activeLng = 0.0;
+
+              //Inform view that an async change happend to the model
+              $rootScope.$apply();
             }
         });
 
@@ -183,6 +193,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
               }
             } else {
               console.log('Geocoder failed due to: ' + status);
+              //Update active address
+              //activeAddress = address;
+              activeAddress = "Nolocation";
+
+              //Update active coordinates
+              activeLat = 0.0;
+              activeLng = 0.0;
+
+              //Inform view that an async change happend to the model
+              $rootScope.$apply();
             }
         });
     }
