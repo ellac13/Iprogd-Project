@@ -305,12 +305,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       currentUser = firebaseUser;
     });
 
-    /////////////////// Chart settings /////////////////////
-
-    Chart.defaults.global.tooltips.enabled = false;
-    Chart.defaults.global.elements.point.radius = 0;
-    Chart.defaults.global.elements.point.hoverRadius = 0;
-
     // Angular service needs to return an object that has all the
     // methods created in it. You can consider that this is instead
     // of calling var model = new DinnerModel() we did in the previous labs

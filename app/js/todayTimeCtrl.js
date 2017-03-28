@@ -68,6 +68,15 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
       barThickness: 50
     }];
   $scope.options = {
+    tooltips: {
+      enabled: false
+    },
+    elements: {
+      point: {
+        radius: 0,
+        hoverRadius:0
+      }
+    },
     scales: {
       yAxes: [
         {
@@ -76,7 +85,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
           display: true,
           position: 'left',
           gridLines: {
-            display: true
+            display: false
           },
           ticks: {
             suggestedMin: Math.min(0, Math.min.apply(Math, $scope.temps[0])),
