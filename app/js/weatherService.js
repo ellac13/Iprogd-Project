@@ -31,21 +31,22 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         return activeWeatherData;
     }
 
-    /////////////////////// Weather API ///////////////////////////    
-    // Fetches weather from dark sky and sets it to the activeWeatherData variable
-    this.setWeather = function(lat, lon){
-        var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/6acbd836627174487a78deec700c2145/" + lat + "," + lon, {}, {
-            get: {
-                headers:{
-                    'Content-type': 'application/json'
-                }
+    // Resource to communicate with dark sky api.
+    var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/6acbd836627174487a78deec700c2145/:lat,:lon", {}, {
+        get: {
+            headers:{
+                'Content-type': 'application/json'
             }
+        }
         });
 
-        findWeather.get({}, function(data){
+    // Fetches weather from dark sky for the parameterized coordinates
+    // and sets it to the activeWeatherData variable
+    var setWeather = function(lat, lon){
+        findWeather.get({lat:lat,lon:lon}, function(data){
             activeWeatherData = data;
             updateMap();
-            console.log(data);
+            //console.log(data);
             console.log("Successfully set weather data for lat: " + lat + ", lon: " + lon);
         }, function(data){
             throw "Error while fetching weather data!!!";
@@ -244,7 +245,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         //Do searching with dark sky...
         var lat = model.getActiveLat();
         var lon = model.getActiveLng();
-        this.setWeather(lat, lon);
+        setWeather(lat, lon);
     }
 
     this.testGeolocation = function() {
@@ -327,8 +328,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var updateMap = function(){
         markers = [];
         //TODO: get the correct weather icon.
-
-        // FORSÖK FÅ TILL ANNAN PROXY!!!!!!!!!!!!!
 
         model.addMarker([model.getActiveLat(), model.getActiveLng(), model.getActiveWeatherData().currently.temperature, "images/weatherIcons/Cloud.png"]);
         createRandomMarkers();
