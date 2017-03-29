@@ -1,16 +1,11 @@
 
-phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
+phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
 
-  $scope.locationName = Weather.getActiveAddress();
   $scope.favourites = Weather.getUserFavouriteLocations();
-  $scope.weather = Weather.getActiveWeatherData();
-
-  //Used for button to stats, might be moved to other ctrl
-  $scope.link = "stats";
 
   $scope.times = Weather.getHourlyTimes();
-  $scope.labels = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
-  $scope.dates = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
+  $scope.labels = Weather.getHourlyTimes().slice();
+  $scope.dates = Weather.getHourlyDates();
   $scope.bar = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
   $scope.temps = [Weather.getHourlyTemps(), $scope.bar];
   $scope.feels = Weather.getHourlyFeels();
@@ -31,19 +26,10 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     }
   }
 
-  $scope.$watch('getLocationName()', function() {
-    $scope.weather = Weather.getActiveWeatherData();
-    $scope.updateWeather();
+  $interval(function() {
     $scope.setBar($scope.slider.value);
-    $scope.initializeLabels();
-  });
-
-  $scope.updateWeather = function() {
-    $scope.temps[0] = Weather.getHourlyTemps();
-    $scope.labels = Weather.getHourlyTimes();
-    $scope.dates = Weather.getHourlyDates();
-    $scope.feels = Weather.getHourlyFeels();
-  }
+    $scope.formatLabels();
+  }, 100);
 
   $scope.slider = {
     value: Weather.getCurrentTimeIndex(),
@@ -64,37 +50,31 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
   // Sets the "current time" bar in the chart
   $scope.setBar = function(value) {
     $scope.temps[1] = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
+    // alert($scope.temps[0][value]);
     $scope.temps[1][value] = $scope.temps[0][value];
   }
 
-  $scope.formatHour = function(hour) {
-    var formattedHour = hour;
-    if (formattedHour < 10) {
-      formattedHour = "0" + hour;
-    }
-    formattedHour = formattedHour + ":00";
-    return formattedHour;
-  }
-
-  $scope.getHourIndex = function(hour) {
-    hour = $scope.formatHour(hour);
-    for (var i = 0; i < $scope.times.length; i++) {
-      if (hour === $scope.times[i]) {
-        return i;
+  //Print label for 00:00, 06:00, 12:00 etc
+  //Also print first and last unless already a label close by
+  $scope.formatLabels = function() {
+    $scope.labels = $scope.times.slice();
+    var first = 0;
+    var last = 0;
+    for (var i = 1; i < $scope.labels.length; i++) {
+      if (parseInt($scope.labels[i].substr(0,2)) % 6 !== 0) {
+        $scope.labels[i] = "";
+      } else if (first === 0) {
+        first = i;
+      } else {
+        last = i;
       }
     }
-    return 0;
-  }
-
-  $scope.initializeLabels = function() {
-    $scope.labels.fill("");
-    for (var i = 1; i < $scope.labels.length - 1; i++) {
-      if (parseInt($scope.times[i].substr(0,2)) % 6 === 0) {
-        $scope.labels[i] = $scope.times[i];
-      }
+    if (first > 2) {
+      $scope.labels[0] = $scope.times[0];
     }
-    $scope.labels[0] = $scope.times[0];
-    $scope.labels[$scope.labels.length-1] = $scope.times[$scope.labels.length-1];
+    if (last < $scope.labels.length - 3) {
+      $scope.labels[$scope.labels.length-1] = $scope.times[$scope.labels.length-1];
+    }
   }
 
 
@@ -139,8 +119,5 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     },
     animation: false
   };
-
-  $scope.initializeLabels();
-  $scope.setBar($scope.slider.value);
 
 });

@@ -10,16 +10,12 @@
 		</tr>
   </table>
 
-  <!-- <div class="currentTime col-md-offset-2">
-    {{formatHour(slider.value)}}
-  </div> -->
-
   <div id="currentWeatherRow1" class="currentWeather">
     <div class="currentWeatherElement">
       {{temps[0][slider.value] | number:0}}&deg;C
     </div>
     <div class="currentWeatherElement" style="text-align:right">
-      {{labels[slider.value]}}
+      {{times[slider.value]}}
     </div>
   </div>
   <div id="currentWeatherRow2" class="currentWeather">
