@@ -171,6 +171,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
                 //Search for weather of active position
                 model.weatherSearchWithCurrentLocation();
+				model.saveData();
               } else {
                 console.log('No results found');
               }
@@ -377,6 +378,14 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       currentUser = firebaseUser;
     });
 
+	///////////////////Firebase Storage////////////////////////////////
+	
+	var database = firebase.database().ref();
+	
+	this.saveData = function(){
+		database.child("Popular").set("data");
+	}
+	
 
     // Angular service needs to return an object that has all the
     // methods created in it. You can consider that this is instead
