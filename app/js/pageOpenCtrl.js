@@ -34,6 +34,5 @@ phisancaApp.controller('pageOpenCtrl', function ($scope,$routeParams,Weather,uiG
 	    }
 
     });
-    Weather.weatherSearchWithCurrentLocation();
 
 });
