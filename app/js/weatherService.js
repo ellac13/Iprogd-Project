@@ -32,7 +32,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     }
 
     // Resource to communicate with dark sky api.
-    var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/6acbd836627174487a78deec700c2145/:lat,:lon", {}, {
+    var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/6acbd836627174487a78deec700c2145/:lat,:lon" + "?units=si", {}, {
         get: {
             headers:{
                 'Content-type': 'application/json'
