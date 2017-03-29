@@ -302,21 +302,14 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     //this.testGeolocation();
 
     //////////////////////////Map stuff below//////////////////////////
-    var weatherData = [[50.22, -2.244, "1", "images/weatherIcons/Cloud.png"],
-                 [56.3443, 7.99, "2", "images/weatherIcons/Sun.png"],
-                 [49.33, 7.9826, "3", "images/weatherIcons/Heavy Rain.png"],
-                 [60.9808, 12.3343, "4", "images/weatherIcons/Partly Cloudy Rain.png"]];
-
     var map = {
         center: {
             latitude: 59.332469,
             longitude: 18.065134 },
-            zoom: 3 };
-    var markers = [];
+            zoom: 3
+        };
 
-    this.getWeatherData = function(){
-        return weatherData;
-    }
+    var markers = [];
 
     this.setMap = function(m){
         map = m;
