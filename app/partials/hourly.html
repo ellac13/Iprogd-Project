@@ -6,10 +6,10 @@
 			<th style="width:30%;">Downfall</th>
 			<th style="width:30%;"></th>
 		</tr>
-		<tr>
-			<td>14:00</td>
+		<tr  ng-repeat="hour in hours">
+			<td>{{hour}}</td>
 			<td>Rain</td>
-			<td>8C</td>
+			<td>{{hourTemps[$index]}}</td>
 			<td>8mm</td>
 			<td></td>
 		</tr>

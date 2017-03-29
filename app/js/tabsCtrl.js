@@ -1,5 +1,5 @@
 
-phisancaApp.controller('TabsCtrl', function ($scope) {
+phisancaApp.controller('TabsCtrl', function ($scope, Weather) {
 	
 	$scope.tabs = [{title: 'Maps'}, {title: 'Hourly forecast'}, {title: 'Daily forecast'}];
 	
@@ -16,4 +16,7 @@ phisancaApp.controller('TabsCtrl', function ($scope) {
 			}
 		}
 	};
+	
+	$scope.hours = Weather.getHourlyTimes();
+	$scope.hourTemps = Weather.getHourlyTemps();
 });
