@@ -30,7 +30,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     }
   }
 
-  $scope.$watch('locationName', function() {
+  $scope.$watch('getLocationName()', function() {
     $scope.weather = Weather.getActiveWeatherData();
     $scope.updateWeather();
     $scope.setBar($scope.slider.value);
