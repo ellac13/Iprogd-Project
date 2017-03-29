@@ -45,6 +45,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var setWeather = function(lat, lon){
         findWeather.get({lat:lat,lon:lon}, function(data){
             activeWeatherData = data;
+            setHourlyWeather();
             updateMap();
             //console.log(data);
             console.log("Successfully set weather data for lat: " + lat + ", lon: " + lon);
@@ -53,11 +54,36 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         });
     }
 
+    ////////////////////// Current Weather /////////////////////////////
+
+    //The current time in index form
     var currentTimeIndex = 10;
 
-    var hourlyTimes =  ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00",
-      "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
-    var hourlyTemps = [13, 12, 13, 13, 14, 14, 16, 16, 17, 19, 11, 13, 13, 14, 13, 14, 14, 14, 13, 13, 19, 18, 16, 14];
+    //Sets temps and times for next 24 hours (half of all data read)
+    var setHourlyWeather = function() {
+      var hourlyData = activeWeatherData.hourly.data;
+      for (var i = 0; i < hourlyData.length / 2; i++) {
+        hourlyTemps[i] = hourlyData[i].temperature;
+        hourlyTimes[i] = getTime(hourlyData[i].time);
+      }
+    }
+
+    // Helper function to convert from UNIX to real time
+    var getTime = function(unixTime) {
+      var date = new Date(parseInt(unixTime)*1000);
+      // Hours part from the timestamp
+      var hours = "0" + date.getHours();
+      // Minutes part from the timestamp
+      var minutes = "0" + date.getMinutes();
+
+      // Will display time in 10:30 format
+      var time = hours.substr(-2) + ':' + minutes.substr(-2);
+      return time;
+    }
+
+    //Initial arrays of length 24
+    var hourlyTimes =  Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
+    var hourlyTemps = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
 
     this.getHourlyTimes = function() {
       return hourlyTimes;
@@ -69,6 +95,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     this.getCurrentTimeIndex = function() {
       return currentTimeIndex;
+    }
+
+    this.setCurrentTimeIndex = function(newValue) {
+      currentTimeIndex = newValue;
     }
 
     //User data
