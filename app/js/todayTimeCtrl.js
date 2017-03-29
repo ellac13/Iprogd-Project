@@ -85,7 +85,6 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
 
   $scope.initializeLabels = function() {
     $scope.labels.fill("");
-    alert($scope.times[0]);
     for (var i = 1; i < $scope.labels.length - 1; i++) {
       if (parseInt($scope.times[i].substr(0,2)) % 6 === 0) {
         $scope.labels[i] = $scope.times[i];
