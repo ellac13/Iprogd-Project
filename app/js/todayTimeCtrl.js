@@ -43,6 +43,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
         $scope.setBar(modelValue);
         Weather.setCurrentTimeIndex(modelValue);
       },
+      hidePointerLabels: true,
       hideLimitLabels: true
     }
   };
