@@ -8,6 +8,12 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
   //Used for button to stats, might be moved to other ctrl
   $scope.link = "stats";
 
+  $scope.times = Weather.getHourlyTimes();
+  $scope.labels = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
+  $scope.dates = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
+  $scope.bar = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
+  $scope.temps = [Weather.getHourlyTemps(), $scope.bar];
+
   $scope.getLocationName = function() {
     return Weather.getActiveAddress();
   }
@@ -27,6 +33,8 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
   $scope.$watch('locationName', function() {
     $scope.weather = Weather.getActiveWeatherData();
     $scope.updateWeather();
+    $scope.setBar($scope.slider.value);
+    $scope.initializeLabels();
   });
 
   $scope.updateWeather = function() {
@@ -38,7 +46,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     value: Weather.getCurrentTimeIndex(),
     options: {
       floor: 0,
-      ceil: 23,
+      ceil: 24,
       translate: function (value) {
                 return value + ":00";
       },
@@ -75,16 +83,19 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     return 0;
   }
 
-  $scope.times = Weather.getHourlyTimes();
-  $scope.labels = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
-  $scope.dates = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
-  for (var i = 0; i < $scope.labels.length; i+=6) {
-    $scope.labels[i] = $scope.times[i];
+  $scope.initializeLabels = function() {
+    $scope.labels.fill("");
+    alert($scope.times[0]);
+    for (var i = 1; i < $scope.labels.length - 1; i++) {
+      if (parseInt($scope.times[i].substr(0,2)) % 6 === 0) {
+        $scope.labels[i] = $scope.times[i];
+      }
+    }
+    $scope.labels[0] = $scope.times[0];
+    $scope.labels[$scope.labels.length-1] = $scope.times[$scope.labels.length-1];
   }
-  $scope.labels[$scope.labels.length-1] = $scope.times[$scope.labels.length-1];
 
-  $scope.bar = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
-  $scope.temps = [Weather.getHourlyTemps(), $scope.bar];
+
   $scope.datasetOverride = [
     {
       yAxisID: 'y-axis-1',
@@ -127,6 +138,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     animation: false
   };
 
+  $scope.initializeLabels();
   $scope.setBar($scope.slider.value);
 
 });
