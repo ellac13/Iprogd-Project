@@ -57,7 +57,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     ////////////////////// Current Weather /////////////////////////////
 
     //The current time in index form
-    var currentTimeIndex = 10;
+    var currentTimeIndex = 0;
 
     //Sets temps and times for next 24 hours (half of all data read)
     var setHourlyWeather = function() {
