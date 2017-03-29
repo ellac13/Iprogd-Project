@@ -109,6 +109,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       return hourlyFeels;
     }
 
+    this.getHourlyIcons = function() {
+      return hourlyIcons;
+    }
+
+
     this.getCurrentTimeIndex = function() {
       return currentTimeIndex;
     }

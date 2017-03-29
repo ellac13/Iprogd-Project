@@ -9,9 +9,21 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
   $scope.bar = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
   $scope.temps = [Weather.getHourlyTemps(), $scope.bar];
   $scope.feels = Weather.getHourlyFeels();
+  $scope.iconLoaded = false;
+  
 
   $scope.getLocationName = function() {
     return Weather.getActiveAddress();
+  }
+
+  $scope.getCurrentIcon = function(){
+    var icon = Weather.getHourlyIcons()[Weather.getCurrentTimeIndex()];
+    if(icon.length < 1){
+      $scope.iconLoaded = false;
+      return "";
+    }
+    $scope.iconLoaded = true;
+    return "images/weatherIcons/" + icon + ".png";
   }
 
   $scope.toggleFavourite = function(address){

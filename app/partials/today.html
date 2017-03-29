@@ -19,9 +19,7 @@
     </div>
   </div>
   <div id="currentWeatherRow2" class="currentWeather">
-    <div class="currentWeatherElement" style="text-align:left">
-      &#9728;
-    </div>
+    <img  style="text-align:left;width:70px;height:70px" ng-show="iconLoaded" ng-src="{{getCurrentIcon()}}">
     <div class="currentWeatherElement" style="text-align:right">
       {{dates[slider.value]}}
     </div>
