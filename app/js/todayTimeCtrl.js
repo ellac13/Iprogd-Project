@@ -40,6 +40,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
   $scope.updateWeather = function() {
     $scope.temps[0] = Weather.getHourlyTemps();
     $scope.labels = Weather.getHourlyTimes();
+    $scope.dates = Weather.getHourlyDates();
   }
 
   $scope.slider = {

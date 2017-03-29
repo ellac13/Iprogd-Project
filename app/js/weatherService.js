@@ -65,6 +65,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       for (var i = 0; i < hourlyData.length / 2; i++) {
         hourlyTemps[i] = hourlyData[i].temperature;
         hourlyTimes[i] = getTime(hourlyData[i].time);
+        hourlyDates[i] = getDate(hourlyData[i].time);
       }
     }
 
@@ -81,9 +82,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       return time;
     }
 
+    var getDate = function(unixTime) {
+      var date = new Date(parseInt(unixTime)*1000);
+      var formatDate = date.getDate() + "/" + (date.getMonth() + 1);
+      return formatDate;
+    }
+
     //Initial arrays of length 24
-    var hourlyTimes =  Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
+    var hourlyTimes = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
     var hourlyTemps = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
+    var hourlyDates = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
 
     this.getHourlyTimes = function() {
       return hourlyTimes;
@@ -95,6 +103,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     this.getCurrentTimeIndex = function() {
       return currentTimeIndex;
+    }
+
+    this.getHourlyDates = function() {
+      return hourlyDates;
     }
 
     this.setCurrentTimeIndex = function(newValue) {
@@ -406,13 +418,13 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     });
 
 	///////////////////Firebase Storage////////////////////////////////
-	
+
 	var database = firebase.database().ref();
-	
+
 	this.saveData = function(){
 		database.child("Popular").set("data");
 	}
-	
+
 
     // Angular service needs to return an object that has all the
     // methods created in it. You can consider that this is instead

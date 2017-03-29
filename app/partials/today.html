@@ -14,15 +14,20 @@
     {{formatHour(slider.value)}}
   </div> -->
 
-  <div id="currentWeather" class="currentWeather">
+  <div id="currentWeatherRow1" class="currentWeather">
     <div class="currentWeatherElement">
       {{temps[0][slider.value] | number:0}}&deg;C
     </div>
-    <div class="currentWeatherElement" style="text-align:center">
+    <div class="currentWeatherElement" style="text-align:right">
+      {{labels[slider.value]}}
+    </div>
+  </div>
+  <div id="currentWeatherRow2" class="currentWeather">
+    <div class="currentWeatherElement" style="text-align:left">
       &#9728;
     </div>
     <div class="currentWeatherElement" style="text-align:right">
-      {{labels[slider.value]}}
+      {{dates[slider.value]}}
     </div>
   </div>
 
