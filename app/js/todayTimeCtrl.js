@@ -3,6 +3,10 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
 
   $scope.locationName = Weather.getActiveAddress();
   $scope.favourites = Weather.getUserFavouriteLocations();
+  $scope.weather = Weather.getActiveWeatherData();
+
+  //Used for button to stats, might be moved to other ctrl
+  $scope.link = "stats";
 
   $scope.getLocationName = function() {
     return Weather.getActiveAddress();
@@ -13,7 +17,6 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
   }
 
   $scope.isFavourite = function(){
-
     if(!$scope.favourites.includes($scope.getLocationName())){
       return "";
     }else{
@@ -21,8 +24,15 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     }
   }
 
-  //Used for button to stats, might be moved to other ctrl
-  $scope.link = "stats";
+  $scope.$watch('locationName', function() {
+    $scope.weather = Weather.getActiveWeatherData();
+    $scope.updateWeather();
+  });
+
+  $scope.updateWeather = function() {
+    $scope.temps[0] = Weather.getHourlyTemps();
+    $scope.labels = Weather.getHourlyTimes();
+  }
 
   $scope.slider = {
     value: Weather.getCurrentTimeIndex(),
@@ -34,14 +44,16 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
       },
       onChange: function(sliderId, modelValue, highValue, pointerType) {
         $scope.setBar(modelValue);
+        Weather.setCurrentTimeIndex(modelValue);
       },
       hideLimitLabels: true
     }
   };
 
+  // Sets the "current time" bar in the chart
   $scope.setBar = function(value) {
     $scope.temps[1] = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
-    $scope.temps[1][$scope.getHourIndex(value)] = $scope.temps[0][value];
+    $scope.temps[1][value] = $scope.temps[0][value];
   }
 
   $scope.formatHour = function(hour) {
@@ -64,8 +76,8 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
   }
 
   $scope.times = Weather.getHourlyTimes();
-
   $scope.labels = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
+  $scope.dates = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
   for (var i = 0; i < $scope.labels.length; i+=6) {
     $scope.labels[i] = $scope.times[i];
   }
