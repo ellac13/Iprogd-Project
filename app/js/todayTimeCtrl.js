@@ -13,6 +13,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
   $scope.dates = Array.apply(null, Array($scope.times.length)).map(String.prototype.valueOf,"");
   $scope.bar = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
   $scope.temps = [Weather.getHourlyTemps(), $scope.bar];
+  $scope.feels = Weather.getHourlyFeels();
 
   $scope.getLocationName = function() {
     return Weather.getActiveAddress();
@@ -41,6 +42,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather) {
     $scope.temps[0] = Weather.getHourlyTemps();
     $scope.labels = Weather.getHourlyTimes();
     $scope.dates = Weather.getHourlyDates();
+    $scope.feels = Weather.getHourlyFeels();
   }
 
   $scope.slider = {

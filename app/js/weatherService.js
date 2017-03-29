@@ -64,6 +64,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       var hourlyData = activeWeatherData.hourly.data;
       for (var i = 0; i < hourlyData.length / 2; i++) {
         hourlyTemps[i] = hourlyData[i].temperature;
+        hourlyFeels[i] = hourlyData[i].apparentTemperature;
         hourlyTimes[i] = getTime(hourlyData[i].time);
         hourlyDates[i] = getDate(hourlyData[i].time);
       }
@@ -90,8 +91,9 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     //Initial arrays of length 24
     var hourlyTimes = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
-    var hourlyTemps = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
     var hourlyDates = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
+    var hourlyTemps = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
+    var hourlyFeels = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
 
     this.getHourlyTimes = function() {
       return hourlyTimes;
@@ -99,6 +101,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     this.getHourlyTemps = function() {
       return hourlyTemps;
+    }
+
+    this.getHourlyFeels = function() {
+      return hourlyFeels;
     }
 
     this.getCurrentTimeIndex = function() {
