@@ -99,6 +99,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     this.setCurrentTimeIndex = function(newValue) {
       currentTimeIndex = newValue;
+      updateMap();
     }
 
     //User data
@@ -353,7 +354,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         markers = [];
         //TODO: get the correct weather icon.
 
-        model.addMarker([model.getActiveLat(), model.getActiveLng(), model.getActiveWeatherData().currently.temperature, "images/weatherIcons/Cloud.png"]);
+        model.addMarker([model.getActiveLat(),
+                        model.getActiveLng(),
+                        hourlyTemps[currentTimeIndex]/*model.getActiveWeatherData().currently.temperature*/,
+                        "images/weatherIcons/Cloud.png"]);
         createRandomMarkers();
     }
 
