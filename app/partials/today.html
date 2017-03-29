@@ -16,7 +16,7 @@
 
   <div id="currentWeather" class="currentWeather">
     <div class="currentWeatherElement">
-      {{temps[0][slider.value]}}&deg;C
+      {{temps[0][slider.value] | number:0}}&deg;C
     </div>
     <div class="currentWeatherElement" style="text-align:center">
       &#9728;
