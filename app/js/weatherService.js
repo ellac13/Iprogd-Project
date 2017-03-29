@@ -67,6 +67,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         hourlyFeels[i] = hourlyData[i].apparentTemperature;
         hourlyTimes[i] = getTime(hourlyData[i].time);
         hourlyDates[i] = getDate(hourlyData[i].time);
+        hourlyIcons[i] = hourlyData[i].icon;
       }
     }
 
@@ -94,6 +95,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var hourlyDates = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
     var hourlyTemps = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
     var hourlyFeels = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
+    var hourlyIcons = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
 
     this.getHourlyTimes = function() {
       return hourlyTimes;
@@ -349,6 +351,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         var latitude = markerData[0];
         var longitude = markerData[1];
 
+        //Remove decimals...
+        var temp = String(markerData[2]);
+        temp = temp.slice(0, temp.indexOf("."));
+
         var ret = {
             latitude: latitude,
             longitude: longitude,
@@ -362,7 +368,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             options: {
                 labelClass:'marker_labels',
                 labelAnchor:'-30 40',
-                labelContent: markerData[2] + "°"
+                labelContent: temp + "°"
             }
         };
       markers.push(ret);
@@ -370,12 +376,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     var updateMap = function(){
         markers = [];
-        //TODO: get the correct weather icon.
 
         model.addMarker([model.getActiveLat(),
                         model.getActiveLng(),
-                        hourlyTemps[currentTimeIndex]/*model.getActiveWeatherData().currently.temperature*/,
-                        "images/weatherIcons/Cloud.png"]);
+                        hourlyTemps[currentTimeIndex],
+                        "images/weatherIcons/" + hourlyIcons[currentTimeIndex] + ".png"]);
         createRandomMarkers();
     }
 
