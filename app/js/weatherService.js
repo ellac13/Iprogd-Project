@@ -32,8 +32,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     }
 
     // Resource to communicate with dark sky api.
-    //var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/6acbd836627174487a78deec700c2145/:lat,:lon" + "?units=si", {}, {
-    var findWeather = $resource("http://83.251.29.83:60000/myproxy/myproxy.php?lat=:lat&lon=:lon" + "&units=si", {}, {
+    var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/46ad276033757de21e86eb848ca1cff6/:lat,:lon" + "?units=si", {}, {
+    //var findWeather = $resource("http://83.251.29.83:60000/myproxy/myproxy.php?lat=:lat&lon=:lon" + "&units=si", {}, {
         get: {
             headers:{
                 'Content-type': 'application/json'
@@ -48,8 +48,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             activeWeatherData = data;
             setHourlyWeather();
 			setDailyWeather();
+            fetchSurroundingData();
             updateMap();
-            //createSurroundingMarkers();
             //console.log(data);
             console.log("Successfully set weather data for lat: " + lat + ", lon: " + lon);
         }, function(data){
@@ -406,8 +406,12 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         var longitude = markerData[1];
 
         //Remove decimals...
-        var temp = String(markerData[2]);
-        temp = temp.slice(0, temp.indexOf("."));
+        var temp = markerData[2];
+        if(temp%1 > 1/2){
+            temp = parseInt(temp) + 1;
+        } else {
+            temp = parseInt(temp);
+        }
 
         var ret = {
             latitude: latitude,
@@ -440,20 +444,19 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                         hourlyTemps[currentTimeIndex],
                         "images/weatherIcons/" + hourlyIcons[currentTimeIndex] + ".png"]);
         //Add surrounding markers
-        /*var surrLocs = ["n", "s", "w", "e"];
-        for(var i = 0; i<surrLocs.length; i++){
-            if(surrHourlyIcons[surrLocs[i]][currentTimeIndex] === "") continue;
-            model.addMarker([surrLocations[surrLocs[i]].lat,
-                        surrLocations[surrLocs[i]].lon,
-                        surrHourlyTemps[surrLocs[i]][currentTimeIndex],
-                        "images/weatherIcons/" + surrHourlyIcons[surrLocs[i]][currentTimeIndex] + ".png"]);
-        }*/
+        for(loc in surrLocations){
+            if(!surrLocations[loc].usable) continue;
+            model.addMarker([surrLocations[loc].lat,
+                        surrLocations[loc].lon,
+                        surrHourlyTemps[loc][currentTimeIndex],
+                        "images/weatherIcons/" + surrHourlyIcons[loc][currentTimeIndex] + ".png"]);
+        }
     }
 
-    var surrLocations = {n: {lat:0, lon:0},
-                         s: {lat:0, lon:0},
-                         w: {lat:0, lon:0},
-                         e: {lat:0, lon:0}
+    var surrLocations = {n: {usable: false, lat:0, lon:0},
+                         s: {usable: false, lat:0, lon:0},
+                         w: {usable: false, lat:0, lon:0},
+                         e: {usable: false, lat:0, lon:0}
                         }
 
     var surrHourlyTemps = {n: Array.apply(null, Array(24)).map(Number.prototype.valueOf,0),
@@ -465,23 +468,32 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                            w: Array.apply(null, Array(24)).map(String.prototype.valueOf,""),
                            e: Array.apply(null, Array(24)).map(String.prototype.valueOf,"")};
 
+    //Saves the fetched weather data and adds a marker.
     var setSurroundingHourlyWeather = function(sWeatherData, pos) {
-      var hourlyData = sWeatherData.hourly.data;
-      for (var i = 0; i < hourlyData.length / 2; i++) {
+        var hourlyData = sWeatherData.hourly.data;
+        for (var i = 0; i < hourlyData.length / 2; i++) {
         surrHourlyTemps[pos][i] = hourlyData[i].temperature;
         surrHourlyIcons[pos][i] = hourlyData[i].icon;
-      }
-      //Save locations
-      surrLocations[pos].lat = sWeatherData.latitude;
-      surrLocations[pos].lon = sWeatherData.longitude;
-      //Add the marker...
-      model.addMarker([sWeatherData.latitude,
+        }
+        //Save locations
+        surrLocations[pos].lat = sWeatherData.latitude;
+        surrLocations[pos].lon = sWeatherData.longitude;
+        surrLocations[pos].usable = true;
+        //Add the marker...
+        model.addMarker([sWeatherData.latitude,
                         sWeatherData.longitude,
                         surrHourlyTemps[pos][currentTimeIndex],
                         "images/weatherIcons/" + surrHourlyIcons[pos][currentTimeIndex] + ".png"]);
     }
 
-    var createSurroundingMarkers = function(){
+    // Fetches weather data for the locations surrounding the current location
+    // and saves it.
+    var fetchSurroundingData = function(){
+        //Begin with marking old data as old...
+        for(loc in surrLocations){
+            surrLocations[loc].usable = false;
+        }
+
         var cLat = model.getActiveLat();
         var cLon = model.getActiveLng();
         var surrCoords = [{pos: "n", lat: cLat+0.3,lon: cLon},
