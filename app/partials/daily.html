@@ -1,16 +1,16 @@
-	<table ng-controller="TodayTimeCtrl">
+	<table class="tabsTable" ng-controller="TodayTimeCtrl">
 		<tr>
-			<th style="width:30%;">Day</th>
-			<th style="width:50%;">Weather</th>
-			<th style="width:30%;">Degrees</th>
+			<th class="tabsTableData">Day</th>
+			<th class="tabsTableData">Weather</th>
+			<th class="tabsTableData">Degrees</th>
 			<!--<th style="width:30%;">Downfall</th>-->
 		</tr>
 		<tr ng-repeat="day in days track by $index">
-			<td>{{day}}</td>
-			<td>
-				<img  style="text-align:left;width:70px;height:70px" ng-show="iconLoaded" ng-src="{{getIconsDaily($index)}}">
+			<td class="tabsTableData">{{day}}</td>
+			<td class="tabsTableData">
+				<img  style="text-align:left;width:35px;height:35px" ng-show="iconLoaded" ng-src="{{getIconsDaily($index)}}">
 			</td>
-			<td>{{dailyTemps[$index]| number:0}}&deg;C</td>
+			<td class="tabsTableData">{{dailyTemps[$index]| number:0}}&deg;C</td>
 			<!--<td>0mm</td>-->
 		</tr>
 	</table>
