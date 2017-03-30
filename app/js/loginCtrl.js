@@ -42,18 +42,37 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   };
 
   $scope.registerButton = function(ev) {
-    $mdDialog.show({
-      controller: DialogController,
-      templateUrl: 'partials/registerDialog.html',
-      parent: angular.element(document.body),
-      targetEvent: ev,
-      clickOutsideToClose:true,
-      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-    })
-    .then(function() {
-    });
+    if($scope.user === null){
+		$mdDialog.show({
+		controller: DialogController,
+		templateUrl: 'partials/registerDialog.html',
+		parent: angular.element(document.body),
+		targetEvent: ev,
+		clickOutsideToClose:true,
+		fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	}).then(function() {
+	});
+	}else{
+		$mdDialog.show({
+		controller: SettingsController,
+		templateUrl: 'partials/settingsDialog.html',
+		parent: angular.element(document.body),
+		targetEvent: ev,
+		clickOutsideToClose:true,
+		fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	}).then(function() {
+	});
+	}
   };
 
+  $scope.checkUser = function(){
+	if($scope.user === null){
+		return 'Register';
+	}else{
+		return 'Settings';
+	}
+  }
+  
   $scope.settingsButton = function(ev) {
     $mdDialog.show({
       controller: SettingsController,

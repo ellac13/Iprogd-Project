@@ -2,7 +2,7 @@
   <div class="col-md-5">
     <h1>Phisanca</h1>
   </div>
-  <div class="col-md-5 login" ng-hide="user" ng-cloak>
+  <div class="col-md-6 login" ng-hide="user" ng-cloak>
     <div class="logininput">
       <input id="username" ng-change="usernameChanged()" type="text" ng-class='{redplaceholder : noUsername, greyplaceholder: !noUsername}' class="form-control" placeholder="{{usernamePlaceholder}}" ng-model="username">
     </div>
@@ -18,9 +18,6 @@
     <button class="btn btn-default loginbutton" type="button" ng-click="logout()">Log out</button>
   </div>
   <div class="col-md-1 headerbutton" ng-click="registerButton($event)">
-    <h4>Register</h4>
-  </div>
-  <div class="col-md-1 pointer headerbutton" ng-click="settingsButton($event)">
-    <h4>Settings</h4>
+    <h4>{{checkUser()}}</h4>
   </div>
 </div>
