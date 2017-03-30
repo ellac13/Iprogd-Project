@@ -72,7 +72,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         hourlyIcons[i] = hourlyData[i].icon;
       }
     }
-	
+
 		//Daily data
 	var setDailyWeather = function(){
 		var dailyData = activeWeatherData.daily.data;
@@ -101,7 +101,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       var formatDate = date.getDate() + "/" + (date.getMonth() + 1);
       return formatDate;
     }
-	
+
 	var getDay = function(unixTime){
 		var day = new Date(parseInt(unixTime)*1000);
 		var format = day.getDay();
@@ -131,12 +131,12 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var hourlyFeels = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
     var hourlyIcons = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
 
-	
+
 	var dailyDate = Array.apply(null, Array(8)).map(String.prototype.valueOf,"");
 	var dailyTemp = Array.apply(null, Array(8)).map(String.prototype.valueOf,"");
 	var dailyWeather = Array.apply(null, Array(8)).map(String.prototype.valueOf,"");
-	
-	
+
+
     this.getHourlyTimes = function() {
       return hourlyTimes;
     }
@@ -153,20 +153,20 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       return hourlyIcons;
     }
 
-	
+
 	this.getDailyDate = function(){
 		return dailyDate;
 	}
-	
+
 	this.getDailyTemp = function(){
 		return dailyTemp;
 	}
-	
+
 	this.getDailyWeather = function(){
 		return dailyWeather;
 	}
 
-	
+
     this.getCurrentTimeIndex = function() {
       return currentTimeIndex;
     }
@@ -179,7 +179,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       currentTimeIndex = newValue;
       updateMap();
     }
-	
+
     //User data
 
     var currentUser;
@@ -474,8 +474,18 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         });
     }
 
-    this.updatePwd = function(pwd, scope, errorfunc) {
-      //TODO
+    this.updatePwd = function(oldPwd, pwd, scope, successfunc, errorfunc) {
+      var credential = firebase.auth.EmailAuthProvider.credential(currentUser.email, oldPwd);
+      auth.$signInWithCredential(credential).then(function(firebaseUser) {
+        auth.$updatePassword(pwd).then(function() {
+          successfunc(scope);
+          console.log("Password changed successfully!");
+        }).catch(function(error) {
+          errorfunc(error, scope);
+        });
+      }).catch(function(error) {
+        errorfunc(error, scope);
+      });
     }
 
     this.logout = function() {
