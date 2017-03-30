@@ -1,5 +1,4 @@
 <md-dialog flex="20">
-  <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools" style="background-color:black">
         <h2>Change account settings</h2>
@@ -13,34 +12,38 @@
 
     <md-dialog-content>
       <div class="md-dialog-content">
-        <h3>Change Password</h3>
-        <div class="settingsInput">
-          Old password:
-          <input id="oldPwd" type="password" class="form-control" placeholder="password" ng-model="oldPwd">
-        </div>
-        <div class="settingsInput">
-          New password:
-          <input id="newPwd" type="password" class="form-control" placeholder="password" ng-model="newPwd">
-        </div>
-        <div class="settingsInput">
-          Repeat new password:
-          <input id="newPwd2" type="password" class="form-control" placeholder="password" ng-model="newPwd2">
-        </div>
-        <div ng-class="{invisible:pwdError==='no', errortext:pwdError==='error', successtext:pwdError==='success'}">
-          {{pwdStatus}}
-        </div>
-        <button class="btn btn-default" style="margin-top:2%" type="button" ng-click="updatePwd(oldPwd, newPwd, newPwd2)">Update Password</button>
+        <form ng-cloak ng-submit="updatePwd(oldPwd, newPwd, newPwd2)">
+          <h3>Change Password</h3>
+          <div class="settingsInput">
+            Old password:
+            <input id="oldPwd" type="password" class="form-control" placeholder="password" ng-model="oldPwd">
+          </div>
+          <div class="settingsInput">
+            New password:
+            <input id="newPwd" type="password" class="form-control" placeholder="password" ng-model="newPwd">
+          </div>
+          <div class="settingsInput">
+            Repeat new password:
+            <input id="newPwd2" type="password" class="form-control" placeholder="password" ng-model="newPwd2">
+          </div>
+          <div ng-class="{invisible:pwdError==='no', errortext:pwdError==='error', successtext:pwdError==='success'}">
+            {{pwdStatus}}
+          </div>
+          <button class="btn btn-default" style="margin-top:2%" type="submit">Update Password</button>
+        </form>
         <hr>
 
-        <h3>Change Username</h3>
-        <div class="settingsInput">
-          New username:
-          <input id="newUsername" type="text" class="form-control" placeholder="username" ng-model="newUsername">
-        </div>
-        <div ng-class="{invisible:usernameError==='no', errortext:usernameError==='error', successtext:usernameError==='success'}">
-          {{usernameStatus}}
-        </div>
-        <button class="btn btn-default" style="margin-top:2%" type="button" ng-click="updateUsername(newUsername)">Update Username</button>
+        <form ng-cloak ng-submit="updateUsername(newUsername)">
+          <h3>Change Username</h3>
+          <div class="settingsInput">
+            New username:
+            <input id="newUsername" type="text" class="form-control" placeholder="username" ng-model="newUsername">
+          </div>
+          <div ng-class="{invisible:usernameError==='no', errortext:usernameError==='error', successtext:usernameError==='success'}">
+            {{usernameStatus}}
+          </div>
+          <button class="btn btn-default" style="margin-top:2%" type="submit">Update Username</button>
+        </form>
         <hr>
       </div>
     </md-dialog-content>
@@ -50,5 +53,4 @@
         Close
       </md-button>
     </md-dialog-actions>
-  </form>
 </md-dialog>
