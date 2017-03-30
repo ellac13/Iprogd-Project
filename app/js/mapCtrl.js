@@ -1,4 +1,4 @@
-phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,Weather,$interval) {
+phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,Weather,$interval,$location) {
     Weather.setMap(
         {
             center: {
@@ -15,7 +15,8 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,We
                 dblclick: function(mapModel, eventName, originalEventArgs, $rootScope) {
                         var clickedLat = originalEventArgs[0].latLng.lat();
                         var clickedLon = originalEventArgs[0].latLng.lng();
-                        Weather.updateLocationWithCoordinates(clickedLat, clickedLon, $scope);
+                        //Weather.updateLocationWithCoordinates(clickedLat, clickedLon, $scope);
+                        $location.url('?lat=' + clickedLat + '&lng=' + clickedLon);
                         var tempMap = Weather.getMap();
                         tempMap.zoom = 8;
                         Weather.setMap(tempMap);
