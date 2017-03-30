@@ -8,14 +8,17 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,We
             zoom: 8,
             options:{
                 streetViewControl: false,
-                mapTypeControl: false
+                mapTypeControl: false,
+                disableDoubleClickZoom: true
                 },
             events: {
                 dblclick: function(mapModel, eventName, originalEventArgs, $rootScope) {
-                    var clickedLat = originalEventArgs[0].latLng.lat();
-                    var clickedLon = originalEventArgs[0].latLng.lng();
-                    Weather.updateLocationWithCoordinates(clickedLat, clickedLon, $scope);
-
+                        var clickedLat = originalEventArgs[0].latLng.lat();
+                        var clickedLon = originalEventArgs[0].latLng.lng();
+                        Weather.updateLocationWithCoordinates(clickedLat, clickedLon, $scope);
+                        var tempMap = Weather.getMap();
+                        tempMap.zoom = 8;
+                        Weather.setMap(tempMap);
                     }
                 }
         }
