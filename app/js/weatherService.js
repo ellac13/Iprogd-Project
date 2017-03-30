@@ -49,6 +49,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             setHourlyWeather();
 			setDailyWeather();
             updateMap();
+            //createSurroundingMarkers();
             //console.log(data);
             console.log("Successfully set weather data for lat: " + lat + ", lon: " + lon);
         }, function(data){
@@ -433,12 +434,27 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         map.center = {latitude: model.getActiveLat(),
                       longitude: model.getActiveLng()}
 
+        //Add middle marker
         model.addMarker([model.getActiveLat(),
                         model.getActiveLng(),
                         hourlyTemps[currentTimeIndex],
                         "images/weatherIcons/" + hourlyIcons[currentTimeIndex] + ".png"]);
-        createSurroundingMarkers();
+        //Add surrounding markers
+        /*var surrLocs = ["n", "s", "w", "e"];
+        for(var i = 0; i<surrLocs.length; i++){
+            if(surrHourlyIcons[surrLocs[i]][currentTimeIndex] === "") continue;
+            model.addMarker([surrLocations[surrLocs[i]].lat,
+                        surrLocations[surrLocs[i]].lon,
+                        surrHourlyTemps[surrLocs[i]][currentTimeIndex],
+                        "images/weatherIcons/" + surrHourlyIcons[surrLocs[i]][currentTimeIndex] + ".png"]);
+        }*/
     }
+
+    var surrLocations = {n: {lat:0, lon:0},
+                         s: {lat:0, lon:0},
+                         w: {lat:0, lon:0},
+                         e: {lat:0, lon:0}
+                        }
 
     var surrHourlyTemps = {n: Array.apply(null, Array(24)).map(Number.prototype.valueOf,0),
                            s: Array.apply(null, Array(24)).map(Number.prototype.valueOf,0),
@@ -455,6 +471,9 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         surrHourlyTemps[pos][i] = hourlyData[i].temperature;
         surrHourlyIcons[pos][i] = hourlyData[i].icon;
       }
+      //Save locations
+      surrLocations[pos].lat = sWeatherData.latitude;
+      surrLocations[pos].lon = sWeatherData.longitude;
       //Add the marker...
       model.addMarker([sWeatherData.latitude,
                         sWeatherData.longitude,
@@ -463,8 +482,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     }
 
     var createSurroundingMarkers = function(){
-        var cLat = map.center.latitude;
-        var cLon = map.center.longitude;
+        var cLat = model.getActiveLat();
+        var cLon = model.getActiveLng();
         var surrCoords = [{pos: "n", lat: cLat+0.3,lon: cLon},
                           {pos: "s", lat: cLat-0.3,lon: cLon},
                           {pos: "e", lat: cLat,lon: cLon+0.5},
