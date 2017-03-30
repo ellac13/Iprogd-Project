@@ -99,6 +99,12 @@
 	margin-top: 3%;
 }
 
+.successtext {
+	color:green;
+	text-align: center;
+	margin-top: 3%;
+}
+
 .redplaceholder::-webkit-input-placeholder {
 	color: red;
 }
@@ -126,17 +132,34 @@
 	margin-top: 4%;
 }
 
-.tabs{
-	margin-top:5%;
-	margin-left:5%;
-	margin-right:5%;
+.listButtons{
+	width: 100%;
+}
 
+.tabsTable{
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
 }
 
 .tabsTableData{
-	padding:2%;
-	margin:2%;
+	border: 1px solid transparent;
+	text-align: center;
 }
+
+.tabs{
+	margin-top:5%;
+	margin-left:5%;
+}
+
+.rzslider .rz-pointer {
+  background-color: black !important;
+}
+
+.rzslider .rz-bar {
+  background-color: lightgrey !important;
+}
+
 
 .marker_labels{
 	color: black;

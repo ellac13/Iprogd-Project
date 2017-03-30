@@ -42,18 +42,37 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   };
 
   $scope.registerButton = function(ev) {
-    $mdDialog.show({
-      controller: DialogController,
-      templateUrl: 'partials/registerDialog.html',
-      parent: angular.element(document.body),
-      targetEvent: ev,
-      clickOutsideToClose:true,
-      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-    })
-    .then(function() {
-    });
+    if($scope.user === null){
+		$mdDialog.show({
+		controller: DialogController,
+		templateUrl: 'partials/registerDialog.html',
+		parent: angular.element(document.body),
+		targetEvent: ev,
+		clickOutsideToClose:true,
+		fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	}).then(function() {
+	});
+	}else{
+		$mdDialog.show({
+		controller: SettingsController,
+		templateUrl: 'partials/settingsDialog.html',
+		parent: angular.element(document.body),
+		targetEvent: ev,
+		clickOutsideToClose:true,
+		fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	}).then(function() {
+	});
+	}
   };
 
+  $scope.checkUser = function(){
+	if($scope.user === null){
+		return 'Register';
+	}else{
+		return 'Settings';
+	}
+  }
+  
   $scope.settingsButton = function(ev) {
     $mdDialog.show({
       controller: SettingsController,
@@ -113,7 +132,8 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   function SettingsController($scope, $mdDialog) {
     $scope.pwdStatus = "Error placeholder";
     $scope.usernameStatus = "Error placeholder";
-    $scope.error = true;    //Should be false
+    $scope.pwdError = "no";
+    $scope.usernameError = true;
 
     $scope.hide = function() {
       $mdDialog.hide();
@@ -128,16 +148,23 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
     };
 
     $scope.updatePwd = function(oldPwd, newPwd, newPwd2) {
-      //TODO: Check newPwd === newPwd2, check oldPwd
-      $scope.error = false;
+      $scope.pwdError = "no";
       $scope.oldPwd = "";
       $scope.newPwd = "";
       $scope.newPwd2 = "";
-      Weather.updatePwd(newPwd, $scope, function(error, scope) {
-          scope.error = true;
-          scope.pwdStatus = error;
-          console.error("Error: ", error);
-      });
+      if (newPwd === newPwd2) {
+        Weather.updatePwd(oldPwd, newPwd, $scope, function(scope) {
+          scope.pwdError = "success";
+          scope.pwdStatus = "Password successfully changed";
+        }, function(error, scope) {
+            scope.pwdError = "error";
+            scope.pwdStatus = error;
+            console.error("Error: ", error);
+        });
+      } else {
+        $scope.pwdError = "error";
+        $scope.pwdStatus = "Error: The passwords must be identical";
+      }
     };
 
     $scope.updateUsername = function(newUsername) {

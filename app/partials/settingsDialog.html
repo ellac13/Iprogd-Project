@@ -21,7 +21,7 @@
           Repeat new password:
           <input id="newPwd2" type="password" class="form-control" placeholder="password" ng-model="newPwd2">
         </div>
-        <div ng-class="{invisible:!error, visible:error}" class="errortext">
+        <div ng-class="{invisible:pwdError==='no', errortext:pwdError==='error', successtext:pwdError==='success'}">
           {{pwdStatus}}
         </div>
         <button class="btn btn-default" style="margin-top:2%" type="button" ng-click="updatePwd(oldPwd, newPwd, newPwd2)">Update Password</button>
@@ -32,7 +32,7 @@
           New username:
           <input id="newUsername" type="text" class="form-control" placeholder="username" ng-model="newUsername">
         </div>
-        <div ng-class="{invisible:!error, visible:error}" class="errortext">
+        <div ng-class="{invisible:!usernameError, visible:usernameError}" class="errortext">
           {{usernameStatus}}
         </div>
         <button class="btn btn-default" style="margin-top:2%" type="button" ng-click="updateUsername(newUsername)">Update Username</button>

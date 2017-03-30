@@ -29,12 +29,10 @@
     Feels like {{feels[slider.value] | number:0}}&deg;C
   </div>
 
-  <canvas id="line" class="chart chart-bar" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>
+  <canvas id="line" class="chart chart-bar" chart-colors="colors" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>
 
-  <div id="currentTime">
-    <rzslider
-         rz-slider-model="slider.value"
-         rz-slider-options="slider.options"></rzslider>
+  <div>
+    <rzslider id="currentTimeSlider" rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
   </div>
 
 </div>
