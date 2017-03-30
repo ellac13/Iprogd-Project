@@ -7,6 +7,8 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   $scope.username = "";
   $scope.pwd = "";
 
+  $scope.error = "";
+
   $scope.noUsername = false;        //An empty username was sent
   $scope.noPwd = false;             //An empty pwd was sent
 
@@ -18,28 +20,29 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   });
 
   $scope.login = function (u, pwd) {
+    $scope.error = "";
 		if (u === "") {
-      $scope.usernamePlaceholder = "Enter a username";
-      $scope.noUsername = true;
+      $scope.error = "No email entered";
     } else if (pwd === "") {
-      $scope.pwdPlaceholder = "Enter a password";
-      $scope.noPwd = true;
+      $scope.error = "No password entered";
     } else {
-      Weather.login(u, pwd, function(error) {
-        alert("Authentication failed: " + error);
+      Weather.login(u, pwd, $scope, function(error, scope) {
+        scope.error = error;
+        scope.username = "";
+        scope.pwd = "";
       });
     }
 	};
 
-  $scope.usernameChanged = function() {
-    $scope.noUsername = false;
-    $scope.usernamePlaceholder = "username";
-  };
-
-  $scope.pwdChanged = function() {
-    $scope.noPwd = false;
-    $scope.pwdPlaceholder = "password";
-  };
+  // $scope.usernameChanged = function() {
+  //   $scope.noUsername = false;
+  //   $scope.usernamePlaceholder = "username";
+  // };
+  //
+  // $scope.pwdChanged = function() {
+  //   $scope.noPwd = false;
+  //   $scope.pwdPlaceholder = "password";
+  // };
 
   $scope.registerButton = function(ev) {
     if($scope.user === null){

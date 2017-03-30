@@ -62,8 +62,13 @@
 .login {
   display: flex;
 	flex-direction: row;
-	align-items: flex-end;
+	align-items: center;
 	margin-bottom: 0.5%;
+}
+
+.loginerror {
+  flex-grow: 1;
+	color:red;
 }
 
 .logininput {

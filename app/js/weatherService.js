@@ -509,11 +509,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       return auth;
     }
 
-    this.login = function(email, pwd, errorfunc) {
+    this.login = function(email, pwd, scope, errorfunc) {
       auth.$signInWithEmailAndPassword(email, pwd).then(function(firebaseUser) {
         console.log("Signed in as: ", firebaseUser.uid);
       }).catch(function(error) {
-        errorfunc(error);
+        errorfunc(error, scope);
         console.error("Authentication failed:", error);
       });
     }
