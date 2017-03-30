@@ -72,7 +72,7 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
 		return 'Settings';
 	}
   }
-  
+
   $scope.settingsButton = function(ev) {
     $mdDialog.show({
       controller: SettingsController,
@@ -133,7 +133,7 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
     $scope.pwdStatus = "Error placeholder";
     $scope.usernameStatus = "Error placeholder";
     $scope.pwdError = "no";
-    $scope.usernameError = true;
+    $scope.usernameError = "no";
 
     $scope.hide = function() {
       $mdDialog.hide();
@@ -148,10 +148,7 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
     };
 
     $scope.updatePwd = function(oldPwd, newPwd, newPwd2) {
-      $scope.pwdError = "no";
-      $scope.oldPwd = "";
-      $scope.newPwd = "";
-      $scope.newPwd2 = "";
+      clearErrors();
       if (newPwd === newPwd2) {
         Weather.updatePwd(oldPwd, newPwd, $scope, function(scope) {
           scope.pwdError = "success";
@@ -168,7 +165,24 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
     };
 
     $scope.updateUsername = function(newUsername) {
-      //TODO
+      clearErrors();
+      Weather.updateUsername(newUsername, $scope, function(scope) {
+        scope.usernameError = "success";
+        scope.usernameStatus = "Username successfully changed";
+      }, function(error, scope) {
+          scope.usernameError = "error";
+          scope.usernameStatus = error;
+          console.error("Error: ", error);
+      });
+    }
+
+    var clearErrors = function() {
+      $scope.pwdError = "no";
+      $scope.oldPwd = "";
+      $scope.newPwd = "";
+      $scope.newPwd2 = "";
+      $scope.newUsername = "";
+      $scope.usernameError = "no";
     }
   }
 

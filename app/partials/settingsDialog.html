@@ -1,8 +1,13 @@
 <md-dialog flex="20">
   <form ng-cloak>
     <md-toolbar>
-      <div class="md-toolbar-tools">
+      <div class="md-toolbar-tools" style="background-color:black">
         <h2>Change account settings</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <img id="logo" src="../images/close-btn.png" style="width:100%">
+          <!-- <md-icon md-svg-src="images/close-btn.png" aria-label="Close dialog"></md-icon> -->
+        </md-button>
       </div>
     </md-toolbar>
 
@@ -32,7 +37,7 @@
           New username:
           <input id="newUsername" type="text" class="form-control" placeholder="username" ng-model="newUsername">
         </div>
-        <div ng-class="{invisible:!usernameError, visible:usernameError}" class="errortext">
+        <div ng-class="{invisible:usernameError==='no', errortext:usernameError==='error', successtext:usernameError==='success'}">
           {{usernameStatus}}
         </div>
         <button class="btn btn-default" style="margin-top:2%" type="button" ng-click="updateUsername(newUsername)">Update Username</button>

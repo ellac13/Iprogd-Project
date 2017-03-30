@@ -466,7 +466,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                         surrHourlyTemps[pos][currentTimeIndex],
                         "images/weatherIcons/" + surrHourlyIcons[pos][currentTimeIndex] + ".png"]);
     }
-    
+
     var createSurroundingMarkers = function(){
         var cLat = map.center.latitude;
         var cLon = map.center.longitude;
@@ -540,6 +540,14 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       }).catch(function(error) {
         errorfunc(error, scope);
       });
+    }
+
+    this.updateUsername = function(newUsername, scope, successfunc, errorfunc) {
+      if (newUsername.length > 0) {
+        successfunc(scope);
+      } else {
+        errorfunc("Error: No username given", scope);
+      }
     }
 
     this.logout = function() {
