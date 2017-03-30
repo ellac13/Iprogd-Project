@@ -381,17 +381,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     //this.testGeolocation();
 
     //////////////////////////Map stuff below//////////////////////////
-    var map = {
-        center: {
-            latitude: 59.332469,
-            longitude: 18.065134
-            },
-        zoom: 8,
-        options:{
-            streetViewControl: false,
-            mapTypeControl: false
-            }
-        };
+    var map = [];
 
     var markers = [];
 
