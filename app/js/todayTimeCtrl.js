@@ -12,6 +12,10 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
   $scope.iconLoaded = false;
   $scope.icons = Weather.getHourlyIcons();
 
+  $scope.days = Weather.getDailyDate();
+  $scope.dailyTemps = Weather.getDailyTemp();
+  $scope.dailyWeather = Weather.getDailyWeather();
+  
   $scope.getLocationName = function() {
     return Weather.getActiveAddress();
   }

@@ -46,6 +46,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         findWeather.get({lat:lat,lon:lon}, function(data){
             activeWeatherData = data;
             setHourlyWeather();
+			setDailyWeather();
             updateMap();
             //console.log(data);
             console.log("Successfully set weather data for lat: " + lat + ", lon: " + lon);
@@ -70,6 +71,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         hourlyIcons[i] = hourlyData[i].icon;
       }
     }
+	
+		//Daily data
+	var setDailyWeather = function(){
+		var dailyData = activeWeatherData.daily.data;
+		for(var i = 0; i < dailyData.length; i++){
+			dailyDate[i] = getDay(dailyData[i].time);
+			dailyTemp[i] = dailyData[i].temperatureMax;
+			dailyWeather[i] = dailyData[i].icon;
+		}
+	}
 
     // Helper function to convert from UNIX to real time
     var getTime = function(unixTime) {
@@ -89,6 +100,28 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       var formatDate = date.getDate() + "/" + (date.getMonth() + 1);
       return formatDate;
     }
+	
+	var getDay = function(unixTime){
+		var day = new Date(parseInt(unixTime)*1000);
+		var format = day.getDay();
+		var dayOfWeek = '';
+		if(format === 0){
+			dayOfWeek = 'Sunday';
+		}else if(format === 1){
+			dayOfWeek = 'Monday';
+		}else if(format === 2){
+			dayOfWeek = 'Tuesday';
+		}else if(format === 3){
+			dayOfWeek = 'Wednsday';
+		}else if(format === 4){
+			dayOfWeek = 'Thursday';
+		}else if(format === 5){
+			dayOfWeek = 'Friday';
+		}else{
+			dayOfWeek = 'Saturday';
+		}
+		return dayOfWeek;
+	}
 
     //Initial arrays of length 24
     var hourlyTimes = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
@@ -97,6 +130,12 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var hourlyFeels = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
     var hourlyIcons = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
 
+	
+	var dailyDate = Array.apply(null, Array(8)).map(String.prototype.valueOf,"");
+	var dailyTemp = Array.apply(null, Array(8)).map(String.prototype.valueOf,"");
+	var dailyWeather = Array.apply(null, Array(8)).map(String.prototype.valueOf,"");
+	
+	
     this.getHourlyTimes = function() {
       return hourlyTimes;
     }
@@ -113,7 +152,20 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       return hourlyIcons;
     }
 
+	
+	this.getDailyDate = function(){
+		return dailyDate;
+	}
+	
+	this.getDailyTemp = function(){
+		return dailyTemp;
+	}
+	
+	this.getDailyWeather = function(){
+		return dailyWeather;
+	}
 
+	
     this.getCurrentTimeIndex = function() {
       return currentTimeIndex;
     }
@@ -126,7 +178,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       currentTimeIndex = newValue;
       updateMap();
     }
-
+	
     //User data
 
     var currentUser;

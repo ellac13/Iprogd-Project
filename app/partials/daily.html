@@ -1,16 +1,14 @@
-	<table>
+	<table ng-controller="TodayTimeCtrl">
 		<tr>
 			<th style="width:30%;">Day</th>
-			<th style="width:30%;">Weather</th>
+			<th style="width:50%;">Weather</th>
 			<th style="width:30%;">Degrees</th>
-			<th style="width:30%;">Downfall</th>
-			<th style="width:30%;"></th>
+			<!--<th style="width:30%;">Downfall</th>-->
 		</tr>
-		<tr>
-			<td>Sunday</td>
-			<td>Sunny</td>
-			<td>24C</td>
-			<td>0mm</td>
-			<td></td>
+		<tr ng-repeat="day in days track by $index">
+			<td>{{day}}</td>
+			<td>{{dailyWeather[$index]}}</td>
+			<td>{{dailyTemps[$index]}}&deg;C</td>
+			<!--<td>0mm</td>-->
 		</tr>
 	</table>
