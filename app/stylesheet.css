@@ -45,10 +45,14 @@
 }
 
 .header {
-  background: rgba(211, 211, 211, 0.8);
+  /*background: rgba(211, 211, 211, 0.8);*/
+	background: white;
 	display: flex;
 	flex-direction: row;
 	align-items: flex-end;
+	margin-top: 1%;
+	margin-bottom: 1%;
+	border-bottom: medium solid black;
 }
 
 .welcome {
@@ -74,16 +78,17 @@
 }
 
 .headerbutton {
-     text-decoration: none;
-		 color:black;
+	background-color: black;
+	color:white;
+  text-decoration: none;
   }
-.headerbutton:hover
-  {
-		background-color: green;
-    color:white;
-    text-decoration:none;
-    cursor:pointer;
-   }
+	
+.headerbutton:hover {
+	background-color: white;
+  color:black;
+  text-decoration:none;
+  cursor:pointer;
+}
 
 .historybutton {
 	text-decoration: none;
@@ -158,4 +163,8 @@
 
 .rzslider .rz-bar {
   background-color: lightgrey !important;
+}
+
+#logo {
+	width:50%;
 }
