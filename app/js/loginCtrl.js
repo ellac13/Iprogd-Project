@@ -9,9 +9,6 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
 
   $scope.error = "";
 
-  $scope.noUsername = false;        //An empty username was sent
-  $scope.noPwd = false;             //An empty pwd was sent
-
   $scope.user = Weather.getUser();
   var auth = Weather.getAuth();
 
@@ -33,16 +30,6 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
       });
     }
 	};
-
-  // $scope.usernameChanged = function() {
-  //   $scope.noUsername = false;
-  //   $scope.usernamePlaceholder = "username";
-  // };
-  //
-  // $scope.pwdChanged = function() {
-  //   $scope.noPwd = false;
-  //   $scope.pwdPlaceholder = "password";
-  // };
 
   $scope.registerButton = function(ev) {
     if($scope.user === null){
