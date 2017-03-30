@@ -130,11 +130,19 @@
 	margin-top:5%;
 	margin-left:5%;
 	margin-right:5%;
-
 }
 
 .tabsTableData{
 	padding:2%;
 	margin:2%;
 }
+
+.rzslider .rz-pointer {
+  background-color: black !important;
+}
+
+.rzslider .rz-bar {
+  background-color: lightgrey !important;
+}
+
 >>>>>>> origin/master

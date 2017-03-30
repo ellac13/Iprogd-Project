@@ -15,7 +15,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
   $scope.days = Weather.getDailyDate();
   $scope.dailyTemps = Weather.getDailyTemp();
   $scope.dailyWeather = Weather.getDailyWeather();
-  
+
   $scope.getLocationName = function() {
     return Weather.getActiveAddress();
   }
@@ -39,7 +39,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
     $scope.iconLoaded = true;
     return "images/weatherIcons/" + icon + ".png";
   }
-  
+
   $scope.getIconsDaily = function(currentTimeIndex){
 	var icon = Weather.getDailyWeather()[currentTimeIndex];
     if(icon.length < 1){
@@ -49,7 +49,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
     $scope.iconLoaded = true;
     return "images/weatherIcons/" + icon + ".png";
   }
-  
+
   $scope.toggleFavourite = function(address){
     Weather.toggleFavouriteLocation(address);
   }
@@ -97,7 +97,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
     $scope.labels = $scope.times.slice();
     var first = 0;
     var last = 0;
-    for (var i = 1; i < $scope.labels.length; i++) {
+    for (var i = 0; i < $scope.labels.length; i++) {
       if (parseInt($scope.labels[i].substr(0,2)) % 6 !== 0) {
         $scope.labels[i] = "";
       } else if (first === 0) {
@@ -125,8 +125,16 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
       borderWidth: 1,
       type: 'bar',
       backgroundColor: 'rgba(0, 0, 0, 0.1)',
+      borderColor: "rgb(0,0,0)",
       barThickness: 50
-    }];
+    }
+  ];
+
+  $scope.colors = [{
+    borderColor: "rgb(0,0,0)",
+    backgroundColor: "rgba(211,211,211, 0.4)"
+  }];
+
   $scope.options = {
     tooltips: {
       enabled: false
