@@ -30,6 +30,26 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
     return "images/weatherIcons/" + icon + ".png";
   }
 
+  $scope.getIconsHourly = function(currentTimeIndex){
+	var icon = Weather.getHourlyIcons()[currentTimeIndex];
+    if(icon.length < 1){
+      $scope.iconLoaded = false;
+      return "";
+    }
+    $scope.iconLoaded = true;
+    return "images/weatherIcons/" + icon + ".png";
+  }
+  
+  $scope.getIconsDaily = function(currentTimeIndex){
+	var icon = Weather.getDailyWeather()[currentTimeIndex];
+    if(icon.length < 1){
+      $scope.iconLoaded = false;
+      return "";
+    }
+    $scope.iconLoaded = true;
+    return "images/weatherIcons/" + icon + ".png";
+  }
+  
   $scope.toggleFavourite = function(address){
     Weather.toggleFavouriteLocation(address);
   }

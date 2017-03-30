@@ -1,14 +1,16 @@
-	<table ng-controller="TodayTimeCtrl">
-		<tr>
-			<th style="width:30%;">Hour</th>
+	<table class="tabsTable" ng-controller="TodayTimeCtrl">
+		<tr class="tabsTableRow">
+			<th class="tabsTableHeader" style="width:30%;">Hour</th>
 			<th style="width:50%;">Weather</th>
 			<th style="width:30%;">Degrees</th>
 			<!--<th style="width:30%;">Downfall</th>-->
 		</tr>
-		<tr ng-repeat="time in times track by $index">
-			<td>{{time}}</td>
-			<td>{{icons[$index]}}</td>
-			<td>{{temps[0][$index]}}&deg;C</td>
+		<tr class="tabsTableRow" ng-repeat="time in times track by $index">
+			<td class="tabsTableData">{{time}}</td>
+			<td>
+				<img  style="text-align:left;width:70px;height:70px" ng-show="iconLoaded" ng-src="{{getIconsHourly($index)}}">
+			</td>
+			<td>{{temps[0][$index] | number:0}}&deg;C</td>
 			<!--<td>8mm</td>-->
 		</tr>
 	</table>

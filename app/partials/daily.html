@@ -7,8 +7,10 @@
 		</tr>
 		<tr ng-repeat="day in days track by $index">
 			<td>{{day}}</td>
-			<td>{{dailyWeather[$index]}}</td>
-			<td>{{dailyTemps[$index]}}&deg;C</td>
+			<td>
+				<img  style="text-align:left;width:70px;height:70px" ng-show="iconLoaded" ng-src="{{getIconsDaily($index)}}">
+			</td>
+			<td>{{dailyTemps[$index]| number:0}}&deg;C</td>
 			<!--<td>0mm</td>-->
 		</tr>
 	</table>
