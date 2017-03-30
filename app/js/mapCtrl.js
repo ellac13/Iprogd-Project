@@ -1,4 +1,4 @@
-phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,Weather,$interval) {
+phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,Weather,$interval,$location) {
     Weather.setMap(
         {
             center: {

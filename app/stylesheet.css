@@ -68,6 +68,9 @@
 }
 
 .loginerror {
+	align-self: flex-start;
+	height: 0;
+	min-height: 100%;
   flex-grow: 1;
 	color:red;
 }

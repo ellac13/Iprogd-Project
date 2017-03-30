@@ -2,18 +2,20 @@
   <div class="col-md-11">
     <img id="logo" src="../images/weatherduck-logo.png">
     <!-- <h1>Weather Duck</h1> -->
-    <div class="col-md-11 login" ng-hide="user" ng-cloak>
-      <div class="logininput">
-        <input id="username" type="text" class="form-control" placeholder="{{usernamePlaceholder}}" ng-model="username">
+    <form ng-submit="login(username, pwd)">
+      <div class="col-md-11 login" ng-hide="user" ng-cloak>
+        <div class="logininput">
+          <input id="username" type="text" class="form-control" placeholder="{{usernamePlaceholder}}" ng-model="username">
+        </div>
+        <div class="logininput">
+          <input id="password" type="password" class="form-control" placeholder="{{pwdPlaceholder}}" ng-model="pwd">
+        </div>
+        <button class="btn btn-default loginbutton" type="submit">Log in</button>
+        <div class=" col-md-4 loginerror">
+          {{error}}
+        </div>
       </div>
-      <div class="logininput">
-        <input id="password" type="password" class="form-control" placeholder="{{pwdPlaceholder}}" ng-model="pwd">
-      </div>
-      <button class="btn btn-default loginbutton" type="button" ng-click="login(username, pwd)">Log in</button>
-      <div class=" col-md-4 loginerror">
-        {{error}}
-      </div>
-    </div>
+    </form>
     <div class="col-md-7 login" ng-show="user" ng-cloak>
       <div class="welcome">
         <h5>Welcome, {{user.email}}</h5>
