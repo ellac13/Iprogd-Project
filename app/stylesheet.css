@@ -137,4 +137,8 @@
 	padding:2%;
 	margin:2%;
 }
->>>>>>> origin/master
+
+.marker_labels{
+	color: black;
+	font-size: 18px;
+}
