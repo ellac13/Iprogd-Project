@@ -384,8 +384,13 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var map = {
         center: {
             latitude: 59.332469,
-            longitude: 18.065134 },
-        zoom: 8
+            longitude: 18.065134
+            },
+        zoom: 8,
+        options:{
+            streetViewControl: false,
+            mapTypeControl: false
+            }
         };
 
     var markers = [];
@@ -436,7 +441,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         markers = [];
 
         map.center = {latitude: model.getActiveLat(),
-                            longitude: model.getActiveLng()}
+                      longitude: model.getActiveLng()}
 
         model.addMarker([model.getActiveLat(),
                         model.getActiveLng(),
