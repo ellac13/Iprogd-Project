@@ -385,7 +385,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         center: {
             latitude: 59.332469,
             longitude: 18.065134 },
-            zoom: 3
+        zoom: 8
         };
 
     var markers = [];
@@ -425,8 +425,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             },
             options: {
                 labelClass:'marker_labels',
-                labelAnchor:'-30 40',
-                labelContent: temp + "°"
+                labelAnchor:'-28 25',
+                labelContent: temp + "°",
             }
         };
       markers.push(ret);
@@ -435,15 +435,69 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var updateMap = function(){
         markers = [];
 
+        map.center = {latitude: model.getActiveLat(),
+                            longitude: model.getActiveLng()}
+
         model.addMarker([model.getActiveLat(),
                         model.getActiveLng(),
                         hourlyTemps[currentTimeIndex],
                         "images/weatherIcons/" + hourlyIcons[currentTimeIndex] + ".png"]);
-        createRandomMarkers();
+        createSurroundingMarkers();
     }
 
-    var createRandomMarkers = function(){
+    var surrHourlyTemps = {n: Array.apply(null, Array(24)).map(Number.prototype.valueOf,0),
+                           s: Array.apply(null, Array(24)).map(Number.prototype.valueOf,0),
+                           w: Array.apply(null, Array(24)).map(Number.prototype.valueOf,0),
+                           e: Array.apply(null, Array(24)).map(Number.prototype.valueOf,0)};
+    var surrHourlyIcons = {n: Array.apply(null, Array(24)).map(String.prototype.valueOf,""),
+                           s: Array.apply(null, Array(24)).map(String.prototype.valueOf,""),
+                           w: Array.apply(null, Array(24)).map(String.prototype.valueOf,""),
+                           e: Array.apply(null, Array(24)).map(String.prototype.valueOf,"")};
 
+    var setSurroundingHourlyWeather = function(sWeatherData, pos) {
+      var hourlyData = sWeatherData.hourly.data;
+      for (var i = 0; i < hourlyData.length / 2; i++) {
+        surrHourlyTemps[pos][i] = hourlyData[i].temperature;
+        surrHourlyIcons[pos][i] = hourlyData[i].icon;
+      }
+      //Add the marker...
+      model.addMarker([sWeatherData.latitude,
+                        sWeatherData.longitude,
+                        surrHourlyTemps[pos][currentTimeIndex],
+                        "images/weatherIcons/" + surrHourlyIcons[pos][currentTimeIndex] + ".png"]);
+    }
+    
+    var createSurroundingMarkers = function(){
+        var cLat = map.center.latitude;
+        var cLon = map.center.longitude;
+        var surrCoords = [{pos: "n", lat: cLat+0.3,lon: cLon},
+                          {pos: "s", lat: cLat-0.3,lon: cLon},
+                          {pos: "e", lat: cLat,lon: cLon+0.5},
+                          {pos: "w", lat: cLat,lon: cLon-0.5}];
+        //Ugly but working solution..... Hämta väder för n,s,w,e
+        findWeather.get({lat:surrCoords[0].lat,lon:surrCoords[0].lon}, function(data){
+            setSurroundingHourlyWeather(data, surrCoords[0].pos);
+        }, function(data){
+            throw "Error while fetching weather data!!!";
+        });
+
+        findWeather.get({lat:surrCoords[1].lat,lon:surrCoords[1].lon}, function(data){
+            setSurroundingHourlyWeather(data, surrCoords[1].pos);
+        }, function(data){
+            throw "Error while fetching weather data!!!";
+        });
+
+        findWeather.get({lat:surrCoords[2].lat,lon:surrCoords[2].lon}, function(data){
+            setSurroundingHourlyWeather(data, surrCoords[2].pos);
+        }, function(data){
+            throw "Error while fetching weather data!!!";
+        });
+
+        findWeather.get({lat:surrCoords[3].lat,lon:surrCoords[3].lon}, function(data){
+            setSurroundingHourlyWeather(data, surrCoords[3].pos);
+        }, function(data){
+            throw "Error while fetching weather data!!!";
+        });
     }
 
 

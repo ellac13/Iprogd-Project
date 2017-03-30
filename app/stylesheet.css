@@ -82,7 +82,7 @@
 	color:white;
   text-decoration: none;
   }
-	
+
 .headerbutton:hover {
 	background-color: white;
   color:black;
@@ -167,4 +167,8 @@
 
 #logo {
 	width:50%;
+
+.marker_labels{
+	color: black;
+	font-size: 18px;
 }
