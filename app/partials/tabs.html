@@ -1,6 +1,6 @@
 <div ng-controller="TabsCtrl" class="tabs">
 	<ul id="tabs" class="nav nav-tabs">
-		<li ng-repeat="tab in tabs" ng-class="{'active':isSet($index)}"><button class="btn btn-default" ng-click="setTab($index)">{{tab.title}}</button></li>
+		<li style="width: 33%" ng-repeat="tab in tabs" ng-class="{'active':isSet($index)}"><button class="btn btn-default" style="width:100%" ng-click="setTab($index)">{{tab.title}}</button></li>
 	</ul>
 	
 	<div ng-show="isSet(0)">
