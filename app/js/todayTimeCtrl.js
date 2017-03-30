@@ -10,7 +10,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
   $scope.temps = [Weather.getHourlyTemps(), $scope.bar];
   $scope.feels = Weather.getHourlyFeels();
   $scope.iconLoaded = false;
-  
+  $scope.icons = Weather.getHourlyIcons();
 
   $scope.getLocationName = function() {
     return Weather.getActiveAddress();
