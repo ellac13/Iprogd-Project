@@ -253,6 +253,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             }
         }
 
+		model.saveData(address);
+		
         //Convert the address to coordinates and search for weather with those coordinates
         console.log('Trying to convert address "' + address + '" to coordinates');
         geocoder = new google.maps.Geocoder();
@@ -281,7 +283,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
                 //Search for weather of active position
                 model.weatherSearchWithCurrentLocation();
-				model.saveData();
               } else {
                 console.log('No results found');
               }
@@ -586,11 +587,38 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 	///////////////////Firebase Storage////////////////////////////////
 
-	var database = firebase.database().ref();
+	var database = firebase.database();
 
-	this.saveData = function(){
-		database.child("Popular").set("data");
+	//database.on("value", 
+	
+	this.saveData = function(address){
+		var addressToBeSaved = address;
+		var numOfTimeRef = database.ref('PopularSearches/' + addressToBeSaved);
+		
+		var numOfTimes = 0;
+		numOfTimeRef.on('value', function(snapshot){
+			numOfTimes = snapshot.val();
+		});
+		
+		numOfTimes = numOfTimes +1;
+		
+		database.ref().child("PopularSearches").child(addressToBeSaved).set(numOfTimes);
+		
+		var popularLocations = database.ref('PopularSearches/');
+		popularLocations.on('value', function(snapshot){
+			var topLocations = popularLocations.orderByValue();
+			updatePopularLocations(topLocations);
+		});
 	}
+	
+	updatePopularLocations = function(topLocations){
+		var len = topLocations.length;
+		for(var i = 0; i < len; i++){
+			model.popularLocations[i] = topLocations[i].key();
+		}
+		console.log(model.popularLocations);
+	}
+
 
 
     // Angular service needs to return an object that has all the
