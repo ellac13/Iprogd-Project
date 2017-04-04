@@ -5,6 +5,8 @@
 // the next time.
 phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
+    var INVALID_ADDRESS = "Unknown address";
+
     var model = this;
 
     //Current location data
@@ -290,7 +292,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
               console.log('Geocoder failed due to: ' + status);
               //Update active address
               //activeAddress = address;
-              activeAddress = "Nolocation";
+              activeAddress = INVALID_ADDRESS;
 
               //Update active coordinates
               activeLat = 0.0;
@@ -341,7 +343,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
               console.log('Geocoder failed due to: ' + status);
               //Update active address
               //activeAddress = address;
-              activeAddress = "Nolocation";
+              activeAddress = INVALID_ADDRESS;
 
               //Update active coordinates
               activeLat = 0.0;
