@@ -599,6 +599,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		
 		var numOfTimes = 0;
 		numOfTimeRef.on('value', function(snapshot){
+			var locations = snapshot.key;
+			console.log(locations);
 			numOfTimes = snapshot.val();
 		});
 		
@@ -606,21 +608,22 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		
 		database.ref().child("PopularSearches").child(addressToBeSaved).set(numOfTimes);
 		
-		var popularLocations = database.ref('PopularSearches/');
-		popularLocations.on('value', function(snapshot){
-			var topLocations = popularLocations.orderByValue();
-			updatePopularLocations(topLocations);
+		var topLocations = [];
+		
+		var popularSearches = database.ref('PopularSearches/');
+		popularSearches.on('value', function(snapshot){
+			var i = 0;
+			snapshot.forEach(function(childSnapshot){
+			var childKey = childSnapshot.key; 
+			var childData = childSnapshot.val();
+			topLocations[i] = childKey;
+			i++;
+			});
+			popularLocations = topLocations;
+			console.log(topLocations);
+			console.log(popularLocations);
 		});
 	}
-	
-	updatePopularLocations = function(topLocations){
-		var len = topLocations.length;
-		for(var i = 0; i < len; i++){
-			model.popularLocations[i] = topLocations[i].key();
-		}
-		console.log(model.popularLocations);
-	}
-
 
 
     // Angular service needs to return an object that has all the
