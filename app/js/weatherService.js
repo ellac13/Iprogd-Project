@@ -59,6 +59,42 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         });
     }
 
+		///////////////////Firebase Storage////////////////////////////////
+
+	var database = firebase.database();
+	
+	this.saveData = function(address){
+		var addressToBeSaved = address;
+		var numOfTimeRef = database.ref('PopularSearches/' + addressToBeSaved);
+		
+		var numOfTimes = 0;
+		numOfTimeRef.on('value', function(snapshot){
+			var locations = snapshot.key;
+			//console.log(locations);
+			numOfTimes = snapshot.val();
+		});
+		
+		numOfTimes = numOfTimes +1;
+		database.ref().child("PopularSearches").child(addressToBeSaved).set(numOfTimes);
+		model.updatePopularLocations();
+	}
+	
+	this.updatePopularLocations = function(){
+		var topLocations = [];
+		var popularSearches = database.ref('PopularSearches/');
+		popularSearches.on('value', function(snapshot){
+			var i = 0;
+			snapshot.forEach(function(childSnapshot){
+			var childKey = childSnapshot.key; 
+			var childData = childSnapshot.val();
+			topLocations[i] = childKey;
+			i++;
+			});
+		});
+		return topLocations;
+	}
+
+	
     ////////////////////// Current Weather /////////////////////////////
 
     //The current time in index form
@@ -187,7 +223,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     var currentUser;
     var userFavourites =  ["Stockholm", "Kalmar"];
-    var popularLocations =  ["Göteborg", "Malmö"];
+    var popularLocations =  model.updatePopularLocations();
     var recentSearches =  ["Kiruna", "Ystad"]; //This should be a queue of length 5{history length}
 
     //Getters for user data
@@ -586,44 +622,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     auth.$onAuthStateChanged(function(firebaseUser) {
       currentUser = firebaseUser;
     });
-
-	///////////////////Firebase Storage////////////////////////////////
-
-	var database = firebase.database();
-
-	//database.on("value", 
-	
-	this.saveData = function(address){
-		var addressToBeSaved = address;
-		var numOfTimeRef = database.ref('PopularSearches/' + addressToBeSaved);
-		
-		var numOfTimes = 0;
-		numOfTimeRef.on('value', function(snapshot){
-			var locations = snapshot.key;
-			console.log(locations);
-			numOfTimes = snapshot.val();
-		});
-		
-		numOfTimes = numOfTimes +1;
-		
-		database.ref().child("PopularSearches").child(addressToBeSaved).set(numOfTimes);
-		
-		var topLocations = [];
-		
-		var popularSearches = database.ref('PopularSearches/');
-		popularSearches.on('value', function(snapshot){
-			var i = 0;
-			snapshot.forEach(function(childSnapshot){
-			var childKey = childSnapshot.key; 
-			var childData = childSnapshot.val();
-			topLocations[i] = childKey;
-			i++;
-			});
-			popularLocations = topLocations;
-			console.log(topLocations);
-			console.log(popularLocations);
-		});
-	}
 
 
     // Angular service needs to return an object that has all the
