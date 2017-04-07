@@ -1,4 +1,4 @@
-<div id="locationSelector">
+<div id="locationSelector" class="flex_column">
 	<form ng-submit="search(searchQuery)">
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder="Location..." ng-model="searchQuery">
@@ -7,42 +7,44 @@
 			</span>
 	    </div>
     </form>
-	<h4>Favourites</h4>
-	<table class="table table-hover locationTable favouritesTable">
-		<tr ng-repeat="location in favouriteLocations" ng-click="search(location)">
-			<td>
-				<div ng-click="toggleFavourite(location)">
-					<ng-include src="'partials/svg/heart.html'"></ng-include>
-				</div>
-			</td>
-			<td class="locationTableLocation">{{location}}</td>
-		</tr>
-		<p ng-hide="favouriteLocations.length">No favourites added</p>
-	</table>
-	<h4>Popular</h4>
-	<table class="table table-hover locationTable">
-		<tr ng-repeat="location in popularLocations" ng-click="search(location)">
-			<td>
-				<div ng-click="toggleFavourite(location)">
-					<ng-include src="'partials/svg/heart.html'"></ng-include>
-				</div>
-			</td>
-			<td class="locationTableLocation">{{location}}</td>
-		</tr>
-		<p ng-hide="popularLocations.length">No popular locations to show</p>
-	</table>
-	<h4>Recent searches</h4>
+    <div class="scrollable">
+		<h4>Favourites</h4>
+		<table class="table table-hover locationTable favouritesTable">
+			<tr ng-repeat="location in favouriteLocations" ng-click="search(location)">
+				<td>
+					<div ng-click="toggleFavourite(location)">
+						<ng-include src="'partials/svg/heart.html'"></ng-include>
+					</div>
+				</td>
+				<td class="locationTableLocation">{{location}}</td>
+			</tr>
+			<p ng-hide="favouriteLocations.length">No favourites added</p>
+		</table>
+		<h4>Popular</h4>
+		<table class="table table-hover locationTable">
+			<tr ng-repeat="location in popularLocations" ng-click="search(location)">
+				<td>
+					<div ng-click="toggleFavourite(location)">
+						<ng-include src="'partials/svg/heart.html'"></ng-include>
+					</div>
+				</td>
+				<td class="locationTableLocation">{{location}}</td>
+			</tr>
+			<p ng-hide="popularLocations.length">No popular locations to show</p>
+		</table>
+		<h4>Recent searches</h4>
 
-	<table class="table table-hover locationTable">
-		<tr ng-repeat="location in recentLocations" ng-click="search(location)">
-			<td>
-				<div ng-click="toggleFavourite(location)">
-					<ng-include src="'partials/svg/heart.html'"></ng-include>
-				</div>
-			</td>
-			<td class="locationTableLocation">{{location}}</td>
-		</tr>
-		<p ng-hide="recentLocations.length">No recent searches</p>
-	</table>
+		<table class="table table-hover locationTable">
+			<tr ng-repeat="location in recentLocations" ng-click="search(location)">
+				<td>
+					<div ng-click="toggleFavourite(location)">
+						<ng-include src="'partials/svg/heart.html'"></ng-include>
+					</div>
+				</td>
+				<td class="locationTableLocation">{{location}}</td>
+			</tr>
+			<p ng-hide="recentLocations.length">No recent searches</p>
+		</table>
+	</div>
 	
 </div>

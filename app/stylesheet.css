@@ -1,3 +1,21 @@
+.container{
+	height: 100%;
+}
+
+.flex_column{
+	display: flex;
+    flex-direction: column;
+	height: 100%;
+}
+
+#content_flex{
+	display: flex;
+}
+
+.scrollable{
+	overflow-y: auto;
+}
+
 .locationTable{
 	/*background: green;*/
 }

@@ -1,16 +1,16 @@
-<div ng-controller="TabsCtrl" class="tabs">
+<div ng-controller="TabsCtrl" class="flex_column tabs">
 	<ul id="tabs" class="nav nav-tabs">
 		<li style="width: 33%" ng-repeat="tab in tabs" ng-class="{'active':isSet($index)}"><button class="btn btn-default" style="width:100%" ng-click="setTab($index)">{{tab.title}}</button></li>
 	</ul>
 	
-	<div ng-show="isSet(0)">
-		<ng-include src="'partials/map.html'" ng-controller="someController" class="noneSoFar"></ng-include>
+	<div ng-show="isSet(0)" class="flex_column">
+		<ng-include src="'partials/map.html'" ng-controller="someController" class="scrollable noneSoFar"></ng-include>
 	</div>
-	<div ng-show="isSet(1)">
-		<ng-include src="'partials/hourly.html'" class="tabsTableData"></ng-include>
+	<div ng-show="isSet(1)" class="flex_column">
+		<ng-include src="'partials/hourly.html'" class="scrollable tabsTableData"></ng-include>
 	</div>
-	<div ng-show="isSet(2)">
-		<ng-include src="'partials/daily.html'" class="tabsTableData"></ng-include>
+	<div ng-show="isSet(2)" class="flex_column">
+		<ng-include src="'partials/daily.html'" class="scrollable tabsTableData"></ng-include>
 	</div>
 	
 </div>
