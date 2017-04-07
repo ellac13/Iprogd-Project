@@ -84,6 +84,9 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
 
   function DialogController($scope, $mdDialog) {
     $scope.status = "";
+    $scope.email = "";
+    $scope.displayname = "";
+    $scope.pass = "";
     $scope.error = false;
 
     $scope.hide = function() {
@@ -98,24 +101,15 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
       $mdDialog.hide(answer);
     };
 
-    $scope.register = function(email, pwd) {
-      Weather.register(email, pwd, $scope, function(error, scope) {
+    $scope.register = function(email, disp, pwd) {
+      Weather.register(email, disp, pwd, $scope, function(error, scope) {
           scope.email = "";
           scope.pass = "";
+          scope.displayname = "";
           scope.error = true;
           scope.status = error;
           console.error("Error: ", error);
       });
-    };
-
-    $scope.emailChanged = function() {
-      $scope.noEmail = false;
-      $scope.emailPlaceholder = "username";
-    };
-
-    $scope.passChanged = function() {
-      $scope.noPass = false;
-      $scope.passPlaceholder = "password";
     };
   }
 

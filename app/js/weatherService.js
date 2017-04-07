@@ -62,30 +62,30 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		///////////////////Firebase Storage////////////////////////////////
 
 	var database = firebase.database();
-	
+
 	this.saveData = function(address){
 		var addressToBeSaved = address;
 		var numOfTimeRef = database.ref('PopularSearches/' + addressToBeSaved);
-		
+
 		var numOfTimes = 0;
 		numOfTimeRef.on('value', function(snapshot){
 			var locations = snapshot.key;
 			//console.log(locations);
 			numOfTimes = snapshot.val();
 		});
-		
+
 		numOfTimes = numOfTimes +1;
 		database.ref().child("PopularSearches").child(addressToBeSaved).set(numOfTimes);
 		model.updatePopularLocations();
 	}
-	
+
 	this.updatePopularLocations = function(){
 		var topLocations = [];
 		var popularSearches = database.ref('PopularSearches/');
 		popularSearches.on('value', function(snapshot){
 			var i = 0;
 			snapshot.forEach(function(childSnapshot){
-			var childKey = childSnapshot.key; 
+			var childKey = childSnapshot.key;
 			var childData = childSnapshot.val();
 			topLocations[i] = childKey;
 			i++;
@@ -94,7 +94,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		return topLocations;
 	}
 
-	
+
     ////////////////////// Current Weather /////////////////////////////
 
     //The current time in index form
@@ -292,7 +292,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         }
 
 		model.saveData(address);
-		
+
         //Convert the address to coordinates and search for weather with those coordinates
         console.log('Trying to convert address "' + address + '" to coordinates');
         geocoder = new google.maps.Geocoder();
@@ -583,10 +583,13 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       });
     }
 
-    this.register = function(email, pwd, scope, errorfunc) {
+    this.register = function(email, disp, pwd, scope, errorfunc) {
       auth.$createUserWithEmailAndPassword(email, pwd)
         .then(function(firebaseUser) {
           console.log("User " + firebaseUser.uid + " created successfully!");
+
+          // TODO: Add displayname!
+
           scope.answer();
         }).catch(function(error) {
           errorfunc(error, scope);

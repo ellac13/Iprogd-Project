@@ -1,5 +1,5 @@
 <md-dialog flex="20">
-  <form ng-cloak ng-submit="register(email, pass)">
+  <form ng-cloak ng-submit="register(email, displayname, pass)">
     <md-toolbar>
       <div class="md-toolbar-tools"  style="background-color:black">
         <h2>Register an account</h2>
@@ -11,11 +11,15 @@
         <h2>Register</h2>
         <div style="margin-bottom:10%; margin-top:5%">
           Email:
-          <input id="e-mail" ng-change="emailChanged()" type="text" ng-class='{redplaceholder : noEmail, greyplaceholder: !noEmail}' class="form-control" placeholder="{{emailPlaceholder}}" ng-model="email">
+          <input id="e-mail" type="text" class="form-control" placeholder="e-mail" ng-model="email">
+        </div>
+        <div style="margin-bottom:10%; margin-top:5%">
+          Displayname:
+          <input id="displayname" type="text" class="form-control" placeholder="displayname" ng-model="displayname">
         </div>
         <div>
           Password:
-          <input id="password" ng-change="passChanged()" type="password" ng-class='{redplaceholder : noPass, greyplaceholder: !noPass}' class="form-control" placeholder="{{passPlaceholder}}" ng-model="pass">
+          <input id="password" type="password" class="form-control" placeholder="password" ng-model="pass">
         </div>
         <div ng-class="{invisible:!error, visible:error}" class="errortext">
           {{status}}
