@@ -1,7 +1,7 @@
 <div id="today">
   <table class="locationTitleTable">
 		<tr>
-			<td>
+			<td ng-show="isLoggedIn()">
           <ng-include src="'partials/svg/heart.html'" ng-click="toggleFavourite(getLocationName())" ng-class="isFavourite()"></ng-include>
 			</td>
 			<td class="locationTitleLocation">

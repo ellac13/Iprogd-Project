@@ -8,6 +8,8 @@ phisancaApp.controller('LocationCtrl', function ($scope,$location,Weather) {
 	$scope.popularLocations = Weather.getPopularLocations();
 	$scope.recentLocations = Weather.getRecentSearches();
 
+	$scope.user = Weather.getUser();
+
 
 	$scope.testGeo = function() {
 		Weather.testGeolocation();
@@ -27,6 +29,14 @@ phisancaApp.controller('LocationCtrl', function ($scope,$location,Weather) {
 		//console.log($event.currentTarget);
 		$location.url('/?search=' + query);
 		//Weather.updateLocationWithAddress(query, $scope);
+	}
+
+	$scope.isLoggedIn = function(){
+		if (Weather.getUser()) {
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 });

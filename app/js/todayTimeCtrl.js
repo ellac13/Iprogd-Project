@@ -2,6 +2,7 @@
 phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
 
   $scope.favourites = Weather.getUserFavouriteLocations();
+  $scope.user = Weather.getUser();
 
   $scope.times = Weather.getHourlyTimes();
   $scope.labels = Weather.getHourlyTimes().slice();
@@ -164,5 +165,13 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
     },
     animation: false
   };
+
+  $scope.isLoggedIn = function(){
+    if (Weather.getUser()) {
+      return true;
+    }else{
+      return false;
+    }
+  }
 
 });
