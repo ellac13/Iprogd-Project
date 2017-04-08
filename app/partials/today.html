@@ -26,7 +26,9 @@
   </div>
 
   <div class="col-md-offset-2 feelsLike">
-    Feels like {{feels[slider.value] | number:0}}&deg;C
+    <button class="btn btn-default" ng-click="increaseFeels(-1)">-</button>
+    Feels like {{feels[slider.value]+feelsMod | number:0}}&deg;C
+    <button class="btn btn-default" ng-click="increaseFeels(1)">+</button>
   </div>
 
   <canvas id="line" class="chart chart-bar" chart-colors="colors" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>

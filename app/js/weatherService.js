@@ -98,6 +98,18 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		return topLocations;
 	}
 
+  var userFeelsMod = 3;
+
+  this.getUserFeelsMod = function() {
+    //TODO: Read from storage
+    return userFeelsMod;
+  }
+
+  this.increaseUserFeelsMod = function(delta) {
+    //TODO: Update actual value in storage
+    userFeelsMod += delta;
+  }
+
 
     ////////////////////// Current Weather /////////////////////////////
 

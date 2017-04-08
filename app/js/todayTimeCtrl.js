@@ -3,6 +3,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
 
   $scope.favourites = Weather.getUserFavouriteLocations();
   $scope.user = Weather.getUser();
+  $scope.feelsMod = Weather.getUserFeelsMod();
 
   $scope.times = Weather.getHourlyTimes();
   $scope.labels = Weather.getHourlyTimes().slice();
@@ -172,6 +173,11 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
     }else{
       return false;
     }
+  }
+
+  $scope.increaseFeels = function(delta) {
+    Weather.increaseUserFeelsMod(delta);
+    $scope.feelsMod = Weather.getUserFeelsMod();
   }
 
 });
