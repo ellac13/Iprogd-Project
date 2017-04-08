@@ -4,8 +4,8 @@
 			<td ng-show="isLoggedIn()">
           <ng-include src="'partials/svg/heart.html'" ng-click="toggleFavourite(getLocationName())" ng-class="isFavourite()"></ng-include>
 			</td>
-			<td class="locationTitleLocation">
-        <h1>{{getLocationName()}}</h1>
+			<td>
+        <h2 id="locationTitle">{{getLocationName()}}</h2>
       </td>
 		</tr>
   </table>
@@ -31,7 +31,7 @@
     <button class="btn btn-default" ng-click="increaseFeels(1)"><span class="glyphicon glyphicon-plus"></button>
   </div>
 
-  <canvas id="line" class="chart chart-bar" chart-colors="colors" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>
+  <canvas id="line" height="130" class="chart chart-bar" chart-colors="colors" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>
 
   <div>
     <rzslider id="currentTimeSlider" rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
