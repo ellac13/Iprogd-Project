@@ -5,8 +5,20 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,We
                 latitude: 59.332469,
                 longitude: 18.065134
                 },
+            bounds: {
+                    northeast: {
+                        latitude: "",
+                        longitude:""
+                    },
+                    southwest: {
+                        latitude:"",
+                        longitude:""
+                    }
+                },
             zoom: 8,
             options:{
+                minZoom: 2,
+                maxZoom: 14,
                 streetViewControl: false,
                 mapTypeControl: false,
                 disableDoubleClickZoom: true
@@ -20,65 +32,19 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,We
                         var tempMap = Weather.getMap();
                         tempMap.zoom = 8;
                         Weather.setMap(tempMap);
+                    },
+                bounds_changed: function(mapModel, eventName, originalEventArgs, $rootScope) {
+                        /*var map = Weather.getMap();
+                        console.log("Bounds changed.");
+                        var activelat = Weather.getActiveLat();
+                        var activelng = Weather.getActiveLng();
+                        if(Math.abs(activelat-map.center.latitude) > 0.0001 && Math.abs(activelng-map.center.longitude) > 0.0001){
+                            console.log("Bounds changed. New coords: lat=" + map.center.latitude + ", lng=" + map.center.longitude);
+                            //Weather.fetchSurroundingWeatherData();    
+                        }*/
+                        
                     }
-                },
-            styles: [
-                {
-                    "featureType":"road",
-                    "elementType":"labels",
-                    "stylers":[{"visibility":"on"}]
-                },
-                {
-                    "featureType":"poi",
-                    "stylers":[{"visibility":"off"}]
-                },
-                {
-                    "featureType":"administrative",
-                    "stylers":[{"visibility":"off"}]
-                },
-                {
-                    "featureType":"road",
-                    "elementType":"geometry.fill",
-                    "stylers":[{"color":"#000000"}, {"weight":1}]
-                },
-                {
-                    "featureType":"road",
-                    "elementType":"geometry.stroke",
-                    "stylers":[{"color":"#000000"},{"weight":0.8}]
-                },
-                {
-                    "featureType":"landscape",
-                    "stylers":[{"color":"#ffffff"}]
-                },
-                {
-                    "featureType":"water",
-                    "stylers":[{"visibility":"off"}]
-                },
-                {
-                    "featureType":"transit",
-                    "stylers":[{"visibility":"off"}]
-                },
-                {
-                    "elementType":"labels",
-                    "stylers":[{"visibility":"off"}]
-                },
-                {
-                    "elementType":"labels.text",
-                    "stylers":[{"visibility":"on"}]
-                },
-                {
-                    "elementType":"labels.text.stroke",
-                    "stylers":[{"color":"#ffffff"}]
-                },
-                {
-                    "elementType":"labels.text.fill",
-                    "stylers":[{"color":"#000000"}]
-                },
-                {
-                    "elementType":"labels.icon",
-                    "stylers":[{"visibility":"on"}]
                 }
-            ]
         }
     );
 
