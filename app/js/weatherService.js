@@ -559,11 +559,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             surrLocations[loc].usable = false;
         }
 
-        var mapBounds = model.getMap().bounds;
-        var NE = mapBounds.northeast;
-        var SW = mapBounds.southwest;
-        var center = model.getMap().center;
-        console.log(center);
         var cLat = model.getActiveLat();
         var cLon = model.getActiveLng();
         console.log(cLat + ", " + cLon);
