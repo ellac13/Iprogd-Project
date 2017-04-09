@@ -94,16 +94,31 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 	this.updatePopularLocations = function(){
 		var topLocations = [];
+		var temp = [0, 0, 0, 0, 0];
 		var popularSearches = database.ref('PopularSearches/');
 		popularSearches.on('value', function(snapshot){
 			var i = 0;
 			snapshot.forEach(function(childSnapshot){
 			var childKey = childSnapshot.key;
 			var childData = childSnapshot.val();
-			topLocations[i] = childKey;
-			i++;
+			
+			for(var j = 4; j >= 0; j--){
+				if(temp[j] >= childData){
+					temp[j+1] = childData;
+					topLocations[j+1] = childKey;
+					break;
+				}else if(temp[j] < childData && j != 0){
+					continue;
+				}else if(j === 0 && temp[j] < childData){
+					temp.unshift(childData);
+					topLocations.unshift(childKey);
+				}
+			}
+			if(topLocations.length === 6){
+				topLocations.pop();
+			}
 			});
-		});
+		});                       
 		return topLocations;
 	}
 
