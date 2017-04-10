@@ -500,7 +500,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             id: lastID,
             icon: {
                 url: markerData[3],
-
+                scaledSize: { width: 50, height: 50 }
             },
             options: {
                 labelClass:'marker_labels',
@@ -522,14 +522,14 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         model.addMarker([model.getActiveLat(),
                         model.getActiveLng(),
                         hourlyTemps[currentTimeIndex],
-                        "images/weatherIcons/" + hourlyIcons[currentTimeIndex] + ".png"]);
+                        "images/weatherIcons/" + hourlyIcons[currentTimeIndex] + ".svg"]);
         //Add surrounding markers
         for(loc in surrLocations){
             if(!surrLocations[loc].usable) continue;
             model.addMarker([surrLocations[loc].lat,
                         surrLocations[loc].lon,
                         surrHourlyTemps[loc][currentTimeIndex],
-                        "images/weatherIcons/" + surrHourlyIcons[loc][currentTimeIndex] + ".png"]);
+                        "images/weatherIcons/" + surrHourlyIcons[loc][currentTimeIndex] + ".svg"]);
         }
     }
 
@@ -563,7 +563,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         model.addMarker([sWeatherData.latitude,
                         sWeatherData.longitude,
                         surrHourlyTemps[pos][currentTimeIndex],
-                        "images/weatherIcons/" + surrHourlyIcons[pos][currentTimeIndex] + ".png"]);
+                        "images/weatherIcons/" + surrHourlyIcons[pos][currentTimeIndex] + ".svg"]);
     }
 
     // Fetches weather data for the locations surrounding the current location

@@ -29,7 +29,8 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
       return "";
     }
     $scope.iconLoaded = true;
-    return "images/weatherIcons/" + icon + "-big.png";
+    //return "images/weatherIcons/" + icon + "-big.png";
+    return "images/weatherIcons/" + icon + ".svg";
   }
 
   $scope.getIconsHourly = function(currentTimeIndex){
