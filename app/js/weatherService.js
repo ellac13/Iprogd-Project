@@ -102,16 +102,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 			var childKey = childSnapshot.key;
 			var childData = childSnapshot.val();
 			
-			for(var j = 4; j >= 0; j--){
-				if(temp[j] >= childData){
-					temp[j+1] = childData;
-					topLocations[j+1] = childKey;
+			for(var j = 0; j < temp.length; j++){
+				if(temp[j] < childData){
+					temp.splice(j,0,childData);
+					topLocations.splice(j,0,childKey);
 					break;
-				}else if(temp[j] < childData && j != 0){
-					continue;
-				}else if(j === 0 && temp[j] < childData){
-					temp.unshift(childData);
-					topLocations.unshift(childKey);
 				}
 			}
 			if(topLocations.length === 6){
