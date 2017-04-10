@@ -2,6 +2,14 @@ html {
     background-color: white;
 }
 
+body {
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+button {
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
 .container{
 	height: 100%;
 }
