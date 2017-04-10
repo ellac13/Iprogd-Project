@@ -101,19 +101,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 			snapshot.forEach(function(childSnapshot){
 			var childKey = childSnapshot.key;
 			var childData = childSnapshot.val();
-<<<<<<< HEAD
-			
+
 			for(var j = 0; j < temp.length; j++){
 				if(temp[j] < childData){
 					temp.splice(j,0,childData);
 					topLocations.splice(j,0,childKey);
-=======
-
-			for(var j = 4; j >= 0; j--){
-				if(temp[j] >= childData){
-					temp[j+1] = childData;
-					topLocations[j+1] = childKey;
->>>>>>> origin/master
 					break;
 				}
 			}
