@@ -39,4 +39,20 @@ phisancaApp.controller('LocationCtrl', function ($scope,$location,Weather) {
 		}
 	}
 
+	$scope.dropOnFavourite = function(e, ui){
+		console.log('dropOnFavourite');
+		//console.log(e);
+		//console.log(ui.draggable["0"].innerText);
+		var address = ui.draggable["0"].innerText;
+		$scope.toggleFavourite(address);
+	}
+
+	$scope.dropOnSearch = function(e, ui){
+		console.log('dropOnSearch');
+		//console.log(e);
+		//console.log(ui.draggable["0"].innerText);
+		var address = ui.draggable["0"].innerText;
+		$location.url('/?search=' + address);
+	}
+
 });

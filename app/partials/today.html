@@ -1,11 +1,11 @@
-<div id="today">
+<div id="today" data-drop="true" data-jqyoui-options jqyoui-droppable="{onDrop: 'dropLocation'}">
   <table class="locationTitleTable">
 		<tr>
 			<td ng-show="isLoggedIn()">
           <ng-include src="'partials/svg/heart.html'" ng-click="toggleFavourite(getLocationName())" ng-class="isFavourite()"></ng-include>
 			</td>
 			<td>
-        <h2 id="locationTitle">{{getLocationName()}}</h2>
+        <h2 id="locationTitle" data-drag="true" data-jqyoui-options="{revert: 'invalid', scroll: false, helper: 'clone', cursorAt: { left: 50, top: 50 }}" jqyoui-draggable="{animate:true}">{{getLocationName()}}</h2>
       </td>
 		</tr>
   </table>

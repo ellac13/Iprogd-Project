@@ -1,5 +1,5 @@
 
-phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
+phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval, $location) {
 
   $scope.favourites = Weather.getUserFavouriteLocations();
   $scope.user = Weather.getUser();
@@ -180,6 +180,23 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
   $scope.increaseFeels = function(delta) {
     Weather.increaseUserFeelsMod(delta);
     $scope.feelsMod = Weather.getUserFeelsMod();
+  }
+
+  $scope.dropLocation = function(e, ui){
+    console.log('dropLocation');
+    //console.log(e);
+    //console.log(ui.draggable["0"].innerText);
+    var address = ui.draggable["0"].innerText;
+    $location.url('/?search=' + address);
+  }
+
+  $scope.validDrop = function(e, ui){
+    console.log('validating drop');
+    if(ui.draggable["0"].innerText){
+      console.log('valid drop');
+    }else{
+      console.log('invalid drop');
+    }
   }
 
 });
