@@ -42,7 +42,8 @@ button {
 
 .locationTableLocation{
 	width:100%;
-	word-break: break-word;
+	/*word-break: break-word;*/
+	word-wrap: break-word
 }
 
 .locationTitleTable>tbody>tr>td{
