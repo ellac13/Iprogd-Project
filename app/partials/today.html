@@ -14,27 +14,27 @@
     <div class="currentWeatherElement">
       {{temps[0][slider.value] | number:0}}&deg;C
     </div>
+    <img  style="text-align:center;width:12vw;height:12vh" ng-show="iconLoaded" ng-src="{{getCurrentIcon()}}">
     <div class="currentWeatherElement" style="text-align:right">
       {{times[slider.value]}}
     </div>
   </div>
-  <div id="currentWeatherRow2" class="currentWeather">
-    <img  style="text-align:left;width:100px;height:100px" ng-show="iconLoaded" ng-src="{{getCurrentIcon()}}">
-    <div class="currentWeatherElement" style="text-align:right">
-      {{dates[slider.value]}}
+  <div id="currentWeatherRow2" class="currentDate">
+    <div class="currentWeatherElement" style="text-align:center">
+      {{weekdays[slider.value]}} {{dates[slider.value]}}
     </div>
-  </div>
-
-  <div class="col-md-offset-2 feelsLike">
-    <button class="btn btn-default" ng-click="increaseFeels(-1)"><span class="glyphicon glyphicon-minus"></button>
-    Feels like {{feels[slider.value]+feelsMod | number:0}}&deg;C
-    <button class="btn btn-default" ng-click="increaseFeels(1)"><span class="glyphicon glyphicon-plus"></button>
   </div>
 
   <canvas id="line" height="130" class="chart chart-bar" chart-colors="colors" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>
 
   <div>
     <rzslider id="currentTimeSlider" rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+  </div>
+
+  <div class="col-md-offset-2 feelsLike">
+    <button class="btn btn-default" ng-click="increaseFeels(-1)"><span class="glyphicon glyphicon-minus"></button>
+    Feels like {{feels[slider.value]+feelsMod | number:0}}&deg;C
+    <button class="btn btn-default" ng-click="increaseFeels(1)"><span class="glyphicon glyphicon-plus"></button>
   </div>
 
 </div>

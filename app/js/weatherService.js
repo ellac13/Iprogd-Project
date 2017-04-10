@@ -43,7 +43,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         "46ad276033757de21e86eb848ca1cff6"];
     // Resource to communicate with dark sky api.
     //Public proxy
-    var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/" + 
+    var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/" +
         apikeys[new Date().getMilliseconds()%apikeys.length] + "/:lat,:lon" + "?units=si", {}, {
     //Laptop proxy
     //var findWeather = $resource("http://myip:myport/myproxy/myproxy.php?lat=:lat&lon=:lon" + "&units=si", {}, {
@@ -101,11 +101,19 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 			snapshot.forEach(function(childSnapshot){
 			var childKey = childSnapshot.key;
 			var childData = childSnapshot.val();
+<<<<<<< HEAD
 			
 			for(var j = 0; j < temp.length; j++){
 				if(temp[j] < childData){
 					temp.splice(j,0,childData);
 					topLocations.splice(j,0,childKey);
+=======
+
+			for(var j = 4; j >= 0; j--){
+				if(temp[j] >= childData){
+					temp[j+1] = childData;
+					topLocations[j+1] = childKey;
+>>>>>>> origin/master
 					break;
 				}
 			}
@@ -113,7 +121,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 				topLocations.pop();
 			}
 			});
-		});                       
+		});
 		return topLocations;
 	}
 
@@ -143,6 +151,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         hourlyFeels[i] = hourlyData[i].apparentTemperature;
         hourlyTimes[i] = getTime(hourlyData[i].time);
         hourlyDates[i] = getDate(hourlyData[i].time);
+        hourlyWeekDays[i] = getDay(hourlyData[i].time);
         hourlyIcons[i] = hourlyData[i].icon;
       }
     }
@@ -181,19 +190,19 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		var format = day.getDay();
 		var dayOfWeek = '';
 		if(format === 0){
-			dayOfWeek = 'Sunday';
+			dayOfWeek = 'Sun';
 		}else if(format === 1){
-			dayOfWeek = 'Monday';
+			dayOfWeek = 'Mon';
 		}else if(format === 2){
-			dayOfWeek = 'Tuesday';
+			dayOfWeek = 'Tue';
 		}else if(format === 3){
-			dayOfWeek = 'Wednsday';
+			dayOfWeek = 'Wed';
 		}else if(format === 4){
-			dayOfWeek = 'Thursday';
+			dayOfWeek = 'Thu';
 		}else if(format === 5){
-			dayOfWeek = 'Friday';
+			dayOfWeek = 'Fri';
 		}else{
-			dayOfWeek = 'Saturday';
+			dayOfWeek = 'Sat';
 		}
 		return dayOfWeek;
 	}
@@ -201,6 +210,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     //Initial arrays of length 24
     var hourlyTimes = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
     var hourlyDates = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
+    var hourlyWeekDays = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
     var hourlyTemps = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
     var hourlyFeels = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
     var hourlyIcons = Array.apply(null, Array(24)).map(String.prototype.valueOf,"");
@@ -225,6 +235,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     this.getHourlyIcons = function() {
       return hourlyIcons;
+    }
+
+    this.getHourlyWeekDays = function() {
+      return hourlyWeekDays;
     }
 
 
@@ -576,7 +590,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                           {pos: "s", coords: {lat: cLat-0.3*(Math.random()+0.6),lon: cLon+0.3*(Math.random()-0.5)}},
                           {pos: "e", coords: {lat: cLat+0.3*(Math.random()-0.5),lon: cLon+0.5*(Math.random()+0.6)}},
                           {pos: "w", coords: {lat: cLat+0.3*(Math.random()-0.5),lon: cLon-0.5*(Math.random()+0.6)}}];
-        
+
         //Ugly but working solution..... Hämta väder för ne,sw,se,nw
         findWeather.get({lat:surrCoords[0].coords.lat,lon:surrCoords[0].coords.lon}, function(data){
             setSurroundingHourlyWeather(data, surrCoords[0].pos);
