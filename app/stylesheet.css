@@ -56,32 +56,35 @@ button {
 	padding-left: 5%;
 }
 
-.currentWeather{
+.currentWeatherTable {
 	width:100%;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
-	font-size:8vh;
 }
 
-.currentDate{
-	width:100%;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
+.currentWeatherTable>tbody>tr>td{
+	text-align: center;
+}
+
+.currentDateTableElement {
 	font-size:5vh;
 }
 
-.currentWeatherElement{
-	flex-grow: 100;
-	padding-left: 10%;
-	padding-right: 10%;
+.currentWeatherTableElement {
+	font-size:8vh;
+	/*width: 33.3%;*/
 }
 
 .feelsLike{
-	text-align: center;
-	font-size: 150%;
-	margin: 5%;
+	flex-grow: 0;
+	text-align: left;
+	font-size: 2vh;
+	/*margin: 5%;*/
+}
+
+.feelsBtn {
+	width:3vh;
+	height:3vh;
+	padding:0;
+	font-size:1vh;
 }
 
 .favouritesTable .heart{
