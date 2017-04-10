@@ -8,6 +8,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval) {
   $scope.times = Weather.getHourlyTimes();
   $scope.labels = Weather.getHourlyTimes().slice();
   $scope.dates = Weather.getHourlyDates();
+  $scope.weekdays = Weather.getHourlyWeekDays();
   $scope.bar = Array.apply(null, Array($scope.times.length)).map(Number.prototype.valueOf,0);
   $scope.temps = [Weather.getHourlyTemps(), $scope.bar];
   $scope.feels = Weather.getHourlyFeels();
