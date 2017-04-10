@@ -33,16 +33,9 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,We
                         tempMap.zoom = 8;
                         Weather.setMap(tempMap);
                     },
-                bounds_changed: function(mapModel, eventName, originalEventArgs, $rootScope) {
-                        /*var map = Weather.getMap();
-                        console.log("Bounds changed.");
-                        var activelat = Weather.getActiveLat();
-                        var activelng = Weather.getActiveLng();
-                        if(Math.abs(activelat-map.center.latitude) > 0.0001 && Math.abs(activelng-map.center.longitude) > 0.0001){
-                            console.log("Bounds changed. New coords: lat=" + map.center.latitude + ", lng=" + map.center.longitude);
-                            //Weather.fetchSurroundingWeatherData();    
-                        }*/
-                        
+                zoom_changed: function(mapModel, eventName, originalEventArgs, $rootScope) {
+                        /*Weather.updateMap();
+                        Weather.fetchSurroundingWeatherData();*/
                     }
                 }
         }
@@ -61,8 +54,5 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,We
     //Callback function
     uiGmapGoogleMapApi.then(function(maps) {
         $scope.status = "";
-
-        
-  
     }, function(){$scope.status = "Error loading map"});
 });
