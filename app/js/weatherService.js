@@ -116,18 +116,45 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		});
 		return topLocations;
 	}
+	
+	var feelsMod = 0;
 
-  var userFeelsMod = 3;
+	this.getUserFeelsMod = function() {
+		//TODO: Read from storage
+		var user = model.getUser();
+		console.log(user);
+		if(user === undefined || user === null){
+			return feelsMod;
+		}
+		console.log(user.uid);
+		var userFeelsMod = 0;
+		var userFeelsLikeRef = database.ref(user.uid + '/FeelsLike/');
+		userFeelsLikeRef.once('value', function(snapshot){
+			userFeelsMod = snapshot.val();
+		});
+		//userFeelsMod = mod;
+		return userFeelsMod;
+	}
 
-  this.getUserFeelsMod = function() {
-    //TODO: Read from storage
-    return userFeelsMod;
-  }
-
-  this.increaseUserFeelsMod = function(delta) {
-    //TODO: Update actual value in storage
-    userFeelsMod += delta;
-  }
+	this.increaseUserFeelsMod = function(delta) {
+		//TODO: Update actual value in storage
+		
+	
+		var user = model.getUser();
+		if(user === undefined || user === null){
+			feelsMod += delta;
+		}else{
+		
+			var userFeelsMod = 0;
+			var userFeelsLikeRef = database.ref(user.uid + '/FeelsLike/');
+	
+			userFeelsLikeRef.on('value', function(snapshot){
+				userFeelsMod = snapshot.val();
+			});
+			userFeelsMod += delta;
+			database.ref().child(user.uid).child('/FeelsLike/').set(userFeelsMod);
+		}
+	}
 
 
     ////////////////////// Current Weather /////////////////////////////
