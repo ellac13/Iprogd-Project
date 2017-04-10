@@ -24,6 +24,10 @@
 	vertical-align: middle;
 }
 
+.locationTable tr{
+	display: block;
+}
+
 .locationTableLocation{
 	width:100%;
 	word-break: break-word;

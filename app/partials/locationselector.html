@@ -3,15 +3,16 @@
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder="Location..." ng-model="searchQuery">
 			<span class="input-group-btn">
-				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"><span class="glyphicon glyphicon-map-marker"><span class="glyphicon glyphicon-globe"><span class="glyphicon glyphicon-send"></span></button>
+				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></button>
 			</span>
 	    </div>
     </form>
+    <div class="btn btn-primary" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}">Drag me!</div>
     <div class="scrollable">
     	<div ng-show="isLoggedIn()">
 			<h4>Favourites</h4>
 			<table class="table table-hover locationTable favouritesTable">
-				<tr ng-repeat="location in favouriteLocations" ng-click="search(location)">
+				<tr ng-repeat="location in favouriteLocations" ng-click="search(location)" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}">
 					<td>
 						<div ng-click="toggleFavourite(location)">
 							<ng-include src="'partials/svg/heart.html'"></ng-include>
@@ -24,7 +25,7 @@
 		</div>
 		<h4>Popular</h4>
 		<table class="table table-hover locationTable">
-			<tr ng-repeat="location in popularLocations" ng-click="search(location)">
+			<tr ng-repeat="location in popularLocations" ng-click="search(location)" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}">
 				<td ng-show="isLoggedIn()">
 					<div ng-click="toggleFavourite(location)">
 						<ng-include src="'partials/svg/heart.html'"></ng-include>
@@ -37,7 +38,7 @@
 		<h4>Recent searches</h4>
 
 		<table class="table table-hover locationTable">
-			<tr ng-repeat="location in recentLocations" ng-click="search(location)">
+			<tr ng-repeat="location in recentLocations" ng-click="search(location)" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}">
 				<td ng-show="isLoggedIn()">
 					<div ng-click="toggleFavourite(location)">
 						<ng-include src="'partials/svg/heart.html'"></ng-include>

@@ -21,6 +21,7 @@
 	"chart.js": "x.x.x",
 	"angular-chart.js" : "x.x.x",
 	"angular-google-maps": "2.4.1",
-    "angular-simple-logger": "0.1.7"
+    "angular-simple-logger": "0.1.7",
+    "angular-dragdrop": "1.0.13"
   }
 }
