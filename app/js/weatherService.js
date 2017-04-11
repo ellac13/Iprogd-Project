@@ -34,13 +34,19 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     }
 
 
-    var apikeys = ["6acbd836627174487a78deec700c2145",
+    var apikeys = [/*"6acbd836627174487a78deec700c2145",
         "0567ae6243f12d4dae11eb0bb3e3f929",
         "f4fd75b39585aabceee20dcde734bc5e",
         "c47c5308f3f951df3de5802dd0749ff1",
         "e4de76fd41d3be73d909c8955d87842c",
         "6d252f2f4600ca24c2a426598ea9249f",
-        "46ad276033757de21e86eb848ca1cff6"];
+        "46ad276033757de21e86eb848ca1cff6",*/
+        "1a7fcf38a7a7c129acd214edd7527127",
+        "fcee5cad5967c9cbfcaab38fb0adc8c0",
+        "abc1511d6995860ffff7ea0a509b190a",
+        "c384722ceb3b99067d4f633518e201e4",
+        "fa6831ab8b0014524c67ed9917191b00",
+        "b4243c6606889c3ad13c7e5f4ab23903"];
     // Resource to communicate with dark sky api.
     //Public proxy
     var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/" +
@@ -48,7 +54,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     //Laptop proxy
     //var findWeather = $resource("http://myip:myport/myproxy/myproxy.php?lat=:lat&lon=:lon" + "&units=si", {}, {
     //Tablet proxy
-    //var findWeather = $resource("http://myip:myport/?lat=:lat&lon=:lon" + "&units=si", {}, {
+    //var findWeather = $resource("http://83.251.29.83:60000/?lat=:lat&lon=:lon" + "&units=si", {}, {
         get: {
             headers:{
                 'Content-type': 'application/json'
