@@ -34,9 +34,8 @@
         <hr>
 
         <form ng-cloak ng-submit="updateUsername(newUsername)">
-          <h3>Change Username</h3>
+          <h3>Change Displayname</h3>
           <div class="settingsInput">
-            New username:
             <input id="newUsername" type="text" class="form-control" placeholder="username" ng-model="newUsername">
           </div>
           <div ng-class="{invisible:usernameError==='no', errortext:usernameError==='error', successtext:usernameError==='success'}">
