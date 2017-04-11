@@ -37,12 +37,12 @@
           <h3>Change Displayname</h3>
           <div class="settingsInput">
             New displayname:
-            <input id="newUsername" type="text" class="form-control" placeholder="username" ng-model="newUsername">
+            <input id="newUsername" type="text" class="form-control" placeholder="displayname" ng-model="newUsername">
           </div>
           <div ng-class="{invisible:usernameError==='no', errortext:usernameError==='error', successtext:usernameError==='success'}">
             {{usernameStatus}}
           </div>
-          <button class="btn btn-default" style="margin-top:2%" type="submit">Update Username</button>
+          <button class="btn btn-default" style="margin-top:2%" type="submit">Update Displayname</button>
         </form>
         <hr>
       </div>
