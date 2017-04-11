@@ -96,7 +96,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		var topLocations = [];
 		var temp = [0, 0, 0, 0, 0];
 		var popularSearches = database.ref('PopularSearches/');
-		popularSearches.on('value', function(snapshot){
+		popularSearches.once('value').then(function(snapshot){
 			var i = 0;
 			snapshot.forEach(function(childSnapshot){
 			var childKey = childSnapshot.key;
@@ -113,6 +113,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 				topLocations.pop();
 			}
 			});
+		}, function(error){
+			console.error(error);
 		});
 		return topLocations;
 	}
@@ -129,8 +131,12 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		console.log(user.uid);
 		var userFeelsMod = 0;
 		var userFeelsLikeRef = database.ref(user.uid + '/FeelsLike/');
-		userFeelsLikeRef.once('value', function(snapshot){
+		userFeelsLikeRef.once('value').then(function(snapshot){
 			userFeelsMod = snapshot.val();
+			console.log(userFeelsMod);
+			return userFeelsMod;
+		}, function(error){
+			console.error(error);
 		});
 		//userFeelsMod = mod;
 		return userFeelsMod;
@@ -148,11 +154,13 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 			var userFeelsMod = 0;
 			var userFeelsLikeRef = database.ref(user.uid + '/FeelsLike/');
 	
-			userFeelsLikeRef.on('value', function(snapshot){
+			userFeelsLikeRef.once('value').then(function(snapshot){
 				userFeelsMod = snapshot.val();
+				userFeelsMod += delta;
+				database.ref().child(user.uid).child('/FeelsLike/').set(userFeelsMod);
+			}, function(error){
+				console.error(error);
 			});
-			userFeelsMod += delta;
-			database.ref().child(user.uid).child('/FeelsLike/').set(userFeelsMod);
 		}
 	}
 
