@@ -170,6 +170,32 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		}
 	}
 
+	
+	//////FIREBASE DISPLAYNAME//////
+	
+	
+	this.storeDisplayName = function(displayName){
+	
+		var user = model.getUser();
+		var userDisplayNameRef = database.ref(user.uid + '/DisplayName/');
+	
+		database.ref().child(user.uid).child('/DisplayName/').set(displayName);
+		console.log('Been here done that');
+	}
+	
+	this.getDisplayName = function(){
+		var displayName = '';
+		var user = model.getUser();
+		var userDisplayNameRef = database.ref(user.uid + '/DisplayName/');
+	
+		userDisplayNameRef.once('value').then(function(snapshot){
+			displayName = snapshot.val();
+			return displayName;
+		}, function(error){
+			console.error(error);
+		});
+	}
+	
 
     ////////////////////// Current Weather /////////////////////////////
 
