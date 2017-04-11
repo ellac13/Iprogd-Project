@@ -63,8 +63,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             activeWeatherData = data;
             setHourlyWeather();
 			setDailyWeather();
-            model.fetchSurroundingWeatherData();
-            model.updateMap();
+            fetchSurroundingWeatherData();
+            updateMap();
             //console.log(data);
             console.log("Successfully set weather data for lat: " + lat + ", lon: " + lon);
         }, function(data){
@@ -284,7 +284,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     this.setCurrentTimeIndex = function(newValue) {
       currentTimeIndex = newValue;
-      model.updateMap();
+      updateMap();
     }
 
     //User data
@@ -528,7 +528,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             id: lastID,
             icon: {
                 url: markerData[3],
-                scaledSize: { width: 50, height: 50 }
+                scaledSize: { width: 40, height: 40 }
             },
             options: {
                 labelClass:'marker_labels',
@@ -539,7 +539,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       markers.push(ret);
     }
 
-    this.updateMap = function(){
+    var updateMap = function(){
         markers = [];
 
         map.center = {latitude: model.getActiveLat(),
@@ -577,7 +577,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                            w: Array.apply(null, Array(24)).map(String.prototype.valueOf,"")};
 
     //Saves the fetched weather data and adds a marker.
-    var setSurroundingHourlyWeather = function(sWeatherData, pos, zoomLevel) {
+    var setSurroundingHourlyWeather = function(sWeatherData, pos) {
         var hourlyData = sWeatherData.hourly.data;
         for (var i = 0; i < hourlyData.length / 2; i++) {
         surrHourlyTemps[pos][i] = hourlyData[i].temperature;
@@ -588,54 +588,50 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         surrLocations[pos].lon = sWeatherData.longitude;
         surrLocations[pos].usable = true;
         
-        if(zoomLevel == model.getMap().zoom){
-            //Add the marker...
-            model.addMarker([sWeatherData.latitude,
-                            sWeatherData.longitude,
-                            surrHourlyTemps[pos][currentTimeIndex],
-                            "images/weatherIcons/" + surrHourlyIcons[pos][currentTimeIndex] + ".svg"]);
-        }
+        //Add the marker...
+        model.addMarker([sWeatherData.latitude,
+                        sWeatherData.longitude,
+                        surrHourlyTemps[pos][currentTimeIndex],
+                        "images/weatherIcons/" + surrHourlyIcons[pos][currentTimeIndex] + ".svg"]);
+        
     }
 
     // Fetches weather data for the locations surrounding the current location
     // and saves it.
-    this.fetchSurroundingWeatherData = function(){
+    var fetchSurroundingWeatherData = function(){
         //Begin with marking old data as old...
         for(loc in surrLocations){
             surrLocations[loc].usable = false;
         }
 
-        var zoomLevel = model.getMap().zoom;
-        var posIndex = (21-zoomLevel)*0.3/13;
-
         var cLat = model.getActiveLat();
         var cLon = model.getActiveLng();
-        var surrCoords = [{pos: "n", coords: {lat: cLat+posIndex*(Math.random()+0.6),lon: cLon+posIndex*(Math.random()-0.5)}},
-                          {pos: "s", coords: {lat: cLat-posIndex*(Math.random()+0.6),lon: cLon+posIndex*(Math.random()-0.5)}},
-                          {pos: "e", coords: {lat: cLat+posIndex*(Math.random()-0.5),lon: cLon+posIndex*(Math.random()+0.6)}},
-                          {pos: "w", coords: {lat: cLat+posIndex*(Math.random()-0.5),lon: cLon-posIndex*(Math.random()+0.6)}}];
+        var surrCoords = [{pos: "n", coords: {lat: cLat+0.3*(Math.random()+0.6),lon: cLon+0.3*(Math.random()-0.5)}},
+                          {pos: "s", coords: {lat: cLat-0.3*(Math.random()+0.6),lon: cLon+0.3*(Math.random()-0.5)}},
+                          {pos: "e", coords: {lat: cLat+0.3*(Math.random()-0.5),lon: cLon+0.3*(Math.random()+0.6)}},
+                          {pos: "w", coords: {lat: cLat+0.3*(Math.random()-0.5),lon: cLon-0.3*(Math.random()+0.6)}}];
 
         //Ugly but working solution..... Hämta väder för ne,sw,se,nw
         findWeather.get({lat:surrCoords[0].coords.lat,lon:surrCoords[0].coords.lon}, function(data){
-            setSurroundingHourlyWeather(data, surrCoords[0].pos,zoomLevel);
+            setSurroundingHourlyWeather(data, surrCoords[0].pos);
         }, function(data){
             throw "Error while fetching weather data!!!";
         });
 
         findWeather.get({lat:surrCoords[1].coords.lat,lon:surrCoords[1].coords.lon}, function(data){
-            setSurroundingHourlyWeather(data, surrCoords[1].pos,zoomLevel);
+            setSurroundingHourlyWeather(data, surrCoords[1].pos);
         }, function(data){
             throw "Error while fetching weather data!!!";
         });
 
         findWeather.get({lat:surrCoords[2].coords.lat,lon:surrCoords[2].coords.lon}, function(data){
-            setSurroundingHourlyWeather(data, surrCoords[2].pos,zoomLevel);
+            setSurroundingHourlyWeather(data, surrCoords[2].pos);
         }, function(data){
             throw "Error while fetching weather data!!!";
         });
 
         findWeather.get({lat:surrCoords[3].coords.lat,lon:surrCoords[3].coords.lon}, function(data){
-            setSurroundingHourlyWeather(data, surrCoords[3].pos,zoomLevel);
+            setSurroundingHourlyWeather(data, surrCoords[3].pos);
         }, function(data){
             throw "Error while fetching weather data!!!";
         });

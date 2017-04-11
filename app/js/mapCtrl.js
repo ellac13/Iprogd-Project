@@ -32,10 +32,6 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,We
                         var tempMap = Weather.getMap();
                         tempMap.zoom = 8;
                         Weather.setMap(tempMap);
-                    },
-                zoom_changed: function(mapModel, eventName, originalEventArgs, $rootScope) {
-                        /*Weather.updateMap();
-                        Weather.fetchSurroundingWeatherData();*/
                     }
                 }
         }
