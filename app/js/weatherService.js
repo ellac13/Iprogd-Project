@@ -174,13 +174,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	//////FIREBASE DISPLAYNAME//////
 	
 	
-	this.storeDisplayName = function(displayName){
+	this.storeDisplayName = function(displayName, useruid){
 	
-		var user = model.getUser();
-		var userDisplayNameRef = database.ref(user.uid + '/DisplayName/');
-	
-		database.ref().child(user.uid).child('/DisplayName/').set(displayName);
-		console.log('Been here done that');
+		var userDisplayNameRef = database.ref(useruid + '/DisplayName/');
+		database.ref().child(useruid).child('/DisplayName/').set(displayName);
 	}
 	
 	this.getDisplayName = function(){
@@ -701,8 +698,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
           console.log("User " + firebaseUser.uid + " created successfully!");
 
           // TODO: Add displayname!
-
           scope.answer();
+		  model.storeDisplayName(disp, firebaseUser.uid);
         }).catch(function(error) {
           errorfunc(error, scope);
         });
