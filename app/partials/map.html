@@ -4,7 +4,7 @@
 <button ng-click="addMarker([1.22, 45.232, '12', 'images/weatherIcons/Cloud Lightning.png'])">Test to add location</button>
 -->
 {{loadingWeatherMessage()}}
-<ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' options="map.options" events="map.events" styles="map.styles" bounds="map.bounds">
+<ui-gmap-google-map id="map" center='map.center' ng-if='showMap' zoom='map.zoom' options="map.options" events="map.events" styles="map.styles" bounds="map.bounds">
 	<ui-gmap-markers models="markers" coords="'self'" idkey="'id'" icon="'icon'" options="'options'"></ui-gmap-markers>
 </ui-gmap-google-map>
 

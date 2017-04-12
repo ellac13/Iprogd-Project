@@ -43,6 +43,7 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,We
 
     //$scope.status = "Loading map...";
     $scope.status = Weather.getLoadingWeatherMessage();
+    $scope.showMap = false;
 
     $interval(function(){
         $scope.markers = Weather.getMarkers();
@@ -50,6 +51,11 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,We
 
     $scope.loadingWeatherMessage = function(){
         $scope.status = Weather.getLoadingWeatherMessage();
+        if($scope.status == ""){
+            $scope.showMap = true;
+        } else {
+            $scope.showMap = false;
+        }
         return $scope.status;
     }
 
