@@ -34,19 +34,26 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     }
 
 
-    var apikeys = [/*"6acbd836627174487a78deec700c2145",
+    var apikeys = ["6acbd836627174487a78deec700c2145",
         "0567ae6243f12d4dae11eb0bb3e3f929",
         "f4fd75b39585aabceee20dcde734bc5e",
         "c47c5308f3f951df3de5802dd0749ff1",
         "e4de76fd41d3be73d909c8955d87842c",
         "6d252f2f4600ca24c2a426598ea9249f",
-        "46ad276033757de21e86eb848ca1cff6",*/
+        "46ad276033757de21e86eb848ca1cff6",
         "1a7fcf38a7a7c129acd214edd7527127",
         "fcee5cad5967c9cbfcaab38fb0adc8c0",
         "abc1511d6995860ffff7ea0a509b190a",
         "c384722ceb3b99067d4f633518e201e4",
         "fa6831ab8b0014524c67ed9917191b00",
-        "b4243c6606889c3ad13c7e5f4ab23903"];
+        "b4243c6606889c3ad13c7e5f4ab23903",
+        "e7a849e89c0062ffc8efdf6201a9c91a",
+        "7ee2685e37f178555c050b292dfd4f22",
+        "22b6f091e930aa8a829cab76f3f6dcb7",
+        "00efa9bbccef2cf85a03ddba7485fd0e",
+        "214c8cdbd91be4887fac4e0902cd6cfc",
+        "32d09896b99161bed7526bb9d8894ae9",
+        "95d20d0fd3e79a19dd94d39b934ef3c4"];
     // Resource to communicate with dark sky api.
     //Public proxy
     var findWeather = $resource("https://crossorigin.me/https://api.darksky.net/forecast/" +
@@ -54,7 +61,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     //Laptop proxy
     //var findWeather = $resource("http://myip:myport/myproxy/myproxy.php?lat=:lat&lon=:lon" + "&units=si", {}, {
     //Tablet proxy
-    //var findWeather = $resource("http://83.251.29.83:60000/?lat=:lat&lon=:lon" + "&units=si", {}, {
+    //var findWeather = $resource("http://83.251.29.83:60000/?lat=:lat&lon=:lon&key=" + apikeys[new Date().getMilliseconds()%apikeys.length], {}, {
         get: {
             headers:{
                 'Content-type': 'application/json'
