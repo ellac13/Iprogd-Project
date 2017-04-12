@@ -118,8 +118,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	var displayName = [];
     var currentUser;
 	var feelsMod = [];
-    var popularLocations =  [];
-	var userFavourites =  [];
+    var popularLocations = [];
+	var userFavourites = [];
 
 	var database = firebase.database();
 
@@ -193,7 +193,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	//////FeelsLike//////
 
 	this.getUserFeelsMod = function(){
-		//console.log('Got the feels ', feelsMod);
 		return feelsMod;
 	}
 
@@ -249,7 +248,17 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		return displayName;
 	}
 
-
+	this.getRefresh = function(user){
+		if(user === undefined){
+			
+		}else{
+			updateDisplayName(user.uid);
+			readUserFeelsMod(user.uid);
+			updateFavouriteLocations(user.uid);
+			updatePopularLocations();
+		}
+	}
+	
     ////////////////////// Current Weather /////////////////////////////
 
     //The current time in index form
