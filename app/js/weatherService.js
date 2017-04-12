@@ -659,10 +659,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         }
     }
 
-    var surrLocations = {n: {usable: false, lat:0, lon:0},
-                         s: {usable: false, lat:0, lon:0},
-                         e: {usable: false, lat:0, lon:0},
-                         w: {usable: false, lat:0, lon:0}
+    var surrLocations = {n: {usable: false, lat:0, lon:0, id:0},
+                         s: {usable: false, lat:0, lon:0, id:0},
+                         e: {usable: false, lat:0, lon:0, id:0},
+                         w: {usable: false, lat:0, lon:0, id:0}
                         }
 
     var surrHourlyTemps = {n: Array.apply(null, Array(24)).map(Number.prototype.valueOf,0),
@@ -674,8 +674,14 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                            e: Array.apply(null, Array(24)).map(String.prototype.valueOf,""),
                            w: Array.apply(null, Array(24)).map(String.prototype.valueOf,"")};
 
+
+
     //Saves the fetched weather data and adds a marker.
-    var setSurroundingHourlyWeather = function(sWeatherData, pos) {
+    var setSurroundingHourlyWeather = function(sWeatherData, pos, id) {
+        if(surrLocations[pos].id != id){
+            //alert("Tried to add old surrWeather, id:" + id + ", surrID:" + surrLocations[pos].id);
+            return;
+        }
         var hourlyData = sWeatherData.hourly.data;
         for (var i = 0; i < hourlyData.length / 2; i++) {
         surrHourlyTemps[pos][i] = hourlyData[i].temperature;
@@ -704,32 +710,38 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
         var cLat = model.getActiveLat();
         var cLon = model.getActiveLng();
-        var surrCoords = [{pos: "n", coords: {lat: cLat+0.3*(Math.random()+0.6),lon: cLon+0.3*(Math.random()-0.5)}},
-                          {pos: "s", coords: {lat: cLat-0.3*(Math.random()+0.6),lon: cLon+0.3*(Math.random()-0.5)}},
-                          {pos: "e", coords: {lat: cLat+0.3*(Math.random()-0.5),lon: cLon+0.3*(Math.random()+0.6)}},
-                          {pos: "w", coords: {lat: cLat+0.3*(Math.random()-0.5),lon: cLon-0.3*(Math.random()+0.6)}}];
+        var surrCoords = [{pos: "n", coords: {lat: cLat+0.3*(Math.random()+0.6),lon: cLon+0.3*(Math.random()-0.5)}, id: Math.random()},
+                          {pos: "s", coords: {lat: cLat-0.3*(Math.random()+0.6),lon: cLon+0.3*(Math.random()-0.5)}, id: Math.random()},
+                          {pos: "e", coords: {lat: cLat+0.3*(Math.random()-0.5),lon: cLon+0.3*(Math.random()+0.6)}, id: Math.random()},
+                          {pos: "w", coords: {lat: cLat+0.3*(Math.random()-0.5),lon: cLon-0.3*(Math.random()+0.6)}, id: Math.random()}];
+
+        //Set id:s for all surrounding coordinates
+        surrLocations["n"].id = surrCoords[0].id;
+        surrLocations["s"].id = surrCoords[1].id;
+        surrLocations["e"].id = surrCoords[2].id;
+        surrLocations["w"].id = surrCoords[3].id;
 
         //Ugly but working solution..... Hämta väder för ne,sw,se,nw
         findWeather.get({lat:surrCoords[0].coords.lat,lon:surrCoords[0].coords.lon}, function(data){
-            setSurroundingHourlyWeather(data, surrCoords[0].pos);
+            setSurroundingHourlyWeather(data, surrCoords[0].pos, surrCoords[0].id);
         }, function(data){
             throw "Error while fetching weather data!!!";
         });
 
         findWeather.get({lat:surrCoords[1].coords.lat,lon:surrCoords[1].coords.lon}, function(data){
-            setSurroundingHourlyWeather(data, surrCoords[1].pos);
+            setSurroundingHourlyWeather(data, surrCoords[1].pos, surrCoords[1].id);
         }, function(data){
             throw "Error while fetching weather data!!!";
         });
 
         findWeather.get({lat:surrCoords[2].coords.lat,lon:surrCoords[2].coords.lon}, function(data){
-            setSurroundingHourlyWeather(data, surrCoords[2].pos);
+            setSurroundingHourlyWeather(data, surrCoords[2].pos, surrCoords[2].id);
         }, function(data){
             throw "Error while fetching weather data!!!";
         });
 
         findWeather.get({lat:surrCoords[3].coords.lat,lon:surrCoords[3].coords.lon}, function(data){
-            setSurroundingHourlyWeather(data, surrCoords[3].pos);
+            setSurroundingHourlyWeather(data, surrCoords[3].pos, surrCoords[3].id);
         }, function(data){
             throw "Error while fetching weather data!!!";
         });
