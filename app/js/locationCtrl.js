@@ -19,6 +19,10 @@ phisancaApp.controller('LocationCtrl', function ($scope,$location,Weather) {
 		Weather.toggleFavouriteLocation(address);
 	}
 
+	$scope.getFavourites = function(){
+		return Weather.getUserFavouriteLocations();
+	}
+
 
 	$scope.search = function(query){
 		//alert("Search with query: " + query);

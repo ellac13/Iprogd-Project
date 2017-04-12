@@ -11,7 +11,7 @@
     	<div ng-show="isLoggedIn()" data-drop="true" data-jqyoui-options="{tolerance: 'pointer'}" jqyoui-droppable="{onDrop: 'dropOnFavourite'}">
 			<h4>Favourites</h4>
 			<table class="table table-hover locationTable favouritesTable">
-				<tr ng-repeat="location in favouriteLocations" ng-click="search(location)" data-drag="true" data-jqyoui-options="{revert: 'invalid', scroll: false, helper: 'clone'}" jqyoui-draggable="{animate:true}">
+				<tr ng-repeat="location in getFavourites()" ng-click="search(location)" data-drag="true" data-jqyoui-options="{revert: 'invalid', scroll: false, helper: 'clone'}" jqyoui-draggable="{animate:true}">
 					<td>
 						<div ng-click="toggleFavourite(location)">
 							<ng-include src="'partials/svg/heart.html'"></ng-include>
