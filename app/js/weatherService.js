@@ -77,24 +77,42 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         return loadingWeatherMessage;
     }
 
+    //Each async resource call gets its own randomized id.
+    //This variable will be set to the latest requests ID
+    var weatherID = -1;
     // Fetches weather from dark sky for the parameterized coordinates
     // and sets it to the activeWeatherData variable
     var setWeather = function(lat, lon){
         loadingWeatherMessage = "Fetching weather...";
+        weatherID = Math.random();
         findWeather.get({lat:lat,lon:lon}, function(data){
-            activeWeatherData = data;
-            setHourlyWeather();
-			setDailyWeather();
-            fetchSurroundingWeatherData();
-            updateMap();
-            //console.log(data);
-            console.log("Successfully set weather data for lat: " + lat + ", lon: " + lon);
-            loadingWeatherMessage = "";
+            setWeatherSuccessCallBack(data, lat, lon, weatherID);
         }, function(data){
-            loadingWeatherMessage = "Failed to load weather, try again later.";
+            setWeatherFailCallback();            
         });
     }
 
+    var setWeatherSuccessCallBack = function(data, lat, lon, wID){
+        //Check that we have received the latest weather request.
+        if(weatherID != wID){
+            setWeatherFailCallback();
+            activeWeatherData = null;
+            return;
+        }
+        activeWeatherData = data;
+        setHourlyWeather();
+        setDailyWeather();
+        fetchSurroundingWeatherData();
+        updateMap();
+        //console.log(data);
+        //console.log("Successfully set weather data for lat: " + lat + ", lon: " + lon);
+        loadingWeatherMessage = "";
+    }
+
+    var setWeatherFailCallback = function(){
+        loadingWeatherMessage = "Failed to load weather, try again later.";
+    }
+    
 		///////////////////Firebase Storage////////////////////////////////
 
 	var displayName = [];
