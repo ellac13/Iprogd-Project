@@ -173,24 +173,24 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	
 	//////FIREBASE DISPLAYNAME//////
 	
+	var displayName = '';
 	
 	this.storeDisplayName = function(displayName, useruid){
-	
-		var userDisplayNameRef = database.ref(useruid + '/DisplayName/');
 		database.ref().child(useruid).child('/DisplayName/').set(displayName);
 	}
 	
-	this.getDisplayName = function(){
-		var displayName = '';
-		var user = model.getUser();
-		var userDisplayNameRef = database.ref(user.uid + '/DisplayName/');
-	
+	this.updateDisplayName = function(useruid){
+		var userDisplayNameRef = database.ref(useruid + '/DisplayName/');
 		userDisplayNameRef.once('value').then(function(snapshot){
 			displayName = snapshot.val();
-			return displayName;
 		}, function(error){
 			console.error(error);
 		});
+	}
+	
+	this.getDisplayName = function(){
+		console.log('This is the displayname: ', displayName);
+		return displayName;
 	}
 	
 
@@ -686,6 +686,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     this.login = function(email, pwd, scope, errorfunc) {
       auth.$signInWithEmailAndPassword(email, pwd).then(function(firebaseUser) {
         console.log("Signed in as: ", firebaseUser.uid);
+		model.updateDisplayName(firebaseUser.uid);
       }).catch(function(error) {
         errorfunc(error, scope);
         console.error("Authentication failed:", error);
