@@ -187,7 +187,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 			var val = snapshot.val();
 			feelsMod.splice(0, 1, val);
 			console.log(feelsMod[0]);
-			//$loginScope.$apply();
 		}, function(error){
 			console.error(error);
 		});
@@ -215,6 +214,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	
 	
 	var storeDisplayName = function(nameToBeStored, useruid){
+		console.log('Displayname will be stored: ', nameToBeStored);
+		displayName.splice(0,1,nameToBeStored);
 		database.ref().child(useruid).child('/DisplayName/').set(nameToBeStored);
 	}
 	
@@ -782,9 +783,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       });
     }
 
-    this.updateUsername = function(newUsername, scope, successfunc, errorfunc) {
-      if (newUsername.length > 0) {
+    this.updateUsername = function(newDisplayname, scope, successfunc, errorfunc) {
+      if (newDisplayname.length > 0) {
         successfunc(scope);
+		var user = model.getUser();
+		storeDisplayName(newDisplayname, user.uid);
       } else {
         errorfunc("Error: No username given", scope);
       }
