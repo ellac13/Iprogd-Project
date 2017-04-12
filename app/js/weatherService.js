@@ -97,24 +97,22 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 	/////////Popular locations//////////
 	
-	var saveData = function(addressToBeSaved, $rootScope){
+	var saveData = function(addressToBeSaved){
 		var numOfTimeRef = database.ref('PopularSearches/' + addressToBeSaved);
 
 		var numOfTimes = 0;
 		numOfTimeRef.once('value').then(function(snapshot){
 			var locations = snapshot.key;
-			//console.log(locations);
 			numOfTimes = snapshot.val();
 			numOfTimes = numOfTimes +1;
 			database.ref().child("PopularSearches").child(addressToBeSaved).set(numOfTimes);
-			updatePopularLocations($rootScope);
+			updatePopularLocations();
 		}, function(error){
 			console.error(error);
 		});
 	}
 
-	var updatePopularLocations = function($rootScope){
-		var topLocations = [];
+	var updatePopularLocations = function(){
 		var temp = [0, 0, 0, 0, 0];
 		var popularSearches = database.ref('PopularSearches/');
 		popularSearches.once('value').then(function(snapshot){
@@ -126,17 +124,15 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 			for(var j = 0; j < temp.length; j++){
 				if(temp[j] < childData){
 					temp.splice(j,0,childData);
-					topLocations.splice(j,0,childKey);
+					popularLocations.splice(j,0,childKey);
 					break;
 				}
 			}
-			if(topLocations.length === 6){
-				topLocations.pop();
+			if(popularLocations.length === 6){
+				popularLocations.pop();
 			}
 			});
-			popularLocations = topLocations;
 			console.log('Current popular locations ', popularLocations);
-			$rootScope.$apply();
 		}, function(error){
 			console.error(error);
 		});
@@ -181,7 +177,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		userFeelsLikeRef.once('value').then(function(snapshot){
 			feelsMod = snapshot.val();
 			console.log(feelsMod);
-			$loginScope.$apply();
+			//$loginScope.$apply();
 		}, function(error){
 			console.error(error);
 		});
@@ -428,7 +424,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             }
         }
 
-		saveData(address, $rootScope);
+		saveData(address);
 
         //Convert the address to coordinates and search for weather with those coordinates
         console.log('Trying to convert address "' + address + '" to coordinates');
