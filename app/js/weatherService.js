@@ -182,6 +182,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 	this.increaseUserFeelsMod = function(delta) {
 		//TODO: Update actual value in storage
+		feelsMod +=delta;
 		var userFeelsLikeRef = database.ref(currentUser.uid + '/FeelsLike/');
 		userFeelsLikeRef.once('value').then(function(snapshot){
 			feelsMod = snapshot.val();
