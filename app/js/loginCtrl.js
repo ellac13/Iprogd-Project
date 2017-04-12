@@ -4,6 +4,12 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   $scope.usernamePlaceholder = "username";
   $scope.pwdPlaceholder = "password";
 
+  $scope.dispname = Weather.getDisplayName();
+
+  $scope.checkname = function() {
+    $scope.dispname = Weather.getDisplayName();
+  }
+
   $scope.username = "";
   $scope.pwd = "";
 
