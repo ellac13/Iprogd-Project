@@ -88,7 +88,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         findWeather.get({lat:lat,lon:lon}, function(data){
             setWeatherSuccessCallBack(data, lat, lon, weatherID);
         }, function(data){
-            setWeatherFailCallback();            
+            setWeatherFailCallback();
         });
     }
 
@@ -112,7 +112,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     var setWeatherFailCallback = function(){
         loadingWeatherMessage = "Failed to load weather, try again later.";
     }
-    
+
 		///////////////////Firebase Storage////////////////////////////////
 
 	var displayName = [];
@@ -248,17 +248,15 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		return displayName;
 	}
 
-	this.getRefresh = function(user){
-		if(user === undefined){
-			
-		}else{
-			updateDisplayName(user.uid);
-			readUserFeelsMod(user.uid);
-			updateFavouriteLocations(user.uid);
+	var getRefresh = function(){
+		if(currentUser !== undefined){
+			updateDisplayName(currentUser.uid);
+			readUserFeelsMod(currentUser.uid);
+			updateFavouriteLocations(currentUser.uid);
 			updatePopularLocations();
 		}
 	}
-	
+
     ////////////////////// Current Weather /////////////////////////////
 
     //The current time in index form
@@ -812,15 +810,19 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     this.logout = function() {
       auth.$signOut();
-	  displayName[0] = '';
-	  feelsMod[0] = 0;
-	  userFavourites = [];
-	  updatePopularLocations();
+      getRefresh();
+	  // displayName[0] = '';
+	  // feelsMod[0] = 0;
+	  // userFavourites = [];
+	  // updatePopularLocations();
     }
 
     auth.$onAuthStateChanged(function(firebaseUser) {
       currentUser = firebaseUser;
+      getRefresh();
     });
+
+
 
 
     // Angular service needs to return an object that has all the

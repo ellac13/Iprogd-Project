@@ -7,7 +7,6 @@ phisancaApp.controller('LoginCtrl', function ($scope,Weather,$mdDialog) {
   $scope.dispname = Weather.getDisplayName();
 
   $scope.checkname = function() {
-    $scope.dispname = Weather.getDisplayName();
   }
 
   $scope.username = "";
