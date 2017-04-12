@@ -23,6 +23,14 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval, $l
     return Weather.getActiveAddress();
   }
 
+  $scope.tooltiptext = function() {
+    if ($scope.isLoggedIn()) {
+      return "Modify what the temperature actually feels like"
+    } else {
+      return "When logged in, you can modify what the temperature feels like"
+    }
+  };
+
   $scope.getCurrentIcon = function(){
     var icon = Weather.getHourlyIcons()[Weather.getCurrentTimeIndex()];
     if(icon.length < 1){
