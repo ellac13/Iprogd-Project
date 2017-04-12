@@ -4,7 +4,7 @@ To view the website, either visit https://phisanca.firebaseapp.com/ or do the fo
 
 1. Download the files to your computer
 2. Unpack the files if necessary
-3. Navigate to the 'app' folder of the project directory with a terminal
+3. Navigate to the project directory with a terminal
 4. Launch npm with 'npm start', this should download all depencencies
 5. Visit http://localhost:8000/ with a browser
 
