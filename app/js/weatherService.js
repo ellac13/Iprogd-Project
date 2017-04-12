@@ -603,8 +603,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                 labelClass:'marker_labels',
                 labelAnchor:'-28 25',
                 labelContent: temp + "°",
+                zIndex: 1,
+                optimized: false
             }
         };
+        lastID++;
       markers.push(ret);
     }
 
@@ -620,6 +623,24 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                         model.getActiveLng(),
                         hourlyTemps[currentTimeIndex],
                         "images/weatherIcons/" + hourlyIcons[currentTimeIndex] + ".svg"]);
+        //Add marker to indicate which is the center
+        markers.push({
+                        latitude: model.getActiveLat(),
+                        longitude: model.getActiveLng(),
+                        show: true,
+                        id: ++lastID,
+                        options: {
+                            zIndex: 2,
+                            optimized: false
+                        },
+                        icon: {
+                            url: "images/locationIcons/red-dot.svg",
+                            scaledSize: {width: 15, height: 15},
+                            anchor: new google.maps.Point(8, 28)
+                        }
+                    });
+
+
         //Add surrounding markers
         for(loc in surrLocations){
             if(!surrLocations[loc].usable) continue;
