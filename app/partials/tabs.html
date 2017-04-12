@@ -9,10 +9,10 @@
 		<ng-include src="'partials/map.html'" ng-controller="someController" class="scrollable noneSoFar"></ng-include>
 	</div>
 	<div ng-show="isSet(1)" class="flex_column">
-		<ng-include src="'partials/hourly.html'" class="scrollable tabsTableData"></ng-include>
+		<ng-include src="'partials/hourly.html'" class="scrollable tabsTableData" ng-controller="TodayTimeCtrl"></ng-include>
 	</div>
 	<div ng-show="isSet(2)" class="flex_column">
-		<ng-include src="'partials/daily.html'" class="scrollable tabsTableData"></ng-include>
+		<ng-include src="'partials/daily.html'" class="scrollable tabsTableData" ng-controller="TodayTimeCtrl"></ng-include>
 	</div>
 
 </div>

@@ -1,4 +1,5 @@
-	<table class="tabsTable" ng-controller="TodayTimeCtrl">
+{{loadingWeatherMessage()}}	
+	<table class="tabsTable" ng-if='showWeather'>
 		<tr class="tabsTableRow">
 			<th class="tabsTableData">Hour</th>
 			<th class="tabsTableData">Weather</th>
