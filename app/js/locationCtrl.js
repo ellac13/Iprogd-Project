@@ -11,10 +11,6 @@ phisancaApp.controller('LocationCtrl', function ($scope,$location,Weather) {
 	$scope.user = Weather.getUser();
 
 
-	$scope.testGeo = function() {
-		Weather.testGeolocation();
-	}
-
 	$scope.toggleFavourite = function(address){
 		//alert("favourited");
 		//console.log($event.currentTarget);
