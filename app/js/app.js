@@ -50,10 +50,6 @@ phisancaApp.config(['$routeProvider',
         templateUrl: 'partials/homeViewContainer.html',
         controller: 'pageOpenCtrl'
       }).
-      when('/stats', {
-        templateUrl: 'partials/statisticsContainer.html',
-        //controller: 'dummy'
-      }).
       otherwise({
         redirectTo: '/'
       });

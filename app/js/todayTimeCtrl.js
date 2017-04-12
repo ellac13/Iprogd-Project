@@ -208,20 +208,11 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval, $l
   }
 
   $scope.dropLocation = function(e, ui){
-    console.log('dropLocation');
+    //console.log('dropLocation');
     //console.log(e);
     //console.log(ui.draggable["0"].innerText);
     var address = ui.draggable["0"].innerText;
     $location.url('/?search=' + address);
-  }
-
-  $scope.validDrop = function(e, ui){
-    console.log('validating drop');
-    if(ui.draggable["0"].innerText){
-      console.log('valid drop');
-    }else{
-      console.log('invalid drop');
-    }
   }
 
 });

@@ -437,7 +437,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		saveData(address);
 
         //Convert the address to coordinates and search for weather with those coordinates
-        console.log('Trying to convert address "' + address + '" to coordinates');
+        //console.log('Trying to convert address "' + address + '" to coordinates');
         geocoder = new google.maps.Geocoder();
         geocoder.geocode({'address': address}, function(results, status) {
             if (status === 'OK') {
@@ -447,8 +447,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                 var lat = results[0].geometry.location.lat();
                 var lng = results[0].geometry.location.lng();
                 var formattedAddr = results[0].formatted_address;
-                console.log('LatLng found: ' + lat + ', ' + lng);
-                console.log('Address of LatLng: ' + formattedAddr);
+                //console.log('LatLng found: ' + lat + ', ' + lng);
+                //console.log('Address of LatLng: ' + formattedAddr);
                 //console.log(results);
 
                 //Update active address
@@ -487,7 +487,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     this.updateLocationWithCoordinates = function(latidute, longitude, $rootScope){
 
         //Get address of the coordinates and search for weather with  coordinates
-        console.log('Trying to convert coordinates "' + latidute + ', ' + longitude +'" to address');
+        //console.log('Trying to convert coordinates "' + latidute + ', ' + longitude +'" to address');
         geocoder = new google.maps.Geocoder();
         latlng = {lat: latidute, lng: longitude};
         geocoder.geocode({'location': latlng}, function(results, status) {
@@ -498,8 +498,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
                 var lat = results[0].geometry.location.lat();
                 var lng = results[0].geometry.location.lng();
                 var formattedAddr = results[0].formatted_address;
-                console.log('LatLng found: ' + lat + ', ' + lng);
-                console.log('Address of LatLng: ' + formattedAddr);
+                //console.log('LatLng found: ' + lat + ', ' + lng);
+                //console.log('Address of LatLng: ' + formattedAddr);
                 //console.log(results);
 
                 //Update active address
@@ -540,28 +540,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         var lon = model.getActiveLng();
         setWeather(lat, lon);
     }
-
-    this.testGeolocation = function() {
-        console.log('testing geolocation, mvh weatherService.js')
-        geocoder = new google.maps.Geocoder();
-        request = [];
-        address = "Vallentuna";
-        latlng = {lat: 59.537101, lng: 18.089940};
-        //geocoder.geocode({'location': latlng}, function(results, status) {
-        geocoder.geocode({'address': address}, function(results, status) {
-            if (status === 'OK') {
-              if (results[0]) {
-                console.log('Results found:');
-                console.log(results);
-              } else {
-                console.log('No results found');
-              }
-            } else {
-              console.log('Geocoder failed due to: ' + status);
-            }
-      });
-    }
-    //this.testGeolocation();
 
     //////////////////////////Map stuff below//////////////////////////
     var map = [];
