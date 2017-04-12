@@ -24,10 +24,12 @@
     </tr>
     <tr>
       <td>
-        <div class="feelsLike">
-          <button class="btn btn-default feelsBtn" ng-click="increaseFeels(-1)"><span class="glyphicon glyphicon-minus"></button>
+        <div class="feelsLike" style="text-align:center" uib-tooltip="Modify what the temperature actually feels like">
           Feels like {{feels[slider.value]+feelsMod | number:0}}&deg;C
-          <button class="btn btn-default feelsBtn" ng-click="increaseFeels(1)"><span class="glyphicon glyphicon-plus"></button>
+          <div>
+            <button class="btn btn-default feelsBtn" ng-click="increaseFeels(-1)"><span class="glyphicon glyphicon-minus"></button>
+            <button class="btn btn-default feelsBtn" ng-click="increaseFeels(1)"><span class="glyphicon glyphicon-plus"></button>
+          </div>
         </div>
       </td>
       <td class="currentDateTableElement">

@@ -162,6 +162,10 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval, $l
           ticks: {
             suggestedMin: Math.min(0, Math.min.apply(Math, $scope.temps[0])),
             suggestedMax: Math.max.apply(Math, $scope.temps[0])
+          },
+          scaleLabel: {
+            display: true,
+            labelString: "Temperature"
           }
         }
       ]
