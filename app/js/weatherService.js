@@ -249,10 +249,15 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	}
 
 	var getRefresh = function(){
-		if(currentUser !== undefined){
+		if(currentUser){
 			updateDisplayName(currentUser.uid);
 			readUserFeelsMod(currentUser.uid);
 			updateFavouriteLocations(currentUser.uid);
+			updatePopularLocations();
+		}else{
+			displayName[0] = '';
+			feelsMod[0] = 0;
+			userFavourites = [];
 			updatePopularLocations();
 		}
 	}
@@ -760,10 +765,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     this.login = function(email, pwd, $loginScope, errorfunc) {
       auth.$signInWithEmailAndPassword(email, pwd).then(function(firebaseUser) {
         console.log("Signed in as: ", firebaseUser.uid);
-		updateDisplayName(firebaseUser.uid);
-		readUserFeelsMod(firebaseUser.uid);
-		updateFavouriteLocations(firebaseUser.uid);
-		updatePopularLocations();
       }).catch(function(error) {
         errorfunc(error, $loginScope);
         console.error("Authentication failed:", error);
@@ -810,16 +811,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     this.logout = function() {
       auth.$signOut();
-      getRefresh();
-	  // displayName[0] = '';
-	  // feelsMod[0] = 0;
-	  // userFavourites = [];
-	  // updatePopularLocations();
     }
 
     auth.$onAuthStateChanged(function(firebaseUser) {
       currentUser = firebaseUser;
-      getRefresh();
+	  getRefresh();
     });
 
 
