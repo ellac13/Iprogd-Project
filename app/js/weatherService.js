@@ -213,7 +213,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		});
 	}
 	
-	var getDisplayName = function(){
+	this.getDisplayName = function(){
 		console.log('This is the displayname: ', displayName);
 		return displayName;
 	}
