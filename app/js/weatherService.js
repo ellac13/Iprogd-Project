@@ -80,25 +80,32 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 		///////////////////Firebase Storage////////////////////////////////
 
+	var displayName = '';
+    var currentUser;
+	var feelsMod = 0;
+    var popularLocations =  [];
+	var userFavourites =  ["Stockholm", "Kalmar"];
+		
 	var database = firebase.database();
 
-	this.saveData = function(address){
+	this.saveData = function(address, $rootScope){
 		var addressToBeSaved = address;
 		var numOfTimeRef = database.ref('PopularSearches/' + addressToBeSaved);
 
 		var numOfTimes = 0;
-		numOfTimeRef.on('value', function(snapshot){
+		numOfTimeRef.once('value').then(function(snapshot){
 			var locations = snapshot.key;
 			//console.log(locations);
 			numOfTimes = snapshot.val();
+			numOfTimes = numOfTimes +1;
+			database.ref().child("PopularSearches").child(addressToBeSaved).set(numOfTimes);
+			model.updatePopularLocations($rootScope);
+		}, function(error){
+			console.error(error);
 		});
-
-		numOfTimes = numOfTimes +1;
-		database.ref().child("PopularSearches").child(addressToBeSaved).set(numOfTimes);
-		model.updatePopularLocations();
 	}
 
-	this.updatePopularLocations = function(){
+	this.updatePopularLocations = function($rootScope){
 		var topLocations = [];
 		var temp = [0, 0, 0, 0, 0];
 		var popularSearches = database.ref('PopularSearches/');
@@ -119,51 +126,46 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 				topLocations.pop();
 			}
 			});
+			popularLocations = topLocations;
+			console.log('Current popular locations ', popularLocations);
+			$rootScope.$apply();
 		}, function(error){
 			console.error(error);
 		});
-		return topLocations;
 	}
+		
+	//////FeelsLike//////	
 	
-	var feelsMod = 0;
-
-	this.getUserFeelsMod = function() {
+	this.getUserFeelsMod = function(){
+		return feelsMod;
+	}
+		
+	this.readUserFeelsMod = function(useruid) {
 		//TODO: Read from storage
-		var user = model.getUser();
-		console.log(user);
-		if(user === undefined || user === null){
-			return feelsMod;
-		}
-		console.log(user.uid);
-		var userFeelsMod = 0;
-		var userFeelsLikeRef = database.ref(user.uid + '/FeelsLike/');
+		console.log(useruid);
+		var userFeelsLikeRef = database.ref(useruid + '/FeelsLike/');
 		userFeelsLikeRef.once('value').then(function(snapshot){
-			userFeelsMod = snapshot.val();
-			console.log(userFeelsMod);
-			return userFeelsMod;
+			feelsMod = snapshot.val();
+			console.log(feelsMod);
 		}, function(error){
 			console.error(error);
 		});
-		//userFeelsMod = mod;
-		return userFeelsMod;
 	}
 
 	this.increaseUserFeelsMod = function(delta) {
 		//TODO: Update actual value in storage
-		
-	
-		var user = model.getUser();
-		if(user === undefined || user === null){
+		if(currentUser === undefined){
 			feelsMod += delta;
 		}else{
 		
 			var userFeelsMod = 0;
-			var userFeelsLikeRef = database.ref(user.uid + '/FeelsLike/');
+			var userFeelsLikeRef = database.ref(currentUser.uid + '/FeelsLike/');
 	
 			userFeelsLikeRef.once('value').then(function(snapshot){
 				userFeelsMod = snapshot.val();
 				userFeelsMod += delta;
-				database.ref().child(user.uid).child('/FeelsLike/').set(userFeelsMod);
+				feelsMod = userFeelsMod;
+				database.ref().child(currentUser.uid).child('/FeelsLike/').set(userFeelsMod);
 			}, function(error){
 				console.error(error);
 			});
@@ -173,7 +175,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	
 	//////FIREBASE DISPLAYNAME//////
 	
-	var displayName = '';
 	
 	this.storeDisplayName = function(displayName, useruid){
 		database.ref().child(useruid).child('/DisplayName/').set(displayName);
@@ -326,9 +327,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     //User data
 
-    var currentUser;
-    var userFavourites =  ["Stockholm", "Kalmar"];
-    var popularLocations =  model.updatePopularLocations();
     var recentSearches =  ["Kiruna", "Ystad"]; //This should be a queue of length 5{history length}
 
     //Getters for user data
@@ -377,6 +375,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             userFavourites.splice(i, 1);
         }
 
+		model.getPopularLocations();
         //TODO: Re-fetch the popular locations from database
     }
 
@@ -396,7 +395,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             }
         }
 
-		model.saveData(address);
+		model.saveData(address, $rootScope);
 
         //Convert the address to coordinates and search for weather with those coordinates
         console.log('Trying to convert address "' + address + '" to coordinates');
@@ -687,6 +686,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       auth.$signInWithEmailAndPassword(email, pwd).then(function(firebaseUser) {
         console.log("Signed in as: ", firebaseUser.uid);
 		model.updateDisplayName(firebaseUser.uid);
+		model.readUserFeelsMod(firebaseUser.uid);
       }).catch(function(error) {
         errorfunc(error, scope);
         console.error("Authentication failed:", error);
