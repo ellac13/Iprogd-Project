@@ -141,7 +141,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 					}
 				}
 			});
-			console.log('Current popular locations ', popularLocations);
+			//console.log('Current popular locations ', popularLocations);
 		}, function(error){
 			console.error(error);
 		});
