@@ -795,6 +795,9 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     this.logout = function() {
       auth.$signOut();
+	  displayName[0] = '';
+	  feelsMod[0] = 0;
+	  userFavourites = [];
     }
 
     auth.$onAuthStateChanged(function(firebaseUser) {
