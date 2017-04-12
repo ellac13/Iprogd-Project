@@ -64,7 +64,6 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval, $l
 
   $scope.toggleFavourite = function(address){
     Weather.toggleFavouriteLocation(address);
-	$scope.feelsMod = getUserFeelsMod();
   }
 
   $scope.isFavourite = function(){

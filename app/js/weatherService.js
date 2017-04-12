@@ -123,24 +123,23 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	}
 
 	var updatePopularLocations = function(){
-		var temp = [0, 0, 0, 0, 0];
+		var temp = [0];
 		var popularSearches = database.ref('PopularSearches/');
 		popularSearches.once('value').then(function(snapshot){
 			var i = 0;
 			snapshot.forEach(function(childSnapshot){
-			var childKey = childSnapshot.key;
-			var childData = childSnapshot.val();
-
-			for(var j = 0; j < temp.length; j++){
-				if(temp[j] < childData){
-					temp.splice(j,0,childData);
-					popularLocations.splice(j,0,childKey);
-					break;
+				var childKey = childSnapshot.key;
+				var childData = childSnapshot.val();
+				if(userFavourites.includes(childKey)){
+					return;
 				}
-			}
-			if(popularLocations.length === 6){
-				popularLocations.pop();
-			}
+				for(var j = 0; j < temp.length; j++){
+					if(temp[j] <= childData){
+						temp.splice(j,0,childData);
+						popularLocations.splice(j,0,childKey);
+						break;
+					}
+				}
 			});
 			console.log('Current popular locations ', popularLocations);
 		}, function(error){
@@ -180,7 +179,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		return feelsMod;
 	}
 		
-	var readUserFeelsMod = function(useruid, $loginScope) {
+	var readUserFeelsMod = function(useruid) {
 		console.log(useruid);
 		var userFeelsLikeRef = database.ref(useruid + '/FeelsLike/');
 		userFeelsLikeRef.once('value').then(function(snapshot){
@@ -229,7 +228,6 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	}
 	
 	this.getDisplayName = function(){
-		console.log('This is the displayname: ', displayName);
 		return displayName;
 	}
 	
@@ -416,7 +414,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             userFavourites.splice(i, 1);
         }
 
-		model.getPopularLocations();
+		updatePopularLocations();
         //TODO: Re-fetch the popular locations from database
     }
 
@@ -759,9 +757,10 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     this.login = function(email, pwd, $loginScope, errorfunc) {
       auth.$signInWithEmailAndPassword(email, pwd).then(function(firebaseUser) {
         console.log("Signed in as: ", firebaseUser.uid);
-		updateDisplayName(firebaseUser.uid, $loginScope);
-		readUserFeelsMod(firebaseUser.uid, $loginScope);
+		updateDisplayName(firebaseUser.uid);
+		readUserFeelsMod(firebaseUser.uid);
 		updateFavouriteLocations(firebaseUser.uid);
+		updatePopularLocations();
       }).catch(function(error) {
         errorfunc(error, $loginScope);
         console.error("Authentication failed:", error);
@@ -810,6 +809,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	  displayName[0] = '';
 	  feelsMod[0] = 0;
 	  userFavourites = [];
+	  updatePopularLocations();
     }
 
     auth.$onAuthStateChanged(function(firebaseUser) {

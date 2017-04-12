@@ -24,7 +24,7 @@
 		</div>
 		<h4>Popular</h4>
 		<table class="table table-hover locationTable">
-			<tr ng-repeat="location in popularLocations" ng-click="search(location)" data-drag="true" data-jqyoui-options="{revert: 'invalid', scroll: false, helper: 'clone'}" jqyoui-draggable="{animate:true}">
+			<tr ng-repeat="location in popularLocations|limitTo:5" ng-click="search(location)" data-drag="true" data-jqyoui-options="{revert: 'invalid', scroll: false, helper: 'clone'}" jqyoui-draggable="{animate:true}">
 				<td ng-show="isLoggedIn()">
 					<div ng-click="toggleFavourite(location)">
 						<ng-include src="'partials/svg/heart.html'"></ng-include>
