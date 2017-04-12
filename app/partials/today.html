@@ -40,9 +40,9 @@
     </tr>
   </table>
 
-  <canvas id="line" style="margin-top:5%" height="130" class="chart chart-bar" chart-colors="colors" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>
+  <canvas ng-show="showWeather" id="line" style="margin-top:5%" height="130" class="chart chart-bar" chart-colors="colors" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>
 
-  <div>
+  <div ng-show="showWeather">
     <rzslider id="currentTimeSlider" rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
   </div>
 
