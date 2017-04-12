@@ -394,7 +394,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
     //User data
 
-    var recentSearches =  ["Kiruna", "Ystad"]; //This should be a queue of length 5{history length}
+    var recentSearches =  []; //This should be a queue of max length 5{history length}
 
     //Getters for user data
     this.getUser = function() {
