@@ -41,14 +41,20 @@ phisancaApp.controller("someController", function ($scope, uiGmapGoogleMapApi,We
     $scope.map = Weather.getMap();
     $scope.activeWeatherData = Weather.getActiveWeatherData();
 
-    $scope.status = "Loading map...";
+    //$scope.status = "Loading map...";
+    $scope.status = Weather.getLoadingWeatherMessage();
 
     $interval(function(){
         $scope.markers = Weather.getMarkers();
     }, 100);
 
+    $scope.loadingWeatherMessage = function(){
+        $scope.status = Weather.getLoadingWeatherMessage();
+        return $scope.status;
+    }
+
     //Callback function
     uiGmapGoogleMapApi.then(function(maps) {
-        $scope.status = "";
+        //$scope.status = "";
     }, function(){$scope.status = "Error loading map"});
 });

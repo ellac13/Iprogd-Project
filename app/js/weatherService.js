@@ -34,7 +34,8 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     }
 
 
-    var apikeys = ["6acbd836627174487a78deec700c2145",
+    var apikeys = 
+        ["6acbd836627174487a78deec700c2145",
         "0567ae6243f12d4dae11eb0bb3e3f929",
         "f4fd75b39585aabceee20dcde734bc5e",
         "c47c5308f3f951df3de5802dd0749ff1",
@@ -69,9 +70,17 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         }
         });
 
+    //Status message to show when weather is loading. Is set to "" when finished loading.
+    var loadingWeatherMessage = "Fetching weather...";
+
+    this.getLoadingWeatherMessage = function(){
+        return loadingWeatherMessage;
+    }
+
     // Fetches weather from dark sky for the parameterized coordinates
     // and sets it to the activeWeatherData variable
     var setWeather = function(lat, lon){
+        loadingWeatherMessage = "Fetching weather...";
         findWeather.get({lat:lat,lon:lon}, function(data){
             activeWeatherData = data;
             setHourlyWeather();
@@ -80,8 +89,9 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             updateMap();
             //console.log(data);
             console.log("Successfully set weather data for lat: " + lat + ", lon: " + lon);
+            loadingWeatherMessage = "";
         }, function(data){
-            throw "Error while fetching weather data!!!";
+            loadingWeatherMessage = "Failed to load weather, try again later.";
         });
     }
 
