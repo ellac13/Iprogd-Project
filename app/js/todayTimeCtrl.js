@@ -49,7 +49,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval, $l
       return "";
     }
     $scope.iconLoaded = true;
-    return "images/weatherIcons/" + icon + ".png";
+    return "images/weatherIcons/" + icon + ".svg";
   }
 
   $scope.getIconsDaily = function(currentTimeIndex){
@@ -59,7 +59,7 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval, $l
       return "";
     }
     $scope.iconLoaded = true;
-    return "images/weatherIcons/" + icon + ".png";
+    return "images/weatherIcons/" + icon + ".svg";
   }
 
   $scope.toggleFavourite = function(address){
