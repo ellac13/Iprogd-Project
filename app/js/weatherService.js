@@ -90,7 +90,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 	/////////Popular locations//////////
 	
-	this.saveData = function(addressToBeSaved, $rootScope){
+	var saveData = function(addressToBeSaved, $rootScope){
 		var numOfTimeRef = database.ref('PopularSearches/' + addressToBeSaved);
 
 		var numOfTimes = 0;
@@ -100,13 +100,13 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 			numOfTimes = snapshot.val();
 			numOfTimes = numOfTimes +1;
 			database.ref().child("PopularSearches").child(addressToBeSaved).set(numOfTimes);
-			model.updatePopularLocations($rootScope);
+			updatePopularLocations($rootScope);
 		}, function(error){
 			console.error(error);
 		});
 	}
 
-	this.updatePopularLocations = function($rootScope){
+	var updatePopularLocations = function($rootScope){
 		var topLocations = [];
 		var temp = [0, 0, 0, 0, 0];
 		var popularSearches = database.ref('PopularSearches/');
@@ -145,7 +145,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		database.ref().child(currentUser.uid).child('/FavouriteLocations/').child(addressToBeRemoved).set(null);
 	}
 	
-	this.updateFavouriteLocations = function(useruid){
+	var updateFavouriteLocations = function(useruid){
 		var userFavLocRef = database.ref(useruid + '/FavouriteLocations/');
 		userFavLocRef.once('value').then(function(snapshot){
 			var i = 0;
@@ -163,10 +163,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	//////FeelsLike//////	
 	
 	this.getUserFeelsMod = function(){
+		console.log('Got the feels ', feelsMod);
 		return feelsMod;
 	}
 		
-	this.readUserFeelsMod = function(useruid, $loginScope) {
+	var readUserFeelsMod = function(useruid, $loginScope) {
 		//TODO: Read from storage
 		console.log(useruid);
 		var userFeelsLikeRef = database.ref(useruid + '/FeelsLike/');
@@ -181,33 +182,27 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 	this.increaseUserFeelsMod = function(delta) {
 		//TODO: Update actual value in storage
-		if(currentUser === undefined){
+		var userFeelsLikeRef = database.ref(currentUser.uid + '/FeelsLike/');
+		userFeelsLikeRef.once('value').then(function(snapshot){
+			feelsMod = snapshot.val();
 			feelsMod += delta;
-		}else{
-		
-			var userFeelsMod = 0;
-			var userFeelsLikeRef = database.ref(currentUser.uid + '/FeelsLike/');
-	
-			userFeelsLikeRef.once('value').then(function(snapshot){
-				userFeelsMod = snapshot.val();
-				userFeelsMod += delta;
-				feelsMod = userFeelsMod;
-				database.ref().child(currentUser.uid).child('/FeelsLike/').set(userFeelsMod);
-			}, function(error){
-				console.error(error);
-			});
-		}
+			console.log('The feels increased with ', delta);
+			console.log('FeelsMod ', feelsMod);
+			database.ref().child(currentUser.uid).child('/FeelsLike/').set(feelsMod);
+		}, function(error){
+			console.error(error);
+		});
 	}
 
 	
 	//////FIREBASE DISPLAYNAME//////
 	
 	
-	this.storeDisplayName = function(displayName, useruid){
+	var storeDisplayName = function(displayName, useruid){
 		database.ref().child(useruid).child('/DisplayName/').set(displayName);
 	}
 	
-	this.updateDisplayName = function(useruid, $loginScope){
+	var updateDisplayName = function(useruid, $loginScope){
 		var userDisplayNameRef = database.ref(useruid + '/DisplayName/');
 		userDisplayNameRef.once('value').then(function(snapshot){
 			displayName = snapshot.val();
@@ -217,7 +212,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		});
 	}
 	
-	this.getDisplayName = function(){
+	var getDisplayName = function(){
 		console.log('This is the displayname: ', displayName);
 		return displayName;
 	}
@@ -425,7 +420,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
             }
         }
 
-		model.saveData(address, $rootScope);
+		saveData(address, $rootScope);
 
         //Convert the address to coordinates and search for weather with those coordinates
         console.log('Trying to convert address "' + address + '" to coordinates');
@@ -715,9 +710,9 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     this.login = function(email, pwd, $loginScope, errorfunc) {
       auth.$signInWithEmailAndPassword(email, pwd).then(function(firebaseUser) {
         console.log("Signed in as: ", firebaseUser.uid);
-		model.updateDisplayName(firebaseUser.uid, $loginScope);
-		model.readUserFeelsMod(firebaseUser.uid, $loginScope);
-		model.updateFavouriteLocations(firebaseUser.uid);
+		updateDisplayName(firebaseUser.uid, $loginScope);
+		readUserFeelsMod(firebaseUser.uid, $loginScope);
+		updateFavouriteLocations(firebaseUser.uid);
       }).catch(function(error) {
         errorfunc(error, $loginScope);
         console.error("Authentication failed:", error);
