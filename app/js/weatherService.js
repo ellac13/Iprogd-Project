@@ -734,7 +734,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
           // TODO: Add displayname!
           scope.answer();
-		  model.storeDisplayName(disp, firebaseUser.uid);
+		  storeDisplayName(disp, firebaseUser.uid);
         }).catch(function(error) {
           errorfunc(error, scope);
         });
