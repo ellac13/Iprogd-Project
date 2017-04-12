@@ -25,7 +25,7 @@
     <tr>
       <td>
         <div class="feelsLike" style="text-align:center" uib-tooltip="{{tooltiptext()}}">
-          Feels like {{feels[slider.value]+feelsMod | number:0}}&deg;C
+          Feels like {{feels[slider.value]+feelsMod[0] | number:0}}&deg;C
           <div ng-show="isLoggedIn()">
             <button class="btn btn-default feelsBtn" ng-click="increaseFeels(-1)"><span class="glyphicon glyphicon-minus"></button>
             <button class="btn btn-default feelsBtn" ng-click="increaseFeels(1)"><span class="glyphicon glyphicon-plus"></button>

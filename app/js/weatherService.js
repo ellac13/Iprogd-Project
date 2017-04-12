@@ -97,9 +97,9 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 		///////////////////Firebase Storage////////////////////////////////
 
-	var displayName = '';
+	var displayName = [];
     var currentUser;
-	var feelsMod = 0;
+	var feelsMod = [];
     var popularLocations =  [];
 	var userFavourites =  [];
 		
@@ -176,17 +176,17 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	//////FeelsLike//////	
 	
 	this.getUserFeelsMod = function(){
-		console.log('Got the feels ', feelsMod);
+		//console.log('Got the feels ', feelsMod);
 		return feelsMod;
 	}
 		
 	var readUserFeelsMod = function(useruid, $loginScope) {
-		//TODO: Read from storage
 		console.log(useruid);
 		var userFeelsLikeRef = database.ref(useruid + '/FeelsLike/');
 		userFeelsLikeRef.once('value').then(function(snapshot){
-			feelsMod = snapshot.val();
-			console.log(feelsMod);
+			var val = snapshot.val();
+			feelsMod.splice(0, 1, val);
+			console.log(feelsMod[0]);
 			//$loginScope.$apply();
 		}, function(error){
 			console.error(error);
@@ -195,14 +195,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 
 	this.increaseUserFeelsMod = function(delta) {
 		//TODO: Update actual value in storage
-		feelsMod +=delta;
+		feelsMod[0] +=delta;
 		var userFeelsLikeRef = database.ref(currentUser.uid + '/FeelsLike/');
 		userFeelsLikeRef.once('value').then(function(snapshot){
-			feelsMod = snapshot.val();
-			feelsMod += delta;
+			var val = snapshot.val();
+			val += delta;
+			feelsMod.splice(0,1,val);
 			console.log('The feels increased with ', delta);
-			console.log('FeelsMod ', feelsMod);
-			database.ref().child(currentUser.uid).child('/FeelsLike/').set(feelsMod);
+			console.log('FeelsMod ', feelsMod[0]);
+			var temp = feelsMod[0];
+			database.ref().child(currentUser.uid).child('/FeelsLike/').set(temp);
 		}, function(error){
 			console.error(error);
 		});
@@ -212,15 +214,14 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	//////FIREBASE DISPLAYNAME//////
 	
 	
-	var storeDisplayName = function(displayName, useruid){
-		database.ref().child(useruid).child('/DisplayName/').set(displayName);
+	var storeDisplayName = function(nameToBeStored, useruid){
+		database.ref().child(useruid).child('/DisplayName/').set(nameToBeStored);
 	}
 	
-	var updateDisplayName = function(useruid, $loginScope){
+	var updateDisplayName = function(useruid){
 		var userDisplayNameRef = database.ref(useruid + '/DisplayName/');
 		userDisplayNameRef.once('value').then(function(snapshot){
-			displayName = snapshot.val();
-			$loginScope.$apply();
+			displayName[0] = snapshot.val();
 		}, function(error){
 			console.error(error);
 		});
