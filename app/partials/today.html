@@ -10,7 +10,8 @@
 		</tr>
   </table>
 
-  <table class="currentWeatherTable">
+  {{loadingWeatherMessage()}}
+  <table class="currentWeatherTable" ng-show="showWeather">
     <tr>
       <td class="currentWeatherTableElement">
         {{temps[0][slider.value] | number:0}}&deg;C
@@ -39,7 +40,7 @@
     </tr>
   </table>
 
-  <canvas id="line" height="130" class="chart chart-bar" chart-colors="colors" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>
+  <canvas id="line" style="margin-top:5%" height="130" class="chart chart-bar" chart-colors="colors" chart-data="temps" chart-labels="labels" chart-dataset-override="datasetOverride" chart-options="options" chart-click="onClick"></canvas>
 
   <div>
     <rzslider id="currentTimeSlider" rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>

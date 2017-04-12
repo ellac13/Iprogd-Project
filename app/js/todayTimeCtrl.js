@@ -5,6 +5,9 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval, $l
   $scope.user = Weather.getUser();
   $scope.feelsMod = Weather.getUserFeelsMod();
 
+  $scope.status = Weather.getLoadingWeatherMessage();
+  $scope.showWeather = false;
+
   $scope.times = Weather.getHourlyTimes();
   $scope.labels = Weather.getHourlyTimes().slice();
   $scope.dates = Weather.getHourlyDates();
@@ -18,6 +21,16 @@ phisancaApp.controller('TodayTimeCtrl', function ($scope, Weather, $interval, $l
   $scope.days = Weather.getDailyDate();
   $scope.dailyTemps = Weather.getDailyTemp();
   $scope.dailyWeather = Weather.getDailyWeather();
+
+  $scope.loadingWeatherMessage = function(){
+      $scope.status = Weather.getLoadingWeatherMessage();
+      if($scope.status == ""){
+          $scope.showWeather = true;
+      } else {
+          $scope.showWeather = false;
+      }
+      return $scope.status;
+  }
 
   $scope.getLocationName = function() {
     return Weather.getActiveAddress();
