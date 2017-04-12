@@ -34,7 +34,7 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
     }
 
 
-    var apikeys = 
+    var apikeys =
         ["6acbd836627174487a78deec700c2145",
         "0567ae6243f12d4dae11eb0bb3e3f929",
         "f4fd75b39585aabceee20dcde734bc5e",
@@ -102,11 +102,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 	var feelsMod = [];
     var popularLocations =  [];
 	var userFavourites =  [];
-		
+
 	var database = firebase.database();
 
 	/////////Popular locations//////////
-	
+
 	var saveData = function(addressToBeSaved){
 		var numOfTimeRef = database.ref('PopularSearches/' + addressToBeSaved);
 
@@ -146,17 +146,17 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 			console.error(error);
 		});
 	}
-		
+
 	////////Favourite locations//////////
-	
+
 	var saveFavouriteLocations = function(addressToBeSaved){
 		database.ref().child(currentUser.uid).child('/FavouriteLocations/').child(addressToBeSaved).set('true');
 	}
-	
+
 	var deleteFavouriteLocations = function(addressToBeRemoved){
 		database.ref().child(currentUser.uid).child('/FavouriteLocations/').child(addressToBeRemoved).set(null);
 	}
-	
+
 	var updateFavouriteLocations = function(useruid){
 		var userFavLocRef = database.ref(useruid + '/FavouriteLocations/');
 		userFavLocRef.once('value').then(function(snapshot){
@@ -171,14 +171,14 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 			console.error(error);
 		});
 	}
-		
-	//////FeelsLike//////	
-	
+
+	//////FeelsLike//////
+
 	this.getUserFeelsMod = function(){
 		//console.log('Got the feels ', feelsMod);
 		return feelsMod;
 	}
-		
+
 	var readUserFeelsMod = function(useruid) {
 		console.log(useruid);
 		var userFeelsLikeRef = database.ref(useruid + '/FeelsLike/');
@@ -208,16 +208,16 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 		});
 	}
 
-	
+
 	//////FIREBASE DISPLAYNAME//////
-	
-	
+
+
 	var storeDisplayName = function(nameToBeStored, useruid){
 		console.log('Displayname will be stored: ', nameToBeStored);
 		displayName.splice(0,1,nameToBeStored);
 		database.ref().child(useruid).child('/DisplayName/').set(nameToBeStored);
 	}
-	
+
 	var updateDisplayName = function(useruid){
 		var userDisplayNameRef = database.ref(useruid + '/DisplayName/');
 		userDisplayNameRef.once('value').then(function(snapshot){
@@ -226,11 +226,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
 			console.error(error);
 		});
 	}
-	
+
 	this.getDisplayName = function(){
 		return displayName;
 	}
-	
+
 
     ////////////////////// Current Weather /////////////////////////////
 
@@ -689,13 +689,13 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
         surrLocations[pos].lat = sWeatherData.latitude;
         surrLocations[pos].lon = sWeatherData.longitude;
         surrLocations[pos].usable = true;
-        
+
         //Add the marker...
         model.addMarker([sWeatherData.latitude,
                         sWeatherData.longitude,
                         surrHourlyTemps[pos][currentTimeIndex],
                         "images/weatherIcons/" + surrHourlyIcons[pos][currentTimeIndex] + ".svg"]);
-        
+
     }
 
     // Fetches weather data for the locations surrounding the current location
@@ -771,10 +771,11 @@ phisancaApp.factory('Weather',function ($resource,$cookies,$firebaseAuth) {
       auth.$createUserWithEmailAndPassword(email, pwd)
         .then(function(firebaseUser) {
           console.log("User " + firebaseUser.uid + " created successfully!");
-
-          // TODO: Add displayname!
+          if (disp === "") {
+            disp = email;
+          }
+          storeDisplayName(disp, firebaseUser.uid);
           scope.answer();
-		  storeDisplayName(disp, firebaseUser.uid);
         }).catch(function(error) {
           errorfunc(error, scope);
         });
